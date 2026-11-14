@@ -1,0 +1,358 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #fdf3f3;
+  --color-brand-100: #fbe4e4;
+  --color-brand-200: #f7cece;
+  --color-brand-500: #be2727;
+  --color-brand-600: #aa1f1f;
+  --color-brand-700: #8f1717;
+  --color-brand-800: #751414;
+  --color-brand-900: #621616;
+
+  --color-industrial-900: #0b1120;
+  --color-industrial-850: #0f172a;
+  --color-industrial-800: #1e293b;
+  --color-industrial-700: #334155;
+  --color-industrial-600: #475569;
+  --color-industrial-100: #f1f5f9;
+  --color-industrial-50: #f8fafc;
+
+  --breakpoint-md77: 770px;
+  --breakpoint-md11: 1160px;
+  --breakpoint-md138: 1380px;
+
+  --font-sans: 'Poppins', 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-Poppins: 'Poppins', sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-Montserrat: 'Montserrat', sans-serif;
+  --font-sans-serif: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Explicit Poppins utility for classes like font-Poppins and font-poppins */
+.font-Poppins,
+.font-poppins {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Explicit Montserrat utility for classes like font-Montserrat and font-montserrat */
+.font-Montserrat,
+.font-montserrat {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Explicit sans-serif utility for font-sans-serif */
+.font-sans-serif {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+/* Gradient red text icon */
+.text-icon {
+  background: linear-gradient(38.46deg, red 0.15%, #610303 98.48%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar globally on laptops/desktops while keeping full scroll functionality */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+.text-gradient-highlight {
+  background: linear-gradient(38.46deg, red 0.15%, rgb(97, 3, 3) 98.48%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Diagonal Cut Corner Clip-Path (About Hero Image) */
+.clip-path4 {
+  clip-path: polygon(
+    0 14px,
+    4px 5px,
+    14px 0,
+    calc(100% - 55px) 0,
+    100% 55px,
+    100% calc(100% - 14px),
+    calc(100% - 4px) calc(100% - 5px),
+    calc(100% - 14px) 100%,
+    55px 100%,
+    0 calc(100% - 55px)
+  );
+  -webkit-clip-path: polygon(
+    0 14px,
+    4px 5px,
+    14px 0,
+    calc(100% - 35px) 0,
+    100% 35px,
+    100% calc(100% - 14px),
+    calc(100% - 4px) calc(100% - 5px),
+    calc(100% - 14px) 100%,
+    35px 100%,
+    0 calc(100% - 35px)
+  );
+}
+
+/* Hide scrollbar while preserving scroll functionality */
+.scrollbar-hide::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide,
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Machine Image Slide-In from Right & Slide-Out to Left */
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(110px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-110px);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-slide-out-left {
+  animation: slideOutToLeft 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* ================= FLOATING BROCHURE BUTTON ================= */
+.bs-mix-red {
+  background: linear-gradient(38.46deg, red 0.15%, #610303 98.48%) !important;
+}
+
+/* Helper text opacity classes */
+.t {
+  color: #111827;
+}
+.t\/70 {
+  color: #4b5563;
+}
+.t\/75 {
+  color: rgba(255, 255, 255, 0.75);
+}
+.t\/80 {
+  color: rgba(255, 255, 255, 0.85);
+}
+.border-1 {
+  border-width: 1px;
+}
+
+.pixel-corners {
+  border-radius: 10px;
+}
+
+.download-btn {
+  height: 45px;
+  width: 235px;
+  cursor: pointer;
+  background: #ff0021;
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.45);
+  transition: box-shadow 0.25s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.download-btn:hover {
+  box-shadow: 0 14px 28px -4px rgba(220, 38, 38, 0.6);
+}
+
+.button-content {
+  transform: translateY(-45px);
+  transition: all 0.25s ease-in-out;
+}
+
+.svg-container,
+.text-container {
+  height: 45px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-container .text {
+  font-size: 15px;
+  color: #fff;
+  font-weight: 600;
+  opacity: 1;
+  transition: opacity ease-in-out 0.25s;
+}
+
+.download-icon {
+  height: 25px;
+  width: 25px;
+  fill: #fff;
+  opacity: 0;
+  transition: opacity ease-in-out 0.25s;
+}
+
+.download-btn:hover .button-content {
+  transform: translateY(0);
+}
+
+.download-btn:hover .text {
+  opacity: 0;
+}
+
+.download-btn:hover .download-icon {
+  opacity: 1;
+}
+
+/* ================= CUSTOM NEWSLETTER INPUT WRAPPER ================= */
+.input-wrapper {
+  width: fit-content;
+  height: 40px;
+  border-radius: 10px;
+  padding: 5px;
+  box-sizing: content-box;
+  display: flex;
+  align-items: center;
+  background-color: #292524;
+}
+
+.input-wrapper .icon {
+  width: 26px;
+  height: 26px;
+  fill: #fff;
+  margin-left: 8px;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.input-wrapper .input {
+  max-width: 170px;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding-left: 14px;
+  padding-right: 8px;
+  background-color: #292524;
+  color: #fff;
+  font-size: 14px;
+}
+
+.input-wrapper .input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #292524 inset;
+  -webkit-text-fill-color: #ffffff;
+}
+
+.input-wrapper .Subscribe-btn {
+  height: 100%;
+  width: 95px;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  cursor: pointer;
+  background-color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.input-wrapper .arrow {
+  position: absolute;
+  margin-right: 150px;
+  transition: all 0.3s;
+  fill: #fff;
+}
+
+.input-wrapper:active .icon {
+  transform: scale(1.2);
+}
+
+.input-wrapper .Subscribe-btn:hover {
+  color: #fff;
+  background-color: #be2727;
+}
+
+.input-wrapper .Subscribe-btn:hover .arrow {
+  margin-right: 0;
+  animation: jello-vertical 0.9s both;
+  transform-origin: right;
+}
+
+@keyframes jello-vertical {
+  0% { transform: scale3d(1, 1, 1); }
+  30% { transform: scale3d(0.75, 1.25, 1); }
+  40% { transform: scale3d(1.25, 0.75, 1); }
+  50% { transform: scale3d(0.85, 1.15, 1); }
+  65% { transform: scale3d(1.05, 0.95, 1); }
+  75% { transform: scale3d(0.95, 1.05, 1); }
+  100% { transform: scale3d(1, 1, 1); }
+}
+
+.input-wrapper .Subscribe-btn:active {
+  transform: scale(0.92);
+}
+
+
