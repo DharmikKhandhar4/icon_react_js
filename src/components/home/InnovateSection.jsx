@@ -33,7 +33,7 @@ const InnovateSection = () => {
           {/* ================= LEFT COLUMN ================= */}
           <div className="flex flex-col">
             <h2 className="text-3xl sm:text-4xl  text-gray-900 tracking-tight 
-            md:text-5xl text-[30px] font-Poppins font-[700] mb-6 leading-none
+            md:text-[50px] text-[30px] font-Poppins font-[700] mb-6 leading-none
             ">
               INNOVATE, INTEGRATE, <br className="hidden sm:inline" />
               ELEVATE
@@ -49,7 +49,7 @@ const InnovateSection = () => {
           </div>
 
           {/* ================= RIGHT COLUMN (RED BORDER CARDS) ================= */}
-          <div className="flex flex-col space-y-4 md:p-6 ">
+          <div className="flex flex-col space-y-4 md:p-0 ">
             {features.map((feature, idx) => (
               <div
                 key={idx}

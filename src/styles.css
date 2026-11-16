@@ -227,11 +227,13 @@ body {
   overflow: hidden;
   border: none;
   box-shadow: none !important;
+  filter: none !important;
   transition: transform 0.2s ease-in-out;
 }
 
 .download-btn:hover {
   box-shadow: none !important;
+  filter: none !important;
 }
 
 .button-content {

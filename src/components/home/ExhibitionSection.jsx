@@ -166,8 +166,9 @@ const ExhibitionSection = () => {
           <span>Global Presence • Exhibition Highlights • Industry Insights</span>
         </div>
 
-        <h2 className="tracking-tight mb-4 mt-6 text-2xl sm:text-5xl  text-[30px] leading-10
-        text-[#11181c] font-semibold font-poppins lg:leading-[48px]">
+        <h2 className="tracking-tight mb-4 mt-6 text-2xl sm:text-[50px]  text-[30px] leading-10
+        text-[#11181c] font-semibold font-poppins 
+        lg:leading-[48px]">
           Where Innovation Meets <br />
           <span className="bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent">
             Industry Showcase
@@ -187,7 +188,7 @@ const ExhibitionSection = () => {
       </div>
 
       {/* ── Main Content Grid ── */}
-      <div className="relative z-10 lg:mt-6 md:mt-2.5 mt-8 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] max-w-7xl  mx-auto">
+      <div className="relative z-10 lg:mt-6 md:mt-2.5 mt-8 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] max-w-7xl  mx-auto px-4">
         {/* Left Column */}
         <div className="relative z-10 rounded-[28px] border border-white/10 bg-white">
           <div className="inline-flex bs-mix-red items-center gap-2 rounded-full shadow-md font-medium px-4 py-2 text-white text-sm">

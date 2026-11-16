@@ -2,17 +2,17 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Star, Quote, Play, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const YouTubeIcon = ({ className = "w-4 h-4" }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
-    <path d="m10 15 5-3-5-3z" />
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"
+      fill="#ffffff"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+      fill="currentColor"
+    />
   </svg>
 );
 

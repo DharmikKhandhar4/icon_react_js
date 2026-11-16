@@ -2,8 +2,19 @@ import React, { useRef } from 'react';
 import { ChevronRight, ArrowUpRight, Play, ChevronLeft } from 'lucide-react';
 
 const YouTubeIcon = ({ className = "w-4 h-4" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    {/* Outer Rounded Screen with outline line & white background */}
+    <path
+      d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"
+      fill="#ffffff"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    {/* Inner Play Triangle */}
+    <path
+      d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+      fill="currentColor"
+    />
   </svg>
 );
 
@@ -80,9 +91,9 @@ export default function ExhibitionShowcase() {
         </div>
 
         {/* ================= 2. CONTENT DIV (BOTTOM) ================= */}
-        <div className="relative bg-[linear-gradient(to_top,#dc2626_0%,#f87171_15%,#f87171_20%,transparent_100%)] px-4 sm:px-6 pt-2 pb-3">
+        <div className="relative bg-[linear-gradient(to_top,#dc2626_0%,#f87171_15%,#f87171_20%,transparent_100%)] px-4 sm:px-6 pt-0 pb-3">
           {/* Soft upward blend overlay into the bottom of the image */}
-          <div className="absolute -top-8 inset-x-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+          <div className="absolute -top-6 inset-x-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
           {/* Top Pill Badge & Nav Arrows */}
           <div className="relative z-10 flex items-center justify-between mb-3">
@@ -91,23 +102,7 @@ export default function ExhibitionShowcase() {
               <ChevronRight className="w-4 h-4 text-red-600 stroke-[2.5]" />
             </div>
 
-            {/* Scroll navigation arrows for desktop */}
-            <div className="hidden sm:flex items-center gap-2">
-              <button
-                onClick={() => scroll('left')}
-                className="w-7 h-7 rounded-full bg-white/20 hover:bg-white text-white hover:text-red-600 flex items-center justify-center transition-all"
-                aria-label="Previous videos"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => scroll('right')}
-                className="w-7 h-7 rounded-full bg-white/20 hover:bg-white text-white hover:text-red-600 flex items-center justify-center transition-all"
-                aria-label="Next videos"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+        
           </div>
 
           {/* Horizontal Scrollable Video Cards Track */}
@@ -157,7 +152,7 @@ export default function ExhibitionShowcase() {
                       href={video.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-red-600 hover:text-red-700 transition-colors"
+                      className="inline-flex items-center gap-1.5 mt-2 text-xs font-[400] text-red-600 hover:text-red-700 transition-colors"
                     >
                       <YouTubeIcon className="w-4 h-4 text-red-600" />
                       <span>YouTube</span>

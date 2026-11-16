@@ -86,7 +86,8 @@ const InsightsSection = () => {
           {articles.map((article) => (
             <div
               key={article.id}
-              className="min-w-[290px] sm:min-w-[270px] max-w-[280px] bg-white rounded-3xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] border border-gray-100 overflow-hidden flex flex-col justify-between snap-start hover:shadow-lg transition-shadow duration-300"
+              className="min-w-[290px] sm:min-w-[270px] max-w-[280px] bg-white rounded-3xl 
+        border border-gray-100 overflow-hidden flex flex-col justify-between snap-start  shadow-md transition-shadow duration-300 "
             >
               <div>
                 {/* Card Image */}
@@ -104,7 +105,7 @@ const InsightsSection = () => {
 
                 {/* Card Content */}
                 <div className="p-4">
-                  <h3 className="text-[17px] font-semibold line-clamp-2 leading-[22px] ">
+                  <h3 className="text-[17px] font-semibold line-clamp-2 leading-[22px] text-[#000] ">
                     {article.title}
                   </h3>
                   <p className="mt-1 text-sm leading-5 line-clamp-4 text-[#000]">

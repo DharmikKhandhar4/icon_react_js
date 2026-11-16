@@ -60,10 +60,10 @@ const ManufacturerSection = () => {
 
   return (
     <section className="w-full bg-white py-12 md:py-10 px-4 sm:px-8 lg:px-16 font-sans overflow-hidden">
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
+      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-0">
         
         {/* ================= LEFT: CONTENT & TYPEWRITER ================= */}
-        <div className="w-full lg:w-[52%] flex flex-col justify-center">
+        <div className="w-full lg:w-[58%] flex flex-col justify-center">
           {/* Main Heading (Solid Black) */}
           <h2 className="text-3xl tracking-tight font-sans-serif text-[34px] md:text-[45px] font-bold leading-[40px] md:leading-[45px] text-[#111827]">
             Thermoforming Machine <br />
@@ -87,7 +87,7 @@ const ManufacturerSection = () => {
           </div>
 
           {/* Dynamic Description linked to current slide */}
-          <p className="mt-2 text-[15px] md:text-[16px] leading-[24px] md:leading-[26px] text-gray-700 max-w-lg transition-opacity duration-500">
+          <p className="mt-2 text-[15px] md:text-[16px] leading-[24px] md:leading-[26px] text-gray-700 max-w-2xl transition-opacity duration-500 min-h-[50px]">
             {slides[currentIndex].description}
           </p>
         </div>
