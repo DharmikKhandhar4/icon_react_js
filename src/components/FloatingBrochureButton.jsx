@@ -9,7 +9,7 @@ export default function FloatingBrochureButton({ onClick }) {
       type="button"
       onClick={onClick}
       aria-label="Download ICON Packtech brochure"
-      className="download-btn z-[100] bs-mix-red bottom-11 fixed font-Poppins right-[30px] pixel-corners"
+      className="download-btn z-[100] bs-mix-red bottom-11 fixed font-Poppins right-[30px] pixel-corners !shadow-none"
     >
       <div className="button-content">
         <div className="svg-container" aria-hidden="true">

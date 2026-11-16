@@ -166,7 +166,7 @@ export default function BrochureModal({ isOpen, onClose }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-[48px] bs-mix-red text-white rounded-lg font-semibold hover:opacity-95 transition-opacity disabled:opacity-60 cursor-pointer shadow-md"
+              className="w-full h-[48px] bs-mix-red text-white rounded-lg font-semibold hover:opacity-95 transition-opacity disabled:opacity-60 cursor-pointer shadow-none"
             >
               {isSuccess ? 'Downloading Brochure...' : isSubmitting ? 'Please wait...' : 'Submit & Download'}
             </button>

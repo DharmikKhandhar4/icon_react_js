@@ -66,7 +66,7 @@ export default function NewHeroSection() {
         ICON Packtech - Packaging &amp; Thermoforming Machinery Manufacturer in India
       </h1>
 
-      <div className="flex flex-col w-full px-2.5 sm:px-4 md:px-6 md11:px-0">
+      <div className="flex flex-col w-full px-2.5 sm:px-0 md:px-0 md11:px-0">
         <section
           className="group relative w-full md11:w-[84%] 2xl:w-full mx-auto rounded-xl sm:rounded-2xl md:rounded-[14px] overflow-hidden shadow-sm hover:shadow-md transition-shadow"
           aria-roledescription="carousel"
@@ -86,7 +86,8 @@ export default function NewHeroSection() {
               <div
                 key={slide.id}
                 className="w-full shrink-0 overflow-hidden 
-                h-[200px] sm:aspect-[24/10] md:aspect-[28/10.4] lg:h-full"
+                h-[200px] sm:aspect-[24/10] md:aspect-[28/10.4]  lg:h-[540px]
+                      xl:h-[545px]"
               >
                 <img
                   src={slide.image}

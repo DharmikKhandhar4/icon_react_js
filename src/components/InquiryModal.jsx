@@ -64,7 +64,7 @@ export default function InquiryModal({ isOpen, onClose }) {
 
       {/* Modal Dialog Card */}
       <div
-        className="relative w-[95%] sm:w-full max-w-[480px] max-h-[92vh] overflow-y-auto bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-gray-100 z-10 animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-[95%] sm:w-full max-w-[480px] max-h-[92vh] overflow-y-auto bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-gray-100 z-10 animate-in fade-in zoom-in-95 duration-200 lg:min-h-[460px]"
         style={{ opacity: 1, transform: 'none' }}
       >
         {/* Close Button */}
@@ -84,16 +84,16 @@ export default function InquiryModal({ isOpen, onClose }) {
               <img
                 src="/logo.svg"
                 alt="ICON Industries Logo"
-                className="h-8 sm:h-9 w-auto object-contain mx-auto"
+                className="h-8 sm:h-10 w-auto object-contain mx-auto"
               />
             </div>
             <h2
               id="inquiry-modal-title"
-              className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight"
+              className="text-lg sm:text-[23px] font-bold text-gray-900 tracking-tight"
             >
               Inquire With Us
             </h2>
-            <p className="text-gray-500 text-[11px] sm:text-xs mt-0.5 max-w-xs">
+            <p className="text-gray-500 text-[11px] sm:text-[13px] mt-0.5 max-w-xs leading-4">
               Send us your requirement and our packaging machinery experts will assist you.
             </p>
           </div>
@@ -114,7 +114,7 @@ export default function InquiryModal({ isOpen, onClose }) {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10  shadow-xs "
+                  className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs"
                 />
               </div>
             </div>
@@ -134,7 +134,7 @@ export default function InquiryModal({ isOpen, onClose }) {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs "
+                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs"
                   />
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function InquiryModal({ isOpen, onClose }) {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs"
+                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs"
                   />
                 </div>
               </div>
@@ -161,7 +161,7 @@ export default function InquiryModal({ isOpen, onClose }) {
             {/* Message Requirement */}
             <div>
               <div className="relative group">
-                <div className="absolute top-2.5 sm:top-3 left-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
+                <div className="absolute top-2.5 sm:top-4 left-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
                   <MessageSquare className="lucide lucide-message-square w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
                 <textarea
@@ -170,7 +170,7 @@ export default function InquiryModal({ isOpen, onClose }) {
                   placeholder="Tell us about your machine requirement..."
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10  outline-none transition-all duration-200 resize-none shadow-xs"
+                  className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-3 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 outline-none transition-all duration-200 resize-none shadow-xs"
                 ></textarea>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function InquiryModal({ isOpen, onClose }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full mt-1.5 sm:mt-2 py-2.5 sm:py-3 px-5 sm:px-6 bs-mix-red text-white font-semibold rounded-lg sm:rounded-xl shadow-[0_6px_18px_rgba(239,0,0,0.22)] hover:shadow-[0_10px_24px_rgba(239,0,0,0.32)] transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm disabled:opacity-60 cursor-pointer"
+              className="w-full mt-1.5 sm:mt-2 py-2.5 sm:py-3.5 px-5 sm:px-6 bs-mix-red text-white font-semibold rounded-lg sm:rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-[15px] disabled:opacity-60 cursor-pointer"
               tabIndex={0}
             >
               <div className="flex items-center gap-1.5 sm:gap-2">
