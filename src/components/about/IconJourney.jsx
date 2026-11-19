@@ -70,7 +70,7 @@ const milestones = [
 export default function IconJourney() {
   return (
     <section className="w-full bg-[#f4f6f9] mt-3 py-[50px] px-4 sm:px-6 lg:px-8 font-Poppins relative overflow-hidden">
-      <div className="2xl:w-[1300px] w-full lg:w-[85%] mx-auto">
+      <div className="2xl:w-[1300px] w-full lg:w-[80%] mx-auto">
         
         {/* Section Header */}
         <div className="mb-14 text-left md:text-left">
@@ -115,14 +115,14 @@ export default function IconJourney() {
               </div>
 
               {/* Central Year Badge & Indicator Node (Desktop) */}
-              <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 flex-col items-center z-10">
+              <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 flex-col items-center z-10 bg-[#f4f6f9] py-2">
                 <div className="bg-[#f4f6f9] px-3 py-1 rounded-lg text-center">
                   <span className="text-3xl lg:text-[40px] font-[500] bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent tracking-tight">
                     {item.year}
                   </span>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] flex items-center justify-center shadow-lg shadow-red-700/30 transition-transform duration-300 hover:scale-110">
-                  {/* <div className="w-3 h-3 rounded-full bg-white" /> */}
+                <div className="w-10 h-10 rounded-full bs-mix-red  flex items-center justify-center shadow-lg shadow-red-700/30 transition-transform duration-300 hover:scale-110">
+                 
                 </div>
               </div>
 

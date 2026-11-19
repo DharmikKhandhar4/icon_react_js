@@ -60,7 +60,7 @@ export default function NewHeroSection() {
   };
 
   return (
-    <div className="relative pt-[78px] sm:pt-[82px] md:pt-[88px] lg:pt-[140px] mx-auto flex flex-col w-full 2xl:w-[1400px] mb-6 sm:mb-8 md:mb-10">
+    <div className="relative pt-[78px] sm:pt-[82px] md:pt-[88px] lg:pt-[80px] mx-auto flex flex-col w-full 2xl:w-[1400px] mb-6 sm:mb-8 md:mb-10 lg:pb-6">
       {/* Primary SEO H1 Heading for Home Page */}
       <h1 className="sr-only">
         ICON Packtech - Packaging &amp; Thermoforming Machinery Manufacturer in India
@@ -104,23 +104,7 @@ export default function NewHeroSection() {
             ))}
           </div>
 
-          {/* Tablet & Desktop Navigation Arrows */}
-          <button
-            type="button"
-            onClick={prevSlide}
-            aria-label="Previous banner"
-            className="hidden sm:flex absolute left-2.5 md:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/40 hover:bg-red-600 text-white items-center justify-center backdrop-blur-xs transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:scale-105 cursor-pointer shadow-md"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            type="button"
-            onClick={nextSlide}
-            aria-label="Next banner"
-            className="hidden sm:flex absolute right-2.5 md:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/40 hover:bg-red-600 text-white items-center justify-center backdrop-blur-xs transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:scale-105 cursor-pointer shadow-md"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+         
 
           {/* Indicator Dots */}
           <div className="absolute z-20 bottom-2.5 sm:bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 bg-black/20 backdrop-blur-xs px-2.5 py-1 rounded-full">

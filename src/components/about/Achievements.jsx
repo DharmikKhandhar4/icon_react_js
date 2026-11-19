@@ -100,18 +100,18 @@ export default function Achievements() {
       <div className="w-[92%] sm:w-[85%] 2xl:w-[1300px] mx-auto">
         {/* Section Header with Brand Gradient Text */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-[600] tracking-tight inline-block bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent">
+          <h2 className="text-3xl sm:text-4xl lg:text-[30px] font-[600] tracking-tight inline-block bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent">
             Our Achievements
           </h2>
         </div>
 
         {/* Cards Track with Brand Gradient Backgrounds */}
         <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
-          {achievements.map((item) => (
-            <div key={item.id} className="group">
-              <div className="bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] min-w-[240px] sm:min-w-[270px] flex items-center justify-center h-[110px] rounded-2xl p-2  border border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+          {achievements.map((item, i) => (
+            <div key={item.id ?? i} className="group">
+              <div className="bg-white/10 backdrop-blur-sm min-w-[230px] flex items-center justify-center h-[110px] rounded-2xl p-2 border border-white/20 bs-mix-red transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 <div className="text-center">
-                  <div className="text-3xl sm:text-4xl md:text-[42px] font-[600] text-white mb-1 font-Poppins tracking-tight">
+                  <div className="text-5xl md:text-[40px] font-[600] text-white mb-1 font-Poppins">
                     <AnimatedNumber 
                       target={item.target}
                       suffix={item.suffix}
@@ -120,7 +120,7 @@ export default function Achievements() {
                       fallbackValue={item.fallbackValue}
                     />
                   </div>
-                  <div className="text-sm sm:text-[16px] text-white/90 font-medium">
+                  <div className="text-xl md:text-[16px] text-white/90 font-medium">
                     {item.label}
                   </div>
                 </div>

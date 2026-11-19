@@ -20,7 +20,7 @@ const testimonials = [
   {
     type: "review",
     id: 1,
-    rating: 5,
+    rating: 4,
     text: "We have been using a Thermoforming Vacuum Packing Machine from ICON for our Paneer Vacuum Packing, and they have consistently exceeded our expectations. Their expertise, reliability, and readiness to support us in any matter make them a trusted partner for Banas Dairy. We highly recommend Icon for their outstanding service and innovative solutions.",
     author: "Mr. Bipin Patel",
     company: "Banas Dairy, Palanpur",
@@ -29,7 +29,7 @@ const testimonials = [
   {
     type: "review",
     id: 2,
-    rating: 5,
+    rating: 4,
     text: "We are highly impressed with the Thermoforming Machine from Icon Industries, which has streamlined our paneer packaging process. The machine delivers outstanding performance, and their team is always ready to assist us with any support. Icon Industries has proven to be a reliable and customer-focused partner.",
     author: "Mr. Parag Shah",
     company: "Shree Krishna Farm",
@@ -45,7 +45,7 @@ const testimonials = [
   {
     type: "review",
     id: 4,
-    rating: 5,
+    rating: 4,
     text: "Icon Industries has been a reliable partner for us at Verka Dairy. We have been using the ITF 900 Model, saving nearly 0.50 Rupees Per Packet. Their Thermoforming Machines are top-notch, and their team is always ready to provide prompt support whenever needed. We greatly appreciate their commitment to quality and customer service.",
     author: "Mr. Amit Sharma",
     company: "Verka Dairy, Mohali",
@@ -54,7 +54,7 @@ const testimonials = [
   {
     type: "review",
     id: 5,
-    rating: 5,
+    rating: 4,
     text: "We are extremely satisfied with the Continuous Tray Sealer Machine from Icon Industries. Their machines deliver excellent performance, and their team is always ready to assist us with any requirements. Icon's commitment to quality and service makes them a trusted partner for Bikanerwala Foods.",
     author: "Mr. Ashok Aggarwal",
     company: "Bikanerwala Food Pvt. Ltd.",
@@ -70,7 +70,7 @@ const testimonials = [
   {
     type: "review",
     id: 7,
-    rating: 5,
+    rating: 4,
     text: "The Thermoforming Machine from Icon Industries has been a game-changer for our packaging process. The machine's performance is exceptional, and their team is always available to provide support whenever needed. Icon Industries truly stands out for their quality and dedication to customer satisfaction.",
     author: "Mr. Bipin Hadvani",
     company: "Gopal Snacks Pvt. Ltd.",
@@ -79,8 +79,8 @@ const testimonials = [
   {
     type: "review",
     id: 8,
-    rating: 5,
-    text: "Icon Industries has been a trusted partner for our packaging needs in the dates packing. Their machines deliver exceptional performance, ensuring the highest quality packaging for our products. Their team is always ready to provide support and solutions, making them a reliable and customer-focused company.",
+    rating: 4,
+    text: "Icon Industries has been a trusted partner for our packaging needs in the dates packing. Their machines deliver exceptional performance, ensuring the highest quality packaging for our products. Their team is always ready to provide support and solutions, making them a reliable and customer-focused company" ,
     author: "Mr. Rahul Gautam",
     company: "Apis India Limited",
     avatar: "https://storage.server.grafizen.in/uploads/img_688e2414d2c014.76672949.png",
@@ -90,7 +90,25 @@ const testimonials = [
 const TestimonialsSection = () => {
   const scrollContainerRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
   const scrollPosRef = useRef(0);
+
+  // Lock body scroll and handle Escape key when modal is open
+  useEffect(() => {
+    if (selectedReview) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') setSelectedReview(null);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [selectedReview]);
 
   // Smooth continuous auto-scroll ticker with seamless wrap-around
   useEffect(() => {
@@ -104,7 +122,7 @@ const TestimonialsSection = () => {
       const delta = time - lastTime;
       lastTime = time;
 
-      if (!isPaused && container) {
+      if (!isPaused && !selectedReview && container) {
         // Speed in px per second
         const speed = 45;
         scrollPosRef.current += (speed * delta) / 1000;
@@ -125,7 +143,7 @@ const TestimonialsSection = () => {
 
     animationFrameId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPaused]);
+  }, [isPaused, selectedReview]);
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
@@ -140,13 +158,13 @@ const TestimonialsSection = () => {
   const displayList = [...testimonials, ...testimonials];
 
   return (
-    <section className="w-full bg-white py-14 sm:py-10 px-4 sm:px-6 lg:px-12 font-sans overflow-hidden">
+    <section className="w-full bg-white py-14 sm:py-10 px-4 sm:px-6 lg:px-12 font-sans overflow-hidden lg:pt-[80px]">
       <div className="max-w-[1300px] mx-auto flex flex-col">
         
         {/* ================= HEADER ================= */}
         <div className="flex   items-center justify-center gap-4 mb-8">
           <div>
-            <h2 className="text-2xl sm:text-3xl md:text-[38px] font-[600] text-gray-900 tracking-tight text-center sm:text-left">
+            <h2 className="text-2xl sm:text-3xl md:text-[40px] font-[600] text-gray-900 tracking-tight text-center sm:text-left">
               What Our Clients Say About{' '}
           
                 Icon
@@ -165,7 +183,7 @@ const TestimonialsSection = () => {
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
-          className="flex gap-6 overflow-x-auto pb-6 pt-4 scrollbar-hide no-scrollbar select-none cursor-grab active:cursor-grabbing h-[320px]"
+          className="flex gap-6 overflow-x-auto pb-6 pt-4 scrollbar-hide no-scrollbar select-none cursor-grab active:cursor-grabbing h-[280px]"
           
 
         >
@@ -175,7 +193,7 @@ const TestimonialsSection = () => {
               return (
                 <div
                   key={uniqueKey}
-                  className="relative bg-white border border-red-500 h-[220px] rounded-br-2xl rounded-tl-2xl shadow-md hover:shadow-xl w-[320px] sm:w-[350px] flex-shrink-0 overflow-hidden transition-all duration-300"
+                  className="relative bg-white border border-red-500 h-[220px] rounded-br-2xl rounded-tl-2xl shadow-xl hover:shadow-2xl w-[320px] sm:w-[350px] flex-shrink-0 overflow-hidden transition-all duration-300"
                 >
                   <div className="relative h-full w-full group">
                     <img
@@ -225,25 +243,26 @@ const TestimonialsSection = () => {
             return (
               <div
                 key={uniqueKey}
-                className="relative bg-white border border-red-500 h-[220px] py-4 px-6 rounded-br-2xl rounded-tl-2xl shadow-md hover:shadow-xl w-[320px] sm:w-[350px] flex-shrink-0 flex flex-col justify-between transition-all duration-300"
+                onClick={() => setSelectedReview(item)}
+                className="relative bg-white border border-red-500 h-[220px] py-4 px-6 rounded-br-2xl rounded-tl-2xl shadow-xl hover:shadow-xl w-[320px] sm:w-[350px] flex-shrink-0 flex flex-col justify-between transition-all duration-300 cursor-pointer group"
               >
                 {/* Floating Top Right Quote Icon */}
-                <div className="absolute -top-3.5 right-4 z-20">
-                  <div className="w-7 h-7 rounded-full bg-white border border-red-500 flex items-center justify-center text-red-600 shadow-sm">
-                    <Quote className="w-3.5 h-3.5 fill-current rotate-180" />
+                <div className="absolute -top-3.5 -right-2 z-20">
+                  <div className="w-7 h-7 rounded-full bg-white  flex items-center justify-center text-red-500  group-hover:scale-110 transition-transform">
+                    <Quote className="w-8 h-8  rotate-180" />
                   </div>
                 </div>
 
                 <div>
                   {/* Star Rating */}
-                  <div className="flex items-center gap-1 mb-2.5">
+                  <div className="flex items-center gap-0 mb-2.5">
                     {[...Array(item.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-red-600 fill-current" />
+                      <Star key={i} className="w-5 h-5 text-red-600 fill-current" />
                     ))}
                   </div>
 
-                  {/* Review Text */}
-                  <p className="text-gray-700 text-xs sm:text-[13px] leading-relaxed line-clamp-4">
+                  {/* Review Text - clamped to 3 lines */}
+                  <p className="text-gray-700 text-xs sm:text-sm leading-relaxed line-clamp-3">
                     "{item.text}"
                   </p>
                 </div>
@@ -274,6 +293,70 @@ const TestimonialsSection = () => {
         </div>
 
       </div>
+
+      {/* Testimonial Review Detail Popup Modal */}
+      {selectedReview && (
+        <div
+          className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fadeIn"
+          onClick={() => setSelectedReview(null)}
+        >
+          <div
+            className="bg-white w-[90%] max-w-md p-6 rounded-xl shadow-lg relative max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button with circle-xmark icon */}
+            <button
+              type="button"
+              onClick={() => setSelectedReview(null)}
+              className="absolute top-3 right-4 text-red-600 hover:text-red-700 font-bold text-xl cursor-pointer transition-colors"
+              aria-label="Close"
+            >
+              <svg className="w-6 h-6 fill-current" viewBox="0 0 512 512">
+                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+              </svg>
+            </button>
+
+            {/* Star Rating */}
+            <div className="flex mb-4">
+              {[...Array(selectedReview.rating || 5)].map((_, i) => (
+                <svg
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-star w-5 h-5 text-[#ff0b0b] fill-current"
+                >
+                  <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
+                </svg>
+              ))}
+            </div>
+
+            {/* Review Text */}
+            <p className="text-gray-800 text-sm mb-4 leading-relaxed">
+              {selectedReview.text}
+            </p>
+
+            {/* Author Profile */}
+            <div className="flex items-center gap-4 border-t border-gray-200 pt-4">
+              <img
+                src={selectedReview.avatar}
+                alt={selectedReview.author || "Profile Image"}
+                className="w-14 h-14 rounded-full object-cover border-2 border-violet-100"
+              />
+              <div>
+                <p className="font-bold text-gray-900">{selectedReview.author}</p>
+                <p className="text-sm text-gray-600">{selectedReview.company}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

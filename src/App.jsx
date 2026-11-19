@@ -15,6 +15,8 @@ import Footer from './components/Footer';
 import FloatingBrochureButton from './components/FloatingBrochureButton';
 import NewHeader from './components/NewHeader';
 import NewHeroSection from './components/NewHeroSection';
+import './styles.css';
+
 
 // Lazy-loaded pages and modals for optimal performance and faster initial page loads
 const ContactUs = lazy(() => import('./pages/ContactUs'));
@@ -166,12 +168,12 @@ export default function App() {
               <ManufacturerSection />
               <InnovateSection />
               <WhyChooseUsSection />
-              <ProductsSection />
+              <ProductsSection onNavigate={handleNavigate} />
               <BrandsSection />
               <FaqSection />
               <TestimonialsSection />
               <BrandPromiseBanner />
-              <LatestInsightsSection />
+              <LatestInsightsSection onNavigate={handleNavigate} />
             </>
           )}
         </Suspense>

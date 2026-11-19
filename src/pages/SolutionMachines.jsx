@@ -29,45 +29,73 @@ export default function SolutionMachines({ solutionSlug, onNavigate }) {
   };
 
   return (
-    <main className="font-Poppins mx-auto w-[94%] md:w-[92%] 2xl:w-[1380px] pt-8 md:pt-12 pb-24">
-      {/* 1. Dynamic Heading with Red Underline (Exact match to CategoryMachines) */}
-      <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-[32px] md:font-bold font-semibold  tracking-tight bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent">
-          Machine To Pack {currentSolution?.name || 'Counting'}
-        </h1>
-        <div className="w-16 h-[2.5px] bg-[#c42e2e] mt-2 rounded-full" />
+    <main className="font-Poppins mx-auto flex min-h-[600px] w-[90%] flex-col gap-5 pb-10 pt-5 md:pt-8 md:w-[80%] 2xl:w-[1400px]">
+      {/* ================================================================
+          PAGE TITLE
+      ================================================================= */}
+      <div className="max-w-4xl pb-5 pt-2.5">
+        <div className="space-y-2">
+          <h1 className="bg-gradient-to-r bg-clip-text text-2xl font-semibold text-icon md:text-3xl">
+            Machine To Pack {currentSolution?.name || 'Counting'}
+          </h1>
+
+          <div className="hidden h-0.5 w-16 rounded-full bs-mix-red md11:flex" />
+        </div>
       </div>
 
-      {/* 2. Main Content Layout: Left Sidebar + Right Machine Grid */}
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
-        {/* LEFT SIDEBAR: Solution Selector with Enclosing Red Container Border */}
-        <aside className="w-full lg:w-[210px] shrink-0">
-          <div className="rounded-[16px] border border-red-500/80 p-2 sm:p-2.5 flex flex-row lg:flex-col gap-2 bg-white shadow-sm overflow-x-auto lg:overflow-y-auto lg:max-h-[820px] scrollbar-none">
+      {/* ================================================================
+          MOBILE / TABLET SOLUTION SELECTOR (VISIBLE BELOW md11)
+      ================================================================= */}
+      <div className="md11:hidden flex w-full gap-2 overflow-x-auto pb-2 no-scrollbar scrollbar-none">
+        {packagingSolutionsList.map((sol) => {
+          const isSelected = sol.slug === selectedSlug;
+          return (
+            <button
+              type="button"
+              key={sol.id}
+              onClick={() => handleSelectSolution(sol.slug)}
+              className={`!flex !flex-row items-center gap-2 shrink-0 rounded-[8px] border border-[#c42e2e] px-3 py-1.5 text-[13px] font-medium transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                isSelected
+                  ? "bs-mix-red text-white shadow-sm"
+                  : "bg-white text-[#c42e2e] hover:bg-red-50/70"
+              }`}
+            >
+              <span className="whitespace-nowrap">{sol.name}</span>
+              <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-[#c42e2e]'}`} />
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ================================================================
+          CONTENT: SIDEBAR + PRODUCT GRID
+      ================================================================= */}
+      <div className="flex gap-5 pt-1">
+        {/* ================================================================
+            RELATED SOLUTIONS SIDEBAR (STICKY ON md11+)
+        ================================================================= */}
+        <aside className="sticky top-[120px] hidden h-fit w-[200px] flex-shrink-0 gap-5 rounded-[10px] border border-[#f22] p-2.5 shadow-icon md11:flex">
+          <div className="flex w-full flex-col gap-2.5 max-h-[calc(100vh-160px)] overflow-y-auto pr-1 no-scrollbar scrollbar-none">
             {packagingSolutionsList.map((sol) => {
-              const isActive = sol.slug === selectedSlug;
+              const isSelected = sol.slug === selectedSlug;
               return (
                 <button
+                  type="button"
                   key={sol.id}
                   onClick={() => handleSelectSolution(sol.slug)}
-                  className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200 whitespace-nowrap lg:whitespace-normal text-left shrink-0 lg:shrink w-auto lg:w-full cursor-pointer ${
-                    isActive
-                      ? 'bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] text-white shadow-sm'
-                      : 'bg-white border border-[#c42e2e] hover:bg-red-50/60'
+                  className={`!flex !flex-row items-center justify-between flex-nowrap w-full gap-2 rounded-[8px] border px-3 py-2 text-left text-[13.5px] font-medium transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                    isSelected
+                      ? "bs-mix-red border-[#c42e2e] text-white shadow-sm"
+                      : "bg-white border-[#e02020] text-[#e02020] hover:bg-red-50/70"
                   }`}
                 >
-                  <span
-                    className={`truncate ${
-                      isActive
-                        ? 'text-white'
-                        : 'bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent'
-                    }`}
-                  >
+                  <span className="whitespace-nowrap truncate">
                     {sol.name}
                   </span>
-                  
+
                   <ArrowRight 
                     className={`w-4 h-4 shrink-0 transition-transform ${
-                      isActive ? 'text-white translate-x-0.5' : 'text-[#c42e2e]'
+                      isSelected ? 'text-white translate-x-0.5' : 'text-[#7a0000]'
                     }`}
                   />
                 </button>
@@ -76,66 +104,90 @@ export default function SolutionMachines({ solutionSlug, onNavigate }) {
           </div>
         </aside>
 
-        {/* RIGHT CONTENT: Machines Grid (Exact match to CategoryMachines) */}
-        <div className="flex-1 w-full">
+        {/* ================================================================
+            MACHINES GRID
+        ================================================================= */}
+        <div className="flex-1 w-full min-w-0">
           {machines.length === 0 ? (
-            <div className="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-              <p className="text-gray-500 text-base">
-                No specific machines found for this packaging solution yet.
-              </p>
+            <div className="flex min-h-[300px] w-full items-center justify-center text-center">
+              <div>
+                <p className="font-medium text-gray-700">
+                  No specific machines found for this packaging solution yet.
+                </p>
+              </div>
             </div>
           ) : (
-            <div className="flex overflow-x-auto sm:grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 pb-4 pt-1 sm:pb-0 sm:pt-0 no-scrollbar scrollbar-hide snap-x snap-mandatory -mx-3 px-3 sm:mx-0 sm:px-0">
-              {machines.map((machine) => (
-                <div
-                  key={machine.id}
-                  className="group relative bg-white rounded-2xl border border-gray-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden p-3.5 sm:p-4 shrink-0 w-[260px] sm:w-auto snap-center sm:snap-align-none"
+            <section className="flex w-full gap-x-[15px] gap-y-5 overflow-x-auto pt-1 md:grid md:grid-cols-2 md77:grid-cols-3 lg77:grid-cols-3 2xl:grid-cols-4 md:overflow-x-visible pb-4 md:pb-0">
+              {machines.map((machine, index) => (
+                <article
+                  key={machine.id || `${machine.title}-${index}`}
+                  onClick={() => handleViewDetails(machine.slug)}
+                  className="group relative h-fit w-[280px] md:w-auto flex-shrink-0 cursor-pointer"
                 >
-                  <div>
-                    {/* Machine Image Box with Red Corner Accent */}
-                    <div className="relative w-full h-[190px] bg-white flex items-center justify-center overflow-hidden">
-                      <img
-                        src={machine.image}
-                        alt={machine.title}
-                        width="260"
-                        height="190"
-                        className="max-h-[160px] w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
-                        loading="lazy"
-                        decoding="async"
-                        onError={(e) => {
-                          e.currentTarget.src = '/home/thermoforming/first.png';
-                        }}
-                      />
+                  <div
+                    className="relative h-[370px] w-[280px] md:w-full overflow-hidden rounded-[15px] border border-[#a3a3a334] bg-white shadow-icon transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-xl"
+                  >
+                    {/* PRODUCT IMAGE */}
+                    <div className="relative h-[240px] w-full overflow-hidden rounded-[15px] bg-white shadow-md">
+                      <div className="absolute inset-0 flex items-center justify-center p-3">
+                        <img
+                          src={machine.image}
+                          alt={machine.title || "Packaging machine"}
+                          width="280"
+                          height="240"
+                          loading={index < 6 ? "eager" : "lazy"}
+                          decoding="async"
+                          className="block h-full max-h-[220px] w-full max-w-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
+                          onError={(e) => {
+                            e.currentTarget.src = '/home/thermoforming/first.png';
+                          }}
+                        />
+                      </div>
 
-                      {/* Solid Red Corner Triangle Accent on Bottom-Right */}
+                      {/* DECORATION */}
                       <div
-                        className="pointer-events-none absolute bottom-0 right-0 w-0 h-0 border-b-[40px] border-b-[#c42e2e] border-l-[40px] border-l-transparent transition-transform duration-300 group-hover:scale-105"
-                        aria-hidden="true"
+                        className="absolute bottom-0 right-0 h-16 w-16 translate-x-8 translate-y-8 rotate-45 transform bs-mix-red transition-all duration-300 "
                       />
                     </div>
 
-                    {/* Machine Title */}
-                    <div className="pt-3 pb-3">
-                      <h3 className="text-[13px] sm:text-[14px] font-semibold text-gray-900 line-clamp-2 leading-snug group-hover:text-[#c42e2e] transition-colors min-h-[42px]">
-                        {machine.title}
-                      </h3>
+                    {/* PRODUCT CONTENT */}
+                    <div className="px-5 py-2.5">
+                      <h2 className="mb-1 line-clamp-2 text-[14px] font-semibold text-gray-800 transition-colors duration-300 group-hover:text-red-700">
+                        {machine.title || "Packaging Machine"}
+                      </h2>
+
+                  
+
+                      {/* VIEW DETAILS BUTTON */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewDetails(machine.slug);
+                        }}
+                        className="group/button absolute bottom-5 left-5 flex w-[calc(100%-40px)] items-center justify-center rounded-lg border bg-gray-100 px-4 py-2 text-[14px] font-medium text-gray-700 transition-all duration-300 hover:border-red-600 hover:bg-red-50 hover:text-red-600 cursor-pointer"
+                      >
+                        <span>VIEW DETAILS</span>
+                        <svg
+                          className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/button:translate-x-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0-7 7m7-7H3"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-
-                  {/* Card Footer: Light Gray VIEW DETAILS Button */}
-                  <div className="pt-1">
-                    <button
-                      type="button"
-                      onClick={() => handleViewDetails(machine.slug)}
-                      className="w-full py-2.5 px-4 rounded-lg bg-[#ebedf0] hover:bg-gray-200 text-gray-700 text-[11px] sm:text-[12px] font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 group/btn cursor-pointer"
-                    >
-                      <span>VIEW DETAILS</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
-                    </button>
-                  </div>
-                </div>
+                </article>
               ))}
-            </div>
+            </section>
           )}
         </div>
       </div>

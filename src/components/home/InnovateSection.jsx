@@ -15,74 +15,68 @@ const features = [
   },
 ];
 
-const InnovateSection = () => {
+export default function InnovateSection() {
   return (
-    <section className="w-full bg-white py-12 md:py-10 px-4 sm:px-8 lg:px-16 font-sans">
-      <div className="md:w-[83%]  2xl:w-[1330px]  md:px-4  mx-auto flex flex-col">
-        
-        {/* Top Outline Pill Badge */}
-        <div className="self-start mb-6">
-          <span className="inline-block px-[10px] py-[2px] rounded-full border border-red-600 text-[14px] sm:text-[14px] font-[600] tracking-widest uppercase bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent">
-            Packaging Machine Manufacturer in India
-          </span>
-        </div>
-
-        {/* 2-Column Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-center ">
-          
-          {/* ================= LEFT COLUMN ================= */}
-          <div className="flex flex-col">
-            <h2 className="text-3xl sm:text-4xl  text-gray-900 tracking-tight 
-            md:text-[50px] text-[30px] font-Poppins font-[700] mb-6 leading-none
-            ">
-              INNOVATE, INTEGRATE, <br className="hidden sm:inline" />
-              ELEVATE
+    <section className="font-Poppins overflow-hidden flex flex-col">
+      <div className="mx-auto md:w-[83%] 2xl:w-[1330px] px-4 pt-[80px] pb-[20px] relative z-10 flex-1 flex flex-col">
+        {/* Header Section */}
+        <div className="mb-12">
+          <div className="flex items-center space-x-4 mb-4">
+            <h2 className="text-icon border font-[600] px-[10px] rounded-full py-[2px] border-[#f00] uppercase tracking-widest text-[14px]">
+              Packaging Machine Manufacturer in India
             </h2>
-
-            <p 
-            className="text-gray-600 md:text-[13px] text-[14px] text-justify"
-            >
-              Welcome to ICON, where innovation meets precision in packaging solutions. Discover cutting-edge machines designed to elevate your business with unmatched efficiency and reliability.
-  
-              ICON has expanded through internal growth and new ventures since it was established in 1995 and over the years. The company has grown, expanding its capabilities for manufacturing packaging machines for a wide range of industries requiring high-quality machines. We continue to diversify and prosper, building on a tradition of quality components and customer satisfaction.
-            </p>
           </div>
 
-          {/* ================= RIGHT COLUMN (RED BORDER CARDS) ================= */}
-          <div className="flex flex-col space-y-4 md:p-0 ">
-            {features.map((feature, idx) => (
-              <div
-                key={idx}
-                className="group p-4 sm:p-4 rounded-xl border border-red-500 bg-white shadow-sm hover:shadow-md transition-all duration-300 flex items-center cursor-pointer "
-              >
-                {/* Red Bordered Icon Container */}
-                <div className="w-11 h-11 sm:w-10 sm:h-10 p-2 rounded-lg border border-red-500 flex items-center justify-center mr-5 flex-shrink-0 group-hover:scale-105 transition-transform">
-                  <img
-                    src={feature.icon}
-                    alt={feature.title}
-                    width="40"
-                    height="40"
-                    className="w-full h-full object-contain"
-                    loading="lazy"
-                    decoding="async"
-                  />
+          <div className="grid grid-cols-1 lg:grid-cols-2 md:mt-[0px] mt-[20px] gap-8 items-center">
+            <div>
+              <h2 className="md:text-5xl text-[30px] font-Poppins font-[700] mb-6 leading-none">
+                INNOVATE, INTEGRATE, ELEVATE
+              </h2>
+              <p className="text-gray-600 md:text-[13px] text-[14px] text-justify leading-relaxed">
+                Welcome to ICON, where innovation meets precision in packaging solutions. Discover cutting-edge machines designed to elevate your business with unmatched efficiency and reliability. ICON has expanded through internal growth and new ventures since it was established in 1995 and over the years. The company has grown, expanding its capabilities for manufacturing packaging machines for a wide range of industries requiring high-quality machines. We continue to diversify and prosper, building on a tradition of quality components and customer satisfaction.
+              </p>
+            </div>
+
+            <div className="relative">
+              <div className="relative p-0.5 rounded-lg">
+                <div className="rounded-lg md:p-6 backdrop-blur-sm">
+                  <div className="relative">
+                    {/* Feature Tabs */}
+                    <div className="flex flex-col lg:flex-row gap-8 mt-auto">
+                      <div className="w-[100%]">
+                        <div className="space-y-4">
+                          {features.map((feature, index) => (
+                            <div
+                              key={index}
+                              className="p-4 rounded-lg transition-all duration-300 border-[1px] shadow-icon border-[#ff1c1c] hover:bg-white/5 cursor-pointer"
+                            >
+                              <div className="flex items-center">
+                                <div className="w-10 h-10 p-2 rounded-md mr-4 border-[1.4px] border-[#f00] flex items-center justify-center flex-shrink-0">
+                                  <img
+                                    src={feature.icon}
+                                    alt={feature.title || "Feature Image"}
+                                    className="w-full h-full object-contain"
+                                    loading="lazy"
+                                    decoding="async"
+                                  />
+                                </div>
+                                <h3 className="font-[500] text-[18px] text-[#000]">
+                                  {feature.title}
+                                </h3>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Feature Title */}
-                <h3 className="  sm:text-[18px] text-[#11181c] group-hover:text-red-600 transition-colors
-                font-[500]  text-[18px] 
-                ">
-                  {feature.title}
-                </h3>
               </div>
-            ))}
+            </div>
+
           </div>
-
         </div>
-
       </div>
     </section>
   );
-};
-
-export default InnovateSection;
+}

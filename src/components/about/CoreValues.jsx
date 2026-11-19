@@ -25,7 +25,7 @@ const coreValues = [
 
 export default function CoreValues() {
   return (
-    <section className="mt-8 mb-8 mx-auto pt-8 2xl:w-[1300px] lg:w-[85%] px-5 md:px-8 lg:px-5 font-Poppins">
+    <section className="mt-8 mb-8 mx-auto pt-8 2xl:w-[1300px] lg:w-[80%] px-5 md:px-8 lg:px-5 font-Poppins">
       {/* ================= HEADER ================= */}
       <div className="text-center mb-8">
         <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-[600] text-gray-900 leading-tight tracking-tight">
@@ -43,18 +43,19 @@ export default function CoreValues() {
           return (
             <div
               key={val.id}
-              className={`bg-white p-6 sm:p-7 rounded-2xl shadow-sm border border-gray-100 transition-all duration-300  group flex flex-col justify-between shadow-md ${
+              className={`bg-white p-6 sm:p-7 rounded-2xl  border border-gray-100 transition-all hover:shadow-lg
+                 duration-300  group flex flex-col justify-between shadow-md ${
                 val.colSpan || ''
               }`}
             >
               <div>
                 {/* Icon Container */}
-                <div className="w-12 h-12 rounded-full bg-red-50  text-red-600 flex items-center justify-center mb-5  transition-all duration-300 shadow-sm">
+                <div className="w-12 h-12 rounded-full bg-[#ff7d5638]   text-red-600 flex items-center justify-center mb-5  transition-all duration-300 shadow-sm">
                   <IconComp className="w-6 h-6 stroke-[2]" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-[600] text-gray-900 mb-2.5 group-hover:text-red-600 transition-colors">
+                <h3 className="text-xl font-[600] text-gray-900 mb-2.5  transition-colors">
                   {val.title}
                 </h3>
 

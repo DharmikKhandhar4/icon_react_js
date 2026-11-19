@@ -1,150 +1,369 @@
 import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
 
-const categories = ["Food", "Non-Food", "Pharma"];
-
-const products = [
-  {
-    id: 1,
-    title: "Inline Tray Sealer (MAP)",
-    category: "Food",
-    image: "https://storage.server.grafizen.in/uploads/img_6878939f4af644.42421642.png",
-  },
-  {
-    id: 2,
-    title: "Continuous Tray Sealer (MAP)",
-    category: "Food",
-    image: "https://storage.server.grafizen.in/uploads/img_68789303de16b0.49630548.png",
-  },
-  {
-    id: 3,
-    title: "Linear Cup Filling Sealing Machine",
-    category: "Food",
-    image: "https://storage.server.grafizen.in/uploads/img_68788d369eb4b5.46405539.png",
-  },
-  {
-    id: 4,
-    title: "Thermoforming Vacuum Packing Machine (ITF - 400)",
-    category: "Food",
-    image: "https://storage.server.grafizen.in/uploads/img_689d8b614ffab6.16941026.png",
-  },
-];
-
-const ProductsSection = () => {
-  const [activeCategory, setActiveCategory] = useState("Food");
-
-  return (
-    <section className="w-full bg-white py-14 sm:py-14 px-4 sm:px-6 lg:px-12 font-sans">
-      <div className="max-w-[1300px] mx-auto flex flex-col">
-        
-        {/* ================= HEADER ================= */}
-        <div className="text-center max-w-2xl mx-auto md:mb-10 mb-4">
-          <h2 className="text-4xl sm:text-4xl md:text-[45px] font-bold text-gray-800 tracking-tight mb-2">
-            What{' '}
-            {/* <span className="bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent"> */}
-              Products
-            {/* </span> */}
-            {' '}
-            <span className="inline-block bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent animate-pulse ml-1">
-              ??
-            </span>
-          </h2> 
-
-          {/* Accent Line */}
-          <div className="w-20 h-1 bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)]  mx-auto mb-4" />
-
-          <p className="text-gray-600 text-sm sm:text-[14px] leading-relaxed">
-            Explore some of our Hot-Cakes, to fulfil your Smart and Sustainable Packaging Needs
-          </p>
-        </div>
-
-        {/* ================= CATEGORY TABS ================= */}
-        <div className="flex items-center justify-start gap-3 sm:gap-5 mb-10 flex-wrap">
-          {categories.map((cat) => {
-            const isActive = activeCategory === cat;
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-3 sm:px-8 sm:py-3.5 md:rounded-2xl rounded-lg font-bold text-[15px] sm:text-[16px] transition-all duration-300 cursor-pointer ${
-                  isActive
-                    ? "bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] text-white shadow-[0_4px_16px_rgba(180,0,0,0.25)]"
-                    : "bg-white text-black shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] hover:text-black"
-                }`}
-              >
-                {cat}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* ================= PRODUCTS GRID (Horizontal Scroll on Mobile, 2-Col Tablet, 4-Col Desktop) ================= */}
-        <div className="flex overflow-x-auto sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pb-4 pt-1 sm:pb-0 sm:pt-0 no-scrollbar scrollbar-hide snap-x snap-mandatory -mx-4 px-4 sm:mx-0 sm:px-0">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="group relative bg-white rounded-2xl border border-red-500/70 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 w-[270px] sm:w-auto snap-center sm:snap-align-none"
-            >
-              {/* Product Image Area */}
-              <div>
-                <div className="relative w-full h-[240px] bg-white overflow-hidden p-6 flex items-center justify-center border-b border-gray-100 rounded-b-2xl shadow-md">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    width="240"
-                    height="240"
-                    className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
-                    loading="lazy"
-                    decoding="async"
-                  />
-
-                  {/* Corner Accent Badge */}
-                  <div className="absolute bottom-0 right-0 w-16 h-16 bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] transform rotate-45 translate-x-8 translate-y-8 pointer-events-none" />
-                </div>
-
-                {/* Product Title */}
-                <div className="p-5">
-                  <h3 className="text-[15px] font-semibold text-gray-900 line-clamp-2 leading-snug group-hover:text-red-600 transition-colors">
-                    {product.title}
-                  </h3>
-                </div>
-              </div>
-
-              {/* Card Footer Button */}
-              <div className="p-5 pt-0">
-                <a
-                  href="#details"
-                  className="w-full py-2.5 px-4 rounded-xl border border-gray-200 bg-gray-50 text-gray-700 font-semibold text-xs tracking-wider uppercase hover:bg-red-50 hover:text-red-600 hover:border-red-300 transition-all flex items-center justify-center gap-2 group/btn"
-                >
-                  <span>VIEW DETAILS</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                </a>
-              </div>
-
-              {/* Bottom Animated Gradient Line on Hover */}
-              <div className="absolute bottom-0 left-0 h-1 bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] w-0 group-hover:w-full transition-all duration-500" />
-            </div>
-          ))}
-        </div>
-
-        {/* ================= BOTTOM CTA ================= */}
-        <div className="mt-16 text-center">
-          <a
-            href="#all-products"
-            className="inline-flex items-center justify-center bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] text-white   
-             font-[500] px-10 py-[10px] rounded-lg hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300
-            
-            "
-          >
-            View All Products
-          </a>
-        </div>
-
-      </div>
-    </section>
-  );
+const getLocalProductImage = (src) => {
+  if (!src) return '/product-image/Product1.png';
+  return src;
 };
 
-export default ProductsSection;
+const defaultProductsByCategory = {
+  Food: [
+    {
+      _id: "inline-tray",
+      id: "inline-tray",
+      mainTitle: "INLINE TRAY SEALER (MAP)",
+      name: "INLINE TRAY SEALER (MAP)",
+      mainDesription:
+        "Modified atmosphere packaging solution for extended shelf life of food products with inline tray sealing technology.",
+      mainImage: "/product-image/Product1.png",
+      category: "Food",
+    },
+    {
+      _id: "continuous-tray",
+      id: "continuous-tray",
+      mainTitle: "CONTINUOUS TRAY SEALER (MAP)",
+      name: "CONTINUOUS TRAY SEALER (MAP)",
+      mainDesription:
+        "Continuous operation tray sealing machine with MAP technology for high-volume production environments.",
+      mainImage: "/product-image/Product2.png",
+      category: "Food",
+    },
+    {
+      _id: "linear-cup",
+      id: "linear-cup",
+      mainTitle: "LINEAR CUP FILLING SEALING MACHINE",
+      name: "LINEAR CUP FILLING SEALING MACHINE",
+      mainDesription:
+        "Multi-lane cup filling and sealing system with precision dosing for liquid and semi-liquid products.",
+      mainImage: "/product-image/Product3.png",
+      category: "Food",
+    },
+    {
+      _id: "thermoforming",
+      id: "thermoforming",
+      mainTitle: "THERMOFORMING VACUUM PACKING MACHINE (ITF - 400)",
+      name: "THERMOFORMING VACUUM PACKING MACHINE (ITF - 400)",
+      mainDesription:
+        "High-performance thermoforming machine for creating custom vacuum-sealed packages with precision forming technology.",
+      mainImage: "/product-image/Product4.png",
+      category: "Food",
+    },
+  ],
+  "Non-Food": [
+    {
+      _id: "thermoforming-nonfood",
+      id: "thermoforming-nonfood",
+      mainTitle: "THERMOFORMING VACUUM PACKING MACHINE (ITF - 400)",
+      name: "THERMOFORMING VACUUM PACKING MACHINE (ITF - 400)",
+      mainDesription:
+        "High-performance thermoforming machine for creating custom vacuum-sealed packages with precision forming technology.",
+      mainImage: "/product-image/Product4.png",
+      category: "Non-Food",
+    },
+    {
+      _id: "continuous-tray-nonfood",
+      id: "continuous-tray-nonfood",
+      mainTitle: "CONTINUOUS TRAY SEALER (MAP)",
+      name: "CONTINUOUS TRAY SEALER (MAP)",
+      mainDesription:
+        "Continuous operation tray sealing machine with MAP technology for high-volume production environments.",
+      mainImage: "/product-image/Product3.png",
+      category: "Non-Food",
+    },
+    {
+      _id: "inline-tray-nonfood",
+      id: "inline-tray-nonfood",
+      mainTitle: "INLINE TRAY SEALER (MAP)",
+      name: "INLINE TRAY SEALER (MAP)",
+      mainDesription:
+        "Modified atmosphere packaging solution for extended shelf life of products with inline tray sealing technology.",
+      mainImage: "/product-image/Product1.png",
+      category: "Non-Food",
+    },
+    {
+      _id: "double-chamber-nonfood",
+      id: "double-chamber-nonfood",
+      mainTitle: "DOUBLE CHAMBER VACUUM PACKING",
+      name: "DOUBLE CHAMBER VACUUM PACKING",
+      mainDesription:
+        "Heavy-duty dual chamber vacuum packaging system for industrial applications with programmable cycles.",
+      mainImage: "/product-image/Product2.png",
+      category: "Non-Food",
+    },
+  ],
+  Pharma: [
+    {
+      _id: "linear-cup-pharma",
+      id: "linear-cup-pharma",
+      mainTitle: "LINEAR CUP FILLING SEALING MACHINE",
+      name: "LINEAR CUP FILLING SEALING MACHINE",
+      mainDesription:
+        "Multi-lane cup filling and sealing system with precision dosing for liquid and semi-liquid products.",
+      mainImage: "/product-image/Product3.png",
+      category: "Pharma",
+    },
+    {
+      _id: "double-chamber-pharma",
+      id: "double-chamber-pharma",
+      mainTitle: "DOUBLE CHAMBER VACUUM PACKING",
+      name: "DOUBLE CHAMBER VACUUM PACKING",
+      mainDesription:
+        "Heavy-duty dual chamber vacuum packaging system for industrial applications with programmable cycles.",
+      mainImage: "/product-image/Product4.png",
+      category: "Pharma",
+    },
+    {
+      _id: "vffs-pharma",
+      id: "vffs-pharma",
+      mainTitle: "FOUR/SIX HEAD VFFS PRO",
+      name: "FOUR/SIX HEAD VFFS PRO",
+      mainDesription:
+        "Advanced vertical form fill seal machine with multi-head weighing system for precise packaging of pharmaceutical products.",
+      mainImage: "/product-image/Product1.png",
+      category: "Pharma",
+    },
+    {
+      _id: "inline-tray-pharma",
+      id: "inline-tray-pharma",
+      mainTitle: "INLINE TRAY SEALER (MAP)",
+      name: "INLINE TRAY SEALER (MAP)",
+      mainDesription:
+        "Modified atmosphere packaging solution for extended shelf life with inline tray sealing technology.",
+      mainImage: "/product-image/Product2.png",
+      category: "Pharma",
+    },
+  ],
+};
 
+export default function ProductsSection({ onNavigate }) {
+  const [selectedCategory, setSelectedCategory] = useState("Food");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [categoryTypes] = useState(["Food", "Non-Food", "Pharma"]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const products = defaultProductsByCategory[selectedCategory] || defaultProductsByCategory["Food"];
+
+  const handleCategoryClick = (categoryType) => {
+    setSelectedCategory(categoryType);
+    setSelectedProduct(null);
+  };
+
+  const slugify = (text = "") =>
+    String(text)
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "");
+
+  const handleNavigate = (product) => {
+    const slug = slugify(product.mainTitle || product.name || product.title);
+    const id = product._id || product.id;
+
+    if (!id && !slug) {
+      console.error("Missing product ID and slug");
+      return;
+    }
+
+    const targetUrl = `/product-details/${slug || id}`;
+    if (onNavigate) {
+      onNavigate(targetUrl);
+    } else {
+      window.location.href = targetUrl;
+    }
+  };
+
+  const handleAllProduct = () => {
+    if (onNavigate) {
+      onNavigate("/all-packaging-machines");
+    } else {
+      window.location.href = "/all-packaging-machines";
+    }
+  };
+
+  const selectedProductData =
+    selectedProduct !== null
+      ? products.find((p, i) => (p._id || p.id || i) === selectedProduct) || products[selectedProduct]
+      : null;
+
+  return (
+    <>
+      <div className="font-Poppins pt-[80px]">
+        <div className="md:w-[85%] 2xl:w-[1300px] mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-5 w-[100%]">
+            <h2 className="text-4xl md:text-[45px] font-bold text-gray-800 mb-1">
+              What Products <span className="text-icon animate-pulse ml-[10px]">?</span>
+              <span className="text-icon animate-pulse delay-100 ">?</span>
+            </h2>
+            <div className="w-24 h-1 bs-mix-red mx-auto mb-5"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto text-[14px]">
+              Explore some of our Hot-Cakes, to fulfil your Smart and Sustainable Packaging Needs
+            </p>
+          </div>
+
+          <div className="flex w-[100%] flex-col">
+            {/* Category Tabs */}
+            <div className="flex gap-[16px] md:gap-[30px] overflow-x-auto md:items-center pb-[30px]">
+              {categoryTypes.map((type) => (
+                <div
+                  key={type}
+                  onClick={() => handleCategoryClick(type)}
+                  className={`cursor-pointer gap-[14px] w-fit rounded-[10px] flex justify-center px-[15px] md:py-0 py-[10px] items-center h-[50px] flex-shrink-0 transition-all duration-300 ${
+                    selectedCategory === type ? "bs-mix-red text-white" : "mainnn text-black"
+                  }`}
+                >
+                  <h3 className="flex font-[600]">{type}</h3>
+                </div>
+              ))}
+            </div>
+
+            {/* Products Grid */}
+            <div className="flex overflow-x-auto md77:overflow-hidden md:grid md77:grid-cols-2 md11:grid-cols-4 gap-[10px] justify-between">
+              {products.slice(0, 4).map((product, index) => {
+                  const currentId = product._id || product.id || index;
+                  const isSelected = selectedProduct === currentId;
+
+                  return (
+                    <div
+                      key={currentId}
+                      className="relative group w-[280px] md:w-auto flex-shrink-0"
+                      onClick={() => setSelectedProduct(isSelected ? null : currentId)}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      {/* Main Square Box */}
+                      <div
+                        className={`relative bg-white h-[430px] md11:h-[400px] 2xl:h-[440px] rounded-[15px] w-[280px] mx-auto shadow-icon border border-[#f22] overflow-hidden cursor-pointer ${
+                          isSelected
+                            ? "ring-4 ring-red-500 shadow-xl"
+                            : ""
+                        }`}
+                      >
+                        {/* Square Image Container */}
+                        <div className="relative w-[100%] h-[260px] md11:h-[230px] 2xl:h-[260px] rounded-[15px] bg-[#fff] shadow-md overflow-hidden">
+                          <div className="absolute inset-0 flex items-center justify-center p-6">
+                            <img
+                              src={getLocalProductImage(product.mainImage || product.image)}
+                              alt={product.mainTitle || product.name || "Product"}
+                              className={`transition-transform w-[100%] h-[100%] object-contain duration-500 ${
+                                hoveredIndex === index ? "scale-110" : "scale-105"
+                              }`}
+                              onError={(e) => {
+                                e.currentTarget.src =
+                                  "/product-image/img_6878939f4af644.42421642.png";
+                              }}
+                            />
+                          </div>
+
+                          {/* Corner Accent */}
+                          <div
+                            className={`absolute bottom-0 right-0 w-16 h-16 bs-mix-red transform rotate-45 translate-x-8 translate-y-8 transition-all duration-300 ${
+                              isSelected ? "scale-150" : "scale-100"
+                            }`}
+                          ></div>
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="px-[20px] py-[10px]">
+                          {/* Category / Product Title */}
+                          <h3
+                            className={`text-[14px] font-[600] mb-1 transition-colors duration-300 line-clamp-1 ${
+                              isSelected ? "text-icon" : "text-gray-800"
+                            }`}
+                          >
+                            {product.mainTitle || product.name}
+                          </h3>
+
+                          {/* Description */}
+                          <p className="text-gray-600 text-sm leading-[19px] mb-[10px] line-clamp-3">
+                            {product.mainDesription || product.description}
+                          </p>
+
+                          {/* Action Button */}
+                          <button
+                            type="button"
+                            className={`w-[85%] bottom-[20px] border py-[8px] px-4 text-[14px] absolute rounded-lg font-medium transition-all duration-300 flex items-center justify-center group ${
+                              isSelected
+                                ? "bg-red-600 border border-red-600 text-white"
+                                : "bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600"
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleNavigate(product);
+                            }}
+                          >
+                            <span>VIEW DETAILS</span>
+                            <svg
+                              className={`w-5 h-5 ml-2 transition-transform duration-300 ${
+                                hoveredIndex === index ? "translate-x-1" : ""
+                              }`}
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Bottom Border Accent */}
+                        <div
+                          className={`absolute bottom-0 left-0 h-1 bg-red-600 transition-all duration-500 ${
+                            isSelected ? "w-full" : "w-0 group-hover:w-full"
+                          }`}
+                        ></div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+
+          {/* Selected Product Info */}
+          {selectedProduct && selectedProductData && (
+            <div className="mt-12 bg-white rounded-lg p-8 border-l-4 border-red-600 shadow-lg">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Selected Product</h3>
+              <p className="text-red-600 font-medium mb-4">
+                {selectedProductData.mainTitle || selectedProductData.name}
+              </p>
+              <p className="text-gray-600">
+                {selectedProductData.mainDesription || selectedProductData.description}
+              </p>
+              <div className="mt-6 flex space-x-4">
+                <button
+                  type="button"
+                  onClick={() => handleNavigate(selectedProductData)}
+                  className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                >
+                  Get Quote
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNavigate(selectedProductData)}
+                  className="border border-red-600 text-red-600 px-6 py-3 rounded-lg font-medium hover:bg-red-50 transition-colors"
+                >
+                  Download Specs
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* View All Button */}
+          <div className="mt-16 text-center">
+            <button
+              type="button"
+              className="bs-mix-red text-white font-[500] px-10 py-[10px] rounded-lg hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300"
+              onClick={handleAllProduct}
+            >
+              View All Products
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

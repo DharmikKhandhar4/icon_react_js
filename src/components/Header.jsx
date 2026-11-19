@@ -22,7 +22,11 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
   }, []);
 
   // Close menus on Escape key
@@ -56,7 +60,7 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white   font-sans">
-      <div className="max-w-[1380px] mx-auto   h-17 flex items-center justify-between border-b border-[#13002f]">
+      <div className="max-w-[1380px] mx-auto   h-17 flex items-center justify-between border-b border-[#13002f] ">
         
         {/* 1. BRAND LOGO (Left) */}
         <button
@@ -90,7 +94,7 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
         </button>
 
         {/* 2. DESKTOP NAVIGATION (Right, with exact pipe | separators) */}
-        <nav className="hidden md:flex items-center text-[15px] font-[400] font-Poppins tracking-normal text-[#515151] mt-3">
+        <nav className="hidden md:flex items-center text-[15px] font-[400] font-Poppins tracking-normal text-[#373737] mt-3">
           {navLinks.map((item, index) => {
             const isActive = currentPath === item.path || 
               (item.path === '/blogs' && currentPath.startsWith('/blog')) ||
@@ -121,9 +125,11 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
                         setBlogsOpen(false);
                       }}
                       className={`transition-colors py-2 focus:outline-none tracking-normal font-normal cursor-pointer ${
-                        isActive || solutionsOpen
+                        isActive && !solutionsOpen
                           ? 'text-red-600'
-                          : 'text-[#515151] hover:text-red-600'
+                          : solutionsOpen
+                          ? 'text-black'
+                          : 'text-[#373737] hover:text-black'
                       }`}
                     >
                       {item.label}
@@ -173,9 +179,11 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
                         setSolutionsOpen(false);
                       }}
                       className={`transition-colors py-2 focus:outline-none tracking-normal font-normal cursor-pointer ${
-                        isActive || blogsOpen
+                        isActive && !blogsOpen
                           ? 'text-red-600'
-                          : 'text-[#515151] hover:text-red-600'
+                          : blogsOpen
+                          ? 'text-black'
+                          : 'text-[#373737] hover:text-black'
                       }`}
                     >
                       {item.label}
@@ -188,7 +196,7 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
                           <button
                             type="button"
                             onClick={() => handleLinkClick('/blogs')}
-                            className="w-full text-left px-4 py-2 text-[14px] font-Poppins text-gray-700 hover:text-gray-900 hover:bg-gray-50 border border-gray-100 transition-colors"
+                            className="w-full text-left px-4 py-2 text-[14px] font-Poppins text-gray-700 hover:text-gray-900 hover:bg-gray-100 border-b border-gray-100 transition-colors"
                           >
                             Blogs
                           </button>
@@ -196,7 +204,7 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
                           <button
                             type="button"
                             onClick={() => handleLinkClick('/events')}
-                            className="w-full text-left px-4 py-2 text-[14px] font-Poppins text-gray-700 hover:text-red-600 hover:bg-gray-50 transition-colors"
+                            className="w-full text-left px-4 py-2 text-[14px] font-Poppins text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-colors"
                           >
                             Events
                           </button>
@@ -208,10 +216,10 @@ export default function Header({ currentPath = '/', onNavigate = () => {} }) {
                   /* Standard Link */
                   <button
                     onClick={() => handleLinkClick(item.path)}
-                    className={`transition-colors py-2 focus:outline-none tracking-normal font-normal ${
+                    className={`transition-colors py-2 focus:outline-none tracking-normal font-normal cursor-pointer ${
                       isActive 
                         ? 'text-red-600' 
-                        : 'text-[#515151] hover:text-red-600'
+                        : 'text-[#373737] hover:text-black'
                     }`}
                   >
                     {item.label}

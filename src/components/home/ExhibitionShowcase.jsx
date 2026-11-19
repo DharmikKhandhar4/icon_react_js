@@ -77,9 +77,9 @@ export default function ExhibitionShowcase() {
         {/* ================= 1. IMAGE DIV (TOP) ================= */}
         <div className="relative w-full overflow-hidden bg-white">
           <img
-            src="/herobanner/bannertwo.jpeg"
+            src="/home/thermoforming/anuga1-BLS8lKac.webp"
             alt="ICON Packtech packaging machines showcase - Precision Engineered, Perfectly Sealed"
-            className="w-full h-auto max-h-[460px] object-cover object-center block"
+            className="w-full h-auto max-h-[510px] object-cover object-center block"
             loading="lazy"
             decoding="async"
             width="1280"
@@ -91,13 +91,13 @@ export default function ExhibitionShowcase() {
         </div>
 
         {/* ================= 2. CONTENT DIV (BOTTOM) ================= */}
-        <div className="relative bg-[linear-gradient(to_top,#dc2626_0%,#f87171_15%,#f87171_20%,transparent_100%)] px-4 sm:px-6 pt-0 pb-3">
+        <div className="relative bg-[linear-gradient(to_top,#dc2626_0%,#f87171_15%,#f87171_20%,transparent_100%)] px-4 lg:px-6 xl:px-4 pt-0 pb-3">
           {/* Soft upward blend overlay into the bottom of the image */}
           <div className="absolute -top-6 inset-x-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
           {/* Top Pill Badge & Nav Arrows */}
           <div className="relative z-10 flex items-center justify-between mb-3">
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-red-500 shadow-sm text-xs sm:text-sm font-semibold text-red-600 cursor-default">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-red-500 shadow-sm text-xs sm:text-sm font-[500] text-red-600 cursor-default">
               <span>Watch our latest showcases &amp; industry events</span>
               <ChevronRight className="w-4 h-4 text-red-600 stroke-[2.5]" />
             </div>
@@ -142,7 +142,7 @@ export default function ExhibitionShowcase() {
 
                   {/* Video Details */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-[13px] font-bold text-gray-900 line-clamp-1 leading-snug">
+                    <h4 className="text-[13px] font-[600] text-gray-900 line-clamp-1 leading-snug">
                       {video.title}
                     </h4>
                     <p className="text-[11.5px] text-gray-600 line-clamp-2 mt-0.5 leading-tight">

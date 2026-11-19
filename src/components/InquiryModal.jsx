@@ -1,195 +1,293 @@
-import { useState, useEffect } from 'react';
-import { X, User, Mail, Phone, MessageSquare, Send } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { X, Send, User, Mail, Phone, MessageSquare, CheckCircle } from "lucide-react";
 
+/**
+ * InquiryModal Component
+ * - Pure UI modal without backend API integration.
+ * - Sleek, responsive inquiry popup matching the design specifications.
+ * - Client-side validation, loading spinner, and success state.
+ */
 export default function InquiryModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
+
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Lock background scrolling and allow Escape key to close
   useEffect(() => {
     if (!isOpen) return;
 
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") {
+        handleClose();
+      }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
     const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
-  if (!isOpen) return null;
+  const handleClose = () => {
+    setIsSubmitted(false);
+    setErrors({});
+    if (onClose) onClose();
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (errors[name]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) {
+      newErrors.name = "Please enter your full name";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = "Please enter your email";
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    const phoneRegex = /^\+?[\d\s-]{7,15}$/;
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Please enter your phone number";
+    } else if (!phoneRegex.test(formData.phone)) {
+      newErrors.phone = "Please enter a valid phone number (7-15 digits)";
+    }
+
+    return newErrors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationErrors = validate();
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) return;
+
     setIsSubmitting(true);
 
-    // Simulate submission
+    // Pure frontend simulated submission (no backend API integration)
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
+
       setTimeout(() => {
         setIsSubmitted(false);
-        setFormData({ name: '', email: '', phone: '', message: '' });
-        onClose();
-      }, 1500);
-    }, 600);
+        setFormData({ name: "", email: "", phone: "", message: "" });
+        if (onClose) onClose();
+      }, 2500);
+    }, 700);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="inquiry-modal-title"
-      className="fixed inset-0 z-[2500] font-Poppins flex items-center justify-center bg-black/65 backdrop-blur-md p-3 sm:p-4 transition-opacity duration-300"
-      style={{ opacity: 1 }}
+      className="fixed inset-0 z-[2500] font-Poppins flex items-center justify-center bg-black/65 backdrop-blur-md p-3 sm:p-4 transition-opacity duration-300 animate-in fade-in"
     >
-      {/* Backdrop overlay */}
-      <div className="absolute inset-0" onClick={onClose}></div>
+      {/* Backdrop click to close */}
+      <div className="absolute inset-0" onClick={handleClose} />
 
-      {/* Modal Dialog Card */}
+      {/* Modal Card */}
       <div
-        className="relative w-[95%] sm:w-full max-w-[480px] max-h-[92vh] overflow-y-auto bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-gray-100 z-10 animate-in fade-in zoom-in-95 duration-200 lg:min-h-[460px]"
-        style={{ opacity: 1, transform: 'none' }}
+        className="relative w-[95%] sm:w-full max-w-[440px] max-h-[92vh] overflow-y-auto bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-gray-100 z-10 transition-all duration-200 animate-in fade-in zoom-in-95"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Close inquiry popup"
           className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-red-600 bg-gray-100/80 hover:bg-red-50 p-1.5 sm:p-2 rounded-full transition-all duration-200 z-20 cursor-pointer"
         >
-          <X className="lucide lucide-x w-4 h-4" />
+          <X className="w-4 h-4" />
         </button>
 
         <div className="p-4 sm:p-7">
-          {/* Header & Logo */}
-          <div className="flex flex-col items-center text-center mb-4 sm:mb-5">
-            <div className="mb-2 sm:mb-2.5">
-              <img
-                src="/logo.svg"
-                alt="ICON Industries Logo"
-                className="h-8 sm:h-10 w-auto object-contain mx-auto"
-              />
-            </div>
-            <h2
-              id="inquiry-modal-title"
-              className="text-lg sm:text-[23px] font-bold text-gray-900 tracking-tight"
-            >
-              Inquire With Us
-            </h2>
-            <p className="text-gray-500 text-[11px] sm:text-[13px] mt-0.5 max-w-xs leading-4">
-              Send us your requirement and our packaging machinery experts will assist you.
-            </p>
-          </div>
-
-          {/* Form */}
-          <form className="space-y-2.5 sm:space-y-3" onSubmit={handleSubmit}>
-            {/* Name */}
-            <div>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
-                  <User className="lucide lucide-user w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </div>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Full Name *"
-                  autoComplete="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs"
-                />
+          {isSubmitted ? (
+            /* Success State */
+            <div className="text-center py-6 sm:py-8 animate-in fade-in zoom-in-95 duration-200">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-3 sm:mb-4 border border-red-200">
+                <CheckCircle className="w-7 h-7 sm:w-9 sm:h-9" />
               </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1 sm:mb-2">Thank You!</h3>
+              <p className="text-gray-600 text-xs sm:text-sm max-w-xs mx-auto">
+                Your inquiry has been submitted successfully. Our packaging machinery specialists will get in touch with you shortly.
+              </p>
             </div>
-
-            {/* Email & Phone Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-              <div>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
-                    <Mail className="lucide lucide-mail w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </div>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email Address *"
-                    autoComplete="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs"
+          ) : (
+            /* Form State */
+            <>
+              {/* Header with ICON Logo */}
+              <div className="flex flex-col items-center text-center mb-4 sm:mb-5">
+                <div className="mb-2 sm:mb-2.5">
+                  <img
+                    src="/logo.svg"
+                    alt="ICON Industries Logo"
+                    className="h-8 sm:h-9 w-auto object-contain mx-auto"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/logo.svg";
+                    }}
                   />
                 </div>
+
+                <h2
+                  id="inquiry-modal-title"
+                  className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight"
+                >
+                  Inquire With Us
+                </h2>
+                <p className="text-gray-500 text-[11px] sm:text-xs mt-0.5 max-w-xs">
+                  Send us your requirement and our packaging machinery experts will assist you.
+                </p>
               </div>
 
-              <div>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
-                    <Phone className="lucide lucide-phone w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              {/* Form with Red-Accented Focus Inputs */}
+              <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-3">
+                {/* Full Name */}
+                <div>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
+                      <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </div>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Your Full Name *"
+                      autoComplete="name"
+                      className={`w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border outline-none transition-all duration-200 ${
+                        errors.name
+                          ? "border-red-500 ring-1 sm:ring-2 ring-red-500/20"
+                          : "border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-sm"
+                      }`}
+                    />
                   </div>
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone Number *"
-                    autoComplete="tel"
-                    required
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border outline-none transition-all duration-200 border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-xs"
-                  />
+                  {errors.name && (
+                    <p className="text-red-500 text-[10px] sm:text-[11px] font-medium mt-0.5 pl-1">{errors.name}</p>
+                  )}
                 </div>
-              </div>
-            </div>
 
-            {/* Message Requirement */}
-            <div>
-              <div className="relative group">
-                <div className="absolute top-2.5 sm:top-4 left-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
-                  <MessageSquare className="lucide lucide-message-square w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                {/* Email & Phone Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                  {/* Email */}
+                  <div>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
+                        <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      </div>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email Address *"
+                        autoComplete="email"
+                        className={`w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border outline-none transition-all duration-200 ${
+                          errors.email
+                            ? "border-red-500 ring-1 sm:ring-2 ring-red-500/20"
+                            : "border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-sm"
+                        }`}
+                      />
+                    </div>
+                    {errors.email && (
+                      <p className="text-red-500 text-[10px] sm:text-[11px] font-medium mt-0.5 pl-1">{errors.email}</p>
+                    )}
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
+                        <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      </div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="Phone Number *"
+                        autoComplete="tel"
+                        className={`w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border outline-none transition-all duration-200 ${
+                          errors.phone
+                            ? "border-red-500 ring-1 sm:ring-2 ring-red-500/20"
+                            : "border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-sm"
+                        }`}
+                      />
+                    </div>
+                    {errors.phone && (
+                      <p className="text-red-500 text-[10px] sm:text-[11px] font-medium mt-0.5 pl-1">{errors.phone}</p>
+                    )}
+                  </div>
                 </div>
-                <textarea
-                  rows="2"
-                  name="message"
-                  placeholder="Tell us about your machine requirement..."
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-3 bg-gray-50/70 hover:bg-white focus:bg-white text-sm sm:text-base text-gray-800 placeholder-gray-400 placeholder:text-md rounded-lg sm:rounded-xl border border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 outline-none transition-all duration-200 resize-none shadow-xs"
-                ></textarea>
-              </div>
-            </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full mt-1.5 sm:mt-2 py-2.5 sm:py-3.5 px-5 sm:px-6 bs-mix-red text-white font-semibold rounded-lg sm:rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-[15px] disabled:opacity-60 cursor-pointer"
-              tabIndex={0}
-            >
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span>{isSubmitted ? 'Inquiry Sent Successfully!' : isSubmitting ? 'Sending...' : 'Inquire Now'}</span>
-                {!isSubmitted && (
-                  <Send className="lucide lucide-send w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                )}
-              </div>
-            </button>
-          </form>
+                {/* Requirement / Message */}
+                <div>
+                  <div className="relative group">
+                    <div className="absolute top-2.5 sm:top-3 left-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#e00000] transition-colors">
+                      <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </div>
+                    <textarea
+                      rows={2}
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Tell us about your machine requirement..."
+                      className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gray-50/70 hover:bg-white focus:bg-white text-xs sm:text-sm text-gray-800 placeholder-gray-400 rounded-lg sm:rounded-xl border border-gray-200 hover:border-red-200 focus:border-[#e00000] focus:ring-2 sm:focus:ring-4 focus:ring-red-500/10 shadow-sm outline-none transition-all duration-200 resize-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Inquiry Now Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full mt-1.5 sm:mt-2 py-2.5 sm:py-3 px-5 sm:px-6 bs-mix-red text-white font-semibold rounded-lg sm:rounded-xl shadow-[0_6px_18px_rgba(239,0,0,0.22)] hover:shadow-[0_10px_24px_rgba(239,0,0,0.32)] hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm disabled:opacity-60 cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Submitting...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <span>Inquire Now</span>
+                      <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </div>
+                  )}
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </div>
     </div>

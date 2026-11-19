@@ -10,7 +10,7 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
   const solutionsRef = useRef(null);
   const blogsRef = useRef(null);
 
-  // Close dropdowns on outside click
+  // Close dropdowns on outside click and escape key
   useEffect(() => {
     function handleClickOutside(e) {
       if (solutionsRef.current && !solutionsRef.current.contains(e.target)) {
@@ -20,8 +20,23 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
         setBlogsOpen(false);
       }
     }
+
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
+        setSolutionsOpen(false);
+        setBlogsOpen(false);
+        setMobileMenuOpen(false);
+      }
+    }
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const handleLink = (path, e) => {
@@ -70,7 +85,7 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                     {/* Home Link */}
                     <a 
                       className={`cursor-pointer font-[400] font-Poppins transition-colors ${
-                        currentPath === '/' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-red-600'
+                        currentPath === '/' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-black'
                       }`} 
                       href="/"
                       onClick={(e) => handleLink('/', e)}
@@ -80,18 +95,19 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
 
                     <span className="flex h-[22px] w-[1.5px] bg-black"></span>
 
-                    {/* Our Solutions Dropdown */}
+                    {/* Our Solutions Dropdown (Click to open, click outside to close) */}
                     <div 
                       className="relative" 
                       ref={solutionsRef}
-                      onMouseEnter={() => setSolutionsOpen(true)}
-                      onMouseLeave={() => setSolutionsOpen(false)}
                     >
-                      <p 
+                      <button 
+                        type="button"
                         className={`cursor-pointer font-[400] font-Poppins transition-colors flex items-center gap-1 ${
-                          currentPath.startsWith('/all-packaging-machines') || currentPath.startsWith('/packaging-') || solutionsOpen
+                          (currentPath.startsWith('/all-packaging-machines') || currentPath.startsWith('/packaging-')) && !solutionsOpen
                             ? 'text-icon font-[400]'
-                            : 'text-[#515151] hover:text-red-600'
+                            : solutionsOpen
+                            ? 'text-black font-[400]'
+                            : 'text-[#515151] hover:text-black'
                         }`}
                         onClick={() => {
                           setSolutionsOpen((prev) => !prev);
@@ -99,29 +115,29 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                         }}
                       >
                         Our Solutions
-                      </p>
+                      </button>
 
                       {solutionsOpen && (
                         <div className="absolute -left-6 top-full pt-2 w-[220px] z-50 animate-in fade-in duration-150">
-                          <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden py-1">
+                          <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden py-0  ">
                             <a
                               href="/packaging-as-per-product"
                               onClick={(e) => handleLink('/packaging-as-per-product', e)}
-                              className="block px-4 py-2.5 text-[14px] font-normal text-gray-700 hover:text-red-600 hover:bg-red-50/50 border-b border-gray-100 transition-colors"
+                              className="block px-4 py-2 text-[14px] font-normal text-gray-700 hover:bg-gray-100 hover:text-black border-b border-gray-300 transition-colors"
                             >
                               Packaging as per Product
                             </a>
                             <a
                               href="/packaging-solutions"
                               onClick={(e) => handleLink('/packaging-solutions', e)}
-                              className="block px-4 py-2.5 text-[14px] font-normal text-gray-700 hover:text-red-600 hover:bg-red-50/50 border-b border-gray-100 transition-colors"
+                              className="block px-4 py-2 text-[14px] font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-900 border-b border-gray-300 transition-colors"
                             >
                               Packaging Solutions
                             </a>
                             <a
                               href="/all-packaging-machines"
                               onClick={(e) => handleLink('/all-packaging-machines', e)}
-                              className="block px-4 py-2.5 text-[14px] font-normal text-gray-700 hover:text-red-600 hover:bg-red-50/50 transition-colors"
+                              className="block px-4 py-2 text-[14px] font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
                             >
                               All Packaging Machines
                             </a>
@@ -135,7 +151,7 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                     {/* About Us Link */}
                     <a 
                       className={`cursor-pointer font-[400] font-Poppins transition-colors ${
-                        currentPath === '/about-us' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-red-600'
+                        currentPath === '/about-us' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-black'
                       }`} 
                       href="/about-us"
                       onClick={(e) => handleLink('/about-us', e)}
@@ -145,18 +161,19 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
 
                     <span className="flex h-[22px] flex-shrink-0 w-[1.5px] bg-black"></span>
 
-                    {/* Blogs Dropdown */}
+                    {/* Blogs Dropdown (Click to open, click outside to close) */}
                     <div 
                       className="relative" 
                       ref={blogsRef}
-                      onMouseEnter={() => setBlogsOpen(true)}
-                      onMouseLeave={() => setBlogsOpen(false)}
                     >
-                      <p 
+                      <button 
+                        type="button"
                         className={`cursor-pointer font-[400] font-Poppins transition-colors flex items-center gap-1 ${
-                          currentPath.startsWith('/blog') || currentPath === '/events' || blogsOpen
+                          (currentPath.startsWith('/blog') || currentPath === '/events') && !blogsOpen
                             ? 'text-icon font-[400]'
-                            : 'text-[#515151] hover:text-red-600'
+                            : blogsOpen
+                            ? 'text-black font-[400]'
+                            : 'text-[#515151] hover:text-black'
                         }`}
                         onClick={() => {
                           setBlogsOpen((prev) => !prev);
@@ -164,22 +181,22 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                         }}
                       >
                         Blogs
-                      </p>
+                      </button>
 
                       {blogsOpen && (
                         <div className="absolute left-0 top-full pt-2 w-[140px] z-50 animate-in fade-in duration-150">
-                          <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden py-1">
+                          <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden py-0">
                             <a
                               href="/blogs"
                               onClick={(e) => handleLink('/blogs', e)}
-                              className="block px-4 py-2 text-[14px] font-normal text-gray-700 hover:text-red-600 hover:bg-red-50/50 border-b border-gray-100 transition-colors"
+                              className="block px-4 py-2 text-[14px] font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-900 border-b border-gray-100 transition-colors"
                             >
                               Blogs
                             </a>
                             <a
                               href="/events"
                               onClick={(e) => handleLink('/events', e)}
-                              className="block px-4 py-2 text-[14px] font-normal text-gray-700 hover:text-red-600 hover:bg-red-50/50 transition-colors"
+                              className="block px-4 py-2 text-[14px] font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
                             >
                               Events
                             </a>
@@ -193,7 +210,7 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                     {/* Career Link */}
                     <a 
                       className={`cursor-pointer font-[400] font-Poppins transition-colors ${
-                        currentPath === '/careers' || currentPath === '/career' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-red-600'
+                        currentPath === '/careers' || currentPath === '/career' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-black'
                       }`} 
                       href="/careers"
                       onClick={(e) => handleLink('/careers', e)}
@@ -206,7 +223,7 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                     {/* Contact Us Link */}
                     <a 
                       className={`cursor-pointer font-[400] font-Poppins transition-colors ${
-                        currentPath === '/contact-us' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-red-600'
+                        currentPath === '/contact-us' ? 'text-icon font-[400]' : 'text-[#515151] hover:text-black'
                       }`} 
                       href="/contact-us"
                       onClick={(e) => handleLink('/contact-us', e)}
@@ -277,21 +294,21 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                           <a
                             href="/packaging-as-per-product"
                             onClick={(e) => handleLink('/packaging-as-per-product', e)}
-                            className="text-[15px] text-gray-600 hover:text-red-600"
+                            className="text-[15px] text-gray-600 hover:text-black"
                           >
                             Packaging as per Product
                           </a>
                           <a
                             href="/packaging-solutions"
                             onClick={(e) => handleLink('/packaging-solutions', e)}
-                            className="text-[15px] text-gray-600 hover:text-red-600"
+                            className="text-[15px] text-gray-600 hover:text-black"
                           >
                             Packaging Solutions
                           </a>
                           <a
                             href="/all-packaging-machines"
                             onClick={(e) => handleLink('/all-packaging-machines', e)}
-                            className="text-[15px] text-gray-600 hover:text-red-600"
+                            className="text-[15px] text-gray-600 hover:text-black"
                           >
                             All Packaging Machines
                           </a>
@@ -315,14 +332,14 @@ export default function NewHeader({ currentPath = '/', onNavigate = () => {} }) 
                           <a
                             href="/blogs"
                             onClick={(e) => handleLink('/blogs', e)}
-                            className="text-[15px] text-gray-600 hover:text-red-600"
+                            className="text-[15px] text-gray-600 hover:text-black"
                           >
                             All Blogs
                           </a>
                           <a
                             href="/events"
                             onClick={(e) => handleLink('/events', e)}
-                            className="text-[15px] text-gray-600 hover:text-red-600"
+                            className="text-[15px] text-gray-600 hover:text-black"
                           >
                             Events
                           </a>

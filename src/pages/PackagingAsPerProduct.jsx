@@ -1,6 +1,6 @@
-import React from 'react';
-import { foodCategories } from '../data/productsData';
-import { ChevronRight } from 'lucide-react';
+import React from "react";
+import { foodCategories } from "../data/productsData";
+import { ChevronRight } from "lucide-react";
 
 export default function PackagingAsPerProduct({ onNavigate }) {
   const handleProductClick = (slug) => {
@@ -13,7 +13,7 @@ export default function PackagingAsPerProduct({ onNavigate }) {
     <main className="font-Poppins mx-auto flex min-h-[500px] w-[92%] flex-col pt-[50px] md:pt-[50px] pb-16 lg:pb-0 md:w-[85%] lg:w-[80%] 2xl:w-[1200px]">
       {/* 1. Page Title */}
       <div className="mb-10 text-center">
-        <h1 className="text-[#b71b1b] text-[20px] sm:text-[32px] md:text-[34px] font-bold leading-tight tracking-tight">
+        <h1 className="text-[#b71b1b] text-[20px] sm:text-[32px] md:text-[34px] font-bold leading-[42px] ">
           Packaging as per Product
         </h1>
       </div>
@@ -42,7 +42,7 @@ export default function PackagingAsPerProduct({ onNavigate }) {
               <button
                 type="button"
                 aria-label={`View ${item.name} products`}
-                className="relative flex h-[150px] w-full max-w-[170px] flex-col items-center justify-center rounded-[14px] border border-red-100 bg-white p-4 text-center shadow-md transition-all duration-300 group-hover:shadow-xl group-hover:border-red-300 group-hover:-translate-y-1 focus:outline-none cursor-pointer"
+                className="relative flex h-[150px] w-full items-center justify-center rounded-[14px] border border-red-100 bg-white p-4 text-left shadow-md transition-shadow duration-300 group-hover:shadow-2xl md11:w-[170px]"
               >
                 {/* Top-Right Fevicon Corner Badge */}
                 <div
@@ -51,20 +51,21 @@ export default function PackagingAsPerProduct({ onNavigate }) {
                 >
                   <img
                     src="/fevicon.png"
-                    alt="ICON Packtech badge"
+                    alt=""
                     width="20"
                     height="20"
                     loading="lazy"
-                    className="w-5 pt-1.5 opacity-70 group-hover:opacity-100 transition-opacity"
+                    decoding="async"
+                    className="w-5 pt-2.5"
                     onError={(e) => {
-                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.style.display = "none";
                     }}
                   />
                 </div>
 
                 {/* Product Icon */}
                 <div className="relative z-10 flex flex-col items-center">
-                  <div className="mb-3.5 flex h-16 w-16 items-center justify-center overflow-hidden rounded-[10px] bg-red-50 transition-all duration-300 group-hover:rotate-12 group-hover:bg-red-500 group-hover:shadow-md">
+                  <div className="mb-4 flex h-16 w-16 items-center justify-center overflow-hidden rounded-[10px] bg-red-50 transition-all duration-300 group-hover:rotate-12 group-hover:bg-red-500">
                     <img
                       src={item.image}
                       alt={item.name}
@@ -72,9 +73,12 @@ export default function PackagingAsPerProduct({ onNavigate }) {
                       height="64"
                       loading="lazy"
                       decoding="async"
-                      className="h-14 w-[64px] object-contain transition duration-300 group-hover:brightness-0 group-hover:invert"
+                      className="h-16 w-[70px] object-contain transition duration-300 group-hover:brightness-0 group-hover:invert"
                       onError={(e) => {
-                        if (item.fallback && e.currentTarget.src !== item.fallback) {
+                        if (
+                          item.fallback &&
+                          e.currentTarget.src !== item.fallback
+                        ) {
                           e.currentTarget.src = item.fallback;
                         }
                       }}
@@ -82,7 +86,7 @@ export default function PackagingAsPerProduct({ onNavigate }) {
                   </div>
 
                   {/* Product Name */}
-                  <h3 className="flex-shrink-0 text-center text-xs font-semibold leading-tight text-gray-800 transition-colors duration-300 group-hover:text-red-700 line-clamp-2 min-h-[30px] flex items-center justify-center">
+                  <h3 className="flex-shrink-0 text-center text-xs font-semibold leading-tight text-gray-800 transition-colors duration-300 group-hover:text-red-700">
                     {item.name}
                   </h3>
                 </div>
@@ -97,4 +101,3 @@ export default function PackagingAsPerProduct({ onNavigate }) {
     </main>
   );
 }
-

@@ -1,146 +1,109 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 const slides = [
   {
-    question: "Your Sweets get Spoiled ?",
+    title: "Your Sweets get Spoiled ?",
     description: "In-Line Tray Sealer ready to pack your delicate sweets by sealing the freshness.",
     image: "/home/thermoforming/first.png",
     alt: "In-Line Tray Sealer Machine - ICON Packtech",
   },
   {
-    question: "Need Continuous Vacuum Packaging ?",
+    title: "Need Continuous Vacuum Packaging ?",
     description: "Advanced Continuous Vacuum Packing Machines, Preserving Freshness with Efficiency and Reliability.",
     image: "/home/thermoforming/second.png",
     alt: "Continuous Vacuum Packaging Machine - ICON Packtech",
   },
 ];
 
-const ManufacturerSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState(null);
-  const [displayedText, setDisplayedText] = useState("");
+export default function ManufacturerSection() {
+  const [curr, setCurr] = useState(0);
+  const [idx, setIdx] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDesc, setShowDesc] = useState(false);
 
-  // Clear previous slide after transition completes (750ms)
-  useEffect(() => {
-    if (prevIndex !== null) {
-      const timer = setTimeout(() => {
-        setPrevIndex(null);
-      }, 750);
-      return () => clearTimeout(timer);
-    }
-  }, [prevIndex]);
+  const currentSlide = slides[curr] || slides[0];
+  const currentTitle = currentSlide?.title || "";
+
+  const displayedText = useMemo(() => {
+    return currentTitle.slice(0, idx);
+  }, [currentTitle, idx]);
 
   useEffect(() => {
-    const fullText = slides[currentIndex].question;
     let timer;
 
-    if (!isDeleting && displayedText === fullText) {
-      // Pause at full text
-      timer = setTimeout(() => setIsDeleting(true), 2400);
-    } else if (isDeleting && displayedText === "") {
-      // Switch to next slide after deleting: animate previous out to left, new in from right
+    if (!isDeleting && idx < currentTitle.length) {
+      timer = window.setTimeout(() => {
+        setIdx((prev) => prev + 1);
+      }, 100);
+    } else if (!isDeleting && idx === currentTitle.length) {
+      if (!showDesc) {
+        setShowDesc(true);
+      }
+      timer = window.setTimeout(() => {
+        setIsDeleting(true);
+      }, 2500);
+    } else if (isDeleting && idx > 0) {
+      timer = window.setTimeout(() => {
+        setIdx((prev) => Math.max(prev - 1, 0));
+      }, 70);
+    } else if (isDeleting && idx === 0) {
+      setShowDesc(false);
       setIsDeleting(false);
-      setPrevIndex(currentIndex);
-      setCurrentIndex((prev) => (prev + 1) % slides.length);
-    } else {
-      // Typing or deleting speed
-      const speed = isDeleting ? 35 : 75;
-      timer = setTimeout(() => {
-        setDisplayedText((prev) =>
-          isDeleting
-            ? fullText.substring(0, prev.length - 1)
-            : fullText.substring(0, prev.length + 1)
-        );
-      }, speed);
+      setCurr((prev) => (prev + 1) % slides.length);
     }
 
-    return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, currentIndex]);
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [currentTitle, idx, isDeleting, showDesc]);
 
   return (
-    <section className="w-full bg-white py-12 md:py-10 px-4 sm:px-8 lg:px-16 font-sans overflow-hidden">
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-0">
-        
-        {/* ================= LEFT: CONTENT & TYPEWRITER ================= */}
-        <div className="w-full lg:w-[58%] flex flex-col justify-center">
-          {/* Main Heading (Solid Black) */}
-          <h2 className="text-3xl tracking-tight font-sans-serif text-[34px] md:text-[45px] font-bold leading-[40px] md:leading-[45px] text-[#111827]">
-            Thermoforming Machine <br />
-            Manufacturer in India
-          </h2>
+    <section className="font-Poppins mx-auto flex w-[90%] flex-col pt-10 md:w-[80%] md:pt-[90px] md11:flex-row 2xl:w-[1300px]">
+      {/* Left content */}
+      <div className="flex min-h-[300px] w-full flex-col gap-2 pt-10 md11:min-h-[380px] md11:w-[53%]">
+        <h2 className="font-Montserrat text-[34px] md:text-[45px] font-bold leading-[40px] md:leading-[46px] text-gray-900">
+          Thermoforming Machine Manufacturer in India
+        </h2>
 
-          {/* Subtitle / Company Description */}
-          <p className="mt-4 text-[15px] md:text-[16px] leading-[24px] md:leading-[26px] text-gray-700 w-full">
-            ICON Packtech is a leading packaging machine manufacturer in Rajkot, Gujarat, India,
-            specialising in thermoforming and vacuum packaging machines.
-          </p>
+        <p className="mt-3 text-[15px] md:text-[16px] leading-[24px] md:leading-[25px] text-gray-700 font-Poppins">
+          ICON Packtech is a leading packaging machine manufacturer in Rajkot, Gujarat, India, specialising in thermoforming and vacuum packaging machines.
+        </p>
 
-          {/* Dynamic Typewriter Question */}
-          <div className="mt-8 flex items-center min-h-[36px]">
-            <span className="text-[22px] sm:text-[25px] font-[400] text-gray-900 tracking-tight">
-              {displayedText}
-            </span>
-            <span className="text-[25px] font-light text-gray-900 animate-pulse ml-0.5 select-none">
-              |
-            </span>
-          </div>
-
-          {/* Dynamic Description linked to current slide */}
-          <p className="mt-2 text-[15px] md:text-[16px] leading-[24px] md:leading-[26px] text-gray-700 max-w-2xl transition-opacity duration-500 min-h-[50px]">
-            {slides[currentIndex].description}
-          </p>
+        <div className="mt-5 flex items-center overflow-hidden whitespace-nowrap font-Poppins text-[25px]">
+          <span>{displayedText}</span>
+          <span className="blinking-cursor12">|</span>
         </div>
 
-        {/* ================= RIGHT: AUTO-CHANGING MACHINE IMAGE ================= */}
-        <div className="relative w-full lg:w-[45%] flex items-center justify-center min-h-[340px] sm:min-h-[400px]">
-          
-          {/* Solid Red Circle Accent behind bottom of machine */}
-          <div className="absolute w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] md:w-[310px] md:h-[310px] rounded-full bg-[#c80000] bottom-1 sm:bottom-4 z-0" />
+        <p
+          className={`mt-0 max-w-[90%] text-[16px] leading-[25px] text-gray-700 md77:max-w-full transition-all duration-300 ${
+            showDesc
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 -translate-y-5 pointer-events-none'
+          }`}
+        >
+          {currentSlide.description}
+        </p>
+      </div>
 
-          {/* Smooth Auto-Changing Machine Images with Right-to-Left Slide Animation */}
-          <div className="relative z-10 w-full max-w-[380px] sm:max-w-[450px] md:max-w-[480px] h-[300px] sm:h-[360px] md:h-[390px] flex items-center justify-center">
-            {/* Outgoing Machine Image (slides out to left) */}
-            {prevIndex !== null && (
-              <img
-                key={`prev-${prevIndex}`}
-                src={slides[prevIndex].image}
-                alt={slides[prevIndex].alt}
-                width="480"
-                height="390"
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0 animate-slide-out-left "
-                loading="lazy"
-                decoding="async"
-              />
-            )}
+      {/* Right image */}
+      <div className="relative flex h-fit w-full items-center justify-center md11:w-[40%]">
+        {/* Background circle */}
+        <div className="absolute h-[260px] w-[260px] rounded-full bs-mix-red md:h-[300px] md:w-[300px] md11:mt-10" />
 
-            {/* Active Machine Image (slides in from right into place) */}
-            <img
-              key={`curr-${currentIndex}`}
-              src={slides[currentIndex].image}
-              alt={slides[currentIndex].alt}
-              width="480"
-              height="390"
-              className={`absolute inset-0 w-full h-full object-contain pointer-events-none z-10 ${
-                prevIndex !== null ? "animate-slide-in-right" : ""
-              }`}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          {/* Preload slides for smooth instant transitions */}
-          <div className="hidden" aria-hidden="true">
-            {slides.map((s) => (
-              <img key={s.image} src={s.image} alt={s.alt} loading="lazy" decoding="async" />
-            ))}
-          </div>
-
+        <div className="relative z-10 flex items-center justify-center">
+          <img
+            key={currentSlide.image}
+            src={currentSlide.image}
+            alt={currentSlide.alt || currentSlide.title || "ICON Industries machine"}
+            width="400"
+            height="400"
+            loading={curr === 0 ? "eager" : "lazy"}
+            fetchPriority={curr === 0 ? "high" : "low"}
+            decoding="async"
+            className="relative top-[-20px] z-10 flex h-[340px] w-[350px] rounded-[20px] object-contain md:h-[400px] md:w-[400px] md11:top-[-40px] md11:object-cover transition-all duration-500 ease-out animate-slide-in-right"
+          />
         </div>
-
       </div>
     </section>
   );
-};
-
-export default ManufacturerSection;
+}

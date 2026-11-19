@@ -43,10 +43,10 @@ const InsightsSection = () => {
   return (
     <section className="relative pt-10 pb-3 bg-white overflow-hidden font-sans">
       {/* Subtle Background Grid Pattern */}
-     <div 
+     {/* <div 
         className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#0ff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] [background-size:48px_48px] pointer-events-none [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_80%)] [-webkit-mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_80%)]"
         aria-hidden="true"
-      />
+      /> */}
 
       {/* Background Vertical Lines Pattern */}
       <div 
@@ -59,9 +59,9 @@ const InsightsSection = () => {
 
       <div className="relative max-w-7xl px-4 mx-auto">
         {/* Header Section */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pr-0 sm:pr-12 lg:pr-20 mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between pr-0 sm:pr-12 lg:pr-0 mb-8 gap-4">
           <div>
-            <span className="sm:text-sm font-medium block mb-2 text-sm uppercase tracking-[0.2em]
+            <span className="sm:text-sm font-[400] block mb-2 text-sm uppercase tracking-[0.2em]
             
             bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent 
             ">
@@ -74,7 +74,7 @@ const InsightsSection = () => {
 
           <a
             href="#all-blogs"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:text-red-600 transition-colors whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 text-sm font-[500] text-gray-900 hover:text-red-600 transition-colors whitespace-nowrap"
           >
             View all blogs
             <ArrowUpRight className="w-4 h-4" />
@@ -82,22 +82,22 @@ const InsightsSection = () => {
         </div>
 
         {/* Horizontal Scrollable Cards Container */}
-        <div className="flex gap-5 overflow-x-auto pb-8 pt-2 pr-6 sm:pr-12 lg:pr-20 scrollbar-hide snap-x">
+        <div className="flex gap-5 overflow-x-auto pb-8 pt-0 pr-6 sm:pr-12 lg:pr-20 scrollbar-hide snap-x">
           {articles.map((article) => (
             <div
               key={article.id}
-              className="min-w-[290px] sm:min-w-[270px] max-w-[280px] bg-white rounded-3xl 
-        border border-gray-100 overflow-hidden flex flex-col justify-between snap-start  shadow-md transition-shadow duration-300 "
+              className="group min-w-[290px] sm:min-w-[270px] max-w-[280px] h-[430px] md11:h-[400px] 2xl:h-[440px] bg-white rounded-3xl 
+               border border-gray-100 overflow-hidden flex flex-col justify-between snap-start shadow-md cursor-pointer"
             >
               <div>
                 {/* Card Image */}
-                <div className="w-full bg-gray-100 h-[220px] overflow-hidden">
+                <div className="w-full bg-gray-100 h-[210px] md11:h-[190px] 2xl:h-[220px] overflow-hidden">
                   <img
                     src={article.image}
                     alt={article.title}
                     width="280"
                     height="220"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     loading="lazy"
                     decoding="async"
                   />
@@ -108,7 +108,7 @@ const InsightsSection = () => {
                   <h3 className="text-[17px] font-semibold line-clamp-2 leading-[22px] text-[#000] ">
                     {article.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-5 line-clamp-4 text-[#000]">
+                  <p className="mt-1 text-sm leading-5 line-clamp-5 text-[#000]">
                     {article.description}
                   </p>
                 </div>
@@ -118,10 +118,11 @@ const InsightsSection = () => {
               <div className="px-5 pb-3 pt-1">
                 <a
                   href={article.link}
-                  className="inline-flex items-center gap-1 text-red-600 font-[500] text-xs sm:text-sm hover:text-red-700 transition-colors group"
+                  className="inline-flex items-center font-[500] text-xs sm:text-sm transition-opacity hover:opacity-85"
                 >
-                  Read more
-                  <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <span className="bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent font-medium">
+                    Read more
+                  </span>
                 </a>
               </div>
             </div>

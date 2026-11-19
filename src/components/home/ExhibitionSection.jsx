@@ -48,7 +48,7 @@ const OBSERVER_OPTIONS = { threshold: 0.15 };
 // ─── Stat Card (memoized — only re-renders when props change) ───────────────
 const StatCard = memo(function StatCard({ stat, isVisible }) {
   return (
-    <div className="group flex items-center gap-2 md:gap-3 w-[calc(50%-6px)] md:w-auto border border-red-300 shadow-md bg-white rounded-xl px-2.5 py-2.5 md:px-3 md:py-3 hover:-translate-y-[3px] hover:shadow-lg hover:shadow-red-500/10 transition-all duration-300">
+    <div className="group flex items-center gap-2 md:gap-[10px] w-[calc(50%-6px)] md:w-auto border border-red-300 shadow-md bg-white rounded-xl px-2.5 py-2.5 md:px-3 md:py-3 hover:-translate-y-[3px] hover:shadow-lg hover:shadow-red-500/10 transition-all duration-300">
       <img
         src={stat.image}
         alt={stat.label}
@@ -89,12 +89,12 @@ const EventCard = memo(function EventCard({ card }) {
         />
 
         {/* EVENT MEDIA badge */}
-        <div className="absolute left-4 top-4 rounded-full bs-mix-red text-white border border-white/15 px-3 py-1 text-[11px] tracking-widest backdrop-blur-md">
+        <div className="absolute left-4 top-4 rounded-full bs-mix-red text-white border border-white/15 px-3 py-1 text-[11px]  backdrop-blur-md tracking-[0.16em]">
           EVENT MEDIA
         </div>
 
         {/* Bottom glassmorphic title */}
-        <div className="absolute bottom-0 left-0 right-0 m-2.5 rounded-xl bg-white/30 backdrop-blur-[10px] py-1 px-2">
+        <div className="absolute bottom-0 left-0 right-0 m-2.5 rounded-lg bg-white/30 backdrop-blur-[10px] py-[3px] px-2">
           <h4 className="text-[15px] font-semibold text-gray-900">{card.title}</h4>
         </div>
       </div>
@@ -106,16 +106,18 @@ const EventCard = memo(function EventCard({ card }) {
 const BackgroundDecorations = memo(function BackgroundDecorations() {
   return (
     <>
-      <div
+      {/* <div
         className="absolute -top-24 -right-24 w-[480px] h-[480px] rounded-full bg-[radial-gradient(circle_at_center,rgba(196,46,46,0.22)_0%,transparent_70%)] blur-3xl pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#0ff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:48px_48px] pointer-events-none [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_80%)]"
+        className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#0ff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:60px_60px] pointer-events-none [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_80%)]"
         aria-hidden="true"
-      />
+      /> */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,38,56,0.18),transparent_24%),radial-gradient(circle_at_bottom_left,rgba(255,207,74,0.12),transparent_20%)]" />
+            <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#0ff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] [background-size:48px_48px]" />
       <div
-        className="absolute inset-0 pointer-events-none opacity-25"
+        className="absolute inset-0 pointer-events-none opacity-15"
         style={{
           backgroundImage: 'linear-gradient(to right, #edeef1 1px, transparent 1px)',
           backgroundSize: '3.5rem 100%',
@@ -155,7 +157,7 @@ const ExhibitionSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-white md:mt-6 pt-20 mf:pt-14 mt-14 py-12 md:py-14 px-4 sm:px-6 lg:px-12 font-sans antialiased text-neutral-800 overflow-hidden"
+      className="relative w-full bg-white md:mt-6 pt-20 mf:pt-14 mt-14 py-12 md:py-14 px-4 sm:px-6 lg:px-12 lg:pt-20 font-sans antialiased text-neutral-800 overflow-hidden"
     >
       <BackgroundDecorations />
 
@@ -166,7 +168,7 @@ const ExhibitionSection = () => {
           <span>Global Presence • Exhibition Highlights • Industry Insights</span>
         </div>
 
-        <h2 className="tracking-tight mb-4 mt-6 text-2xl sm:text-[50px]  text-[30px] leading-10
+        <h2 className="tracking-tight mb-4 mt-5 text-2xl sm:text-[50px]  text-[30px] leading-10
         text-[#11181c] font-semibold font-poppins 
         lg:leading-[48px]">
           Where Innovation Meets <br />
@@ -196,7 +198,7 @@ const ExhibitionSection = () => {
             <span>2025 - 2026 Exhibition Overview</span>
           </div>
 
-          <h3 className="mt-6 text-2xl sm:text-3xl text-icon font-semibold leading-tight">
+          <h3 className="mt-6 text-2xl sm:text-3xl text-icon font-semibold leading-9">
             More than participation —
             <span className="block text-gray-600">we create industry presence.</span>
           </h3>
@@ -227,10 +229,13 @@ const ExhibitionSection = () => {
           <div className="mt-8">
             <button
               type="button"
-              className="group relative z-10 flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full border border-red-500 bg-transparent px-6 py-2 text-[15px] font-semibold text-[#11181c] shadow-xl transition-colors duration-500 ease-in-out hover:text-white lg:font-medium [isolation:isolate] before:absolute before:inset-0 before:-z-10 before:h-full before:w-full before:scale-x-0 before:origin-left before:bg-red-500 before:transition-transform before:duration-500 before:ease-in-out hover:before:scale-x-100"
+              className="group relative z-10 flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full border border-red-500 bg-transparent px-4 py-[7px] text-[15px] font-semibold text-[#11181c] shadow-xl transition-colors duration-500 ease-in-out hover:text-white lg:font-medium [isolation:isolate] before:absolute before:inset-0 before:-z-10 before:h-full before:w-full before:scale-x-0 before:origin-left before:bg-red-500 before:transition-transform before:duration-500 before:ease-in-out hover:before:scale-x-100"
             >
               <span>Discuss Your Packaging Requirement</span>
-              <ArrowUpRight className="h-5 w-5 transition-transform duration-500 group-hover:rotate-45" />
+            <div className="border border-red-500 rounded-full p-1 group-hover:bg-white group-hover:text-black transition-colors duration-500">
+            
+                <ArrowUpRight className="h-5 w-5  transition-transform duration-500 group-hover:rotate-45" />
+            </div>
             </button>
           </div>
         </div>
