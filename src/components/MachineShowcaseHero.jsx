@@ -7,10 +7,6 @@ import {
   Pause,
   Play,
   RotateCw,
-  Instagram,
-  Facebook,
-  Linkedin,
-  Youtube,
   ShieldCheck,
   Cpu,
   Sparkles,
@@ -19,11 +15,12 @@ import {
 /**
  * ============================================================================
  * MachineShowcaseHero Component
- * Inspired by Pinterest Studio Showcase Layout (warm ambient spotlight,
- * bold typography, floating 3D machine hero, automatic image cycle,
- * metric badge, and model selectors).
+ * Inspired by Pinterest Studio Showcase Layout (clean white backdrop,
+ * bold typography with signature text-icon gradient red, floating 3D machine
+ * hero, automatic image cycle, output metric badge, and model selectors).
  *
- * Theme Colors: Matches ICON Packtech industrial red gradient palette.
+ * Theme Colors: Clean white background with signature ICON Packtech text-icon
+ * gradient (#ff0000 -> #610303) and industrial precision accents.
  * ============================================================================
  */
 
@@ -175,93 +172,30 @@ export default function MachineShowcaseHero({
       aria-label="ICON Packtech Machine Showcase"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`relative w-full overflow-hidden text-white font-Poppins select-none ${className}`}
-      style={{
-        // Signature ICON Packtech studio ambient lighting: warm radial spotlight from center into deep industrial wine-red
-        background:
-          'radial-gradient(circle at 50% 48%, #c5161d 0%, #9e1017 32%, #5e080d 68%, #260305 100%)',
-      }}
+      className={`relative w-full overflow-hidden bg-white text-slate-800 pt-24 sm:pt-20 pb-8 font-Poppins select-none ${className}`}
     >
-      {/* Subtle background ambient mesh and industrial grid */}
+      {/* Subtle background ambient mesh */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.08]"
+        className="absolute inset-0 pointer-events-none opacity-[0.35]"
         style={{
           backgroundImage:
-            'radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px)',
+            'radial-gradient(rgba(220, 38, 38, 0.12) 1px, transparent 1px)',
           backgroundSize: '36px 36px',
         }}
         aria-hidden="true"
       />
 
-      {/* Ambient Top Light Beam */}
+      {/* Ambient Central Spotlight behind machine */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[85%] max-w-[1200px] h-[320px] bg-gradient-to-b from-white/15 to-transparent blur-3xl pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[720px] h-[450px] sm:h-[580px] rounded-full bg-gradient-to-tr from-red-500/10 via-rose-400/5 to-transparent blur-3xl pointer-events-none"
         aria-hidden="true"
       />
 
-      <div className="relative max-w-[1440px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] xl:min-h-[820px] px-6 sm:px-10 lg:px-14 py-8 lg:py-12 flex flex-col justify-between">
+      <div className="relative max-w-[1440px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] px-6 sm:px-10 lg:px-14 py-4 lg:py-8 flex flex-col justify-between">
         {/* ===================================================================
             TOP BAR: Slider Controls & Auto-play Status
            =================================================================== */}
-        <div className="flex items-center justify-between z-20">
-          {/* Navigation Arrows: Left & Right circular buttons */}
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous machine"
-              className="w-10 h-10 rounded-full bg-black/25 hover:bg-black/50 border border-white/25 text-white flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg backdrop-blur-sm cursor-pointer"
-            >
-              <ChevronLeft className="w-5 h-5 -translate-x-0.5" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next machine"
-              className="w-10 h-10 rounded-full bg-black/25 hover:bg-black/50 border border-white/25 text-white flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg backdrop-blur-sm cursor-pointer"
-            >
-              <ChevronRight className="w-5 h-5 translate-x-0.5" />
-            </button>
-
-            {/* Model Index Indicator */}
-            <span className="font-mono text-xs sm:text-sm tracking-wider text-white/70 ml-2">
-              <span className="text-white font-bold">
-                {String(currentIndex + 1).padStart(2, '0')}
-              </span>{' '}
-              / {String(total).padStart(2, '0')}
-            </span>
-          </div>
-
-          {/* Center Subtle Brand Pill */}
-          <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/20 border border-white/15 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs uppercase tracking-widest font-mono text-white/85">
-              ICON PACKTECH · LIVE MACHINE CATALOG
-            </span>
-          </div>
-
-          {/* Auto-cycle pause / resume control */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setIsPaused((prev) => !prev)}
-              aria-label={isPaused ? 'Resume auto-cycle' : 'Pause auto-cycle'}
-              className="px-3 py-1.5 rounded-full bg-black/25 hover:bg-black/45 border border-white/20 text-xs font-mono text-white/85 flex items-center gap-1.5 transition-all cursor-pointer"
-            >
-              {isPaused ? (
-                <>
-                  <Play className="w-3 h-3 text-emerald-400" />
-                  <span>Resume</span>
-                </>
-              ) : (
-                <>
-                  <Pause className="w-3 h-3 text-white/70" />
-                  <span>Auto-cycling</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
+  
 
         {/* ===================================================================
             MAIN THREE-COLUMN HERO GRID
@@ -281,26 +215,26 @@ export default function MachineShowcaseHero({
                 className="space-y-4 sm:space-y-5"
               >
                 {/* Category Pill */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 border border-white/15 backdrop-blur-sm text-[11px] font-mono tracking-wider uppercase text-white/90">
-                  <Cpu className="w-3 h-3 text-red-300" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-red-50 border border-red-200/80 text-[11px] font-mono tracking-wider uppercase text-icon font-bold">
+                  <Cpu className="w-3.5 h-3.5 text-red-600" />
                   <span>{currentMachine.category}</span>
                 </div>
 
-                {/* Main Headline */}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight text-white leading-[1.08]">
+                {/* Main Headline with text-icon color */}
+                <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08]">
                   <span>{currentMachine.titleLine1}</span>
                   <br />
-                  <span className="font-light text-white/90">
+                  <span className="text-icon font-extrabold">
                     {currentMachine.titleLine2}
                   </span>
                 </h1>
 
                 {/* Product Description */}
-                <p className="text-white/80 text-xs sm:text-sm lg:text-[14px] leading-relaxed max-w-[430px]">
+                <p className="text-slate-600 text-xs sm:text-sm lg:text-[14px] leading-relaxed max-w-[430px]">
                   {currentMachine.description}
                 </p>
 
-                {/* Primary CTA Button (Pill-shaped, White with Dark Accent) */}
+                {/* Primary CTA Button */}
                 <div className="pt-2 sm:pt-4 flex items-center gap-3">
                   <button
                     type="button"
@@ -311,7 +245,7 @@ export default function MachineShowcaseHero({
                         onOpenBrochure();
                       }
                     }}
-                    className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 bg-white hover:bg-slate-100 text-[#991016] rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 bs-mix-red hover:opacity-95 text-white rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-[0_8px_20px_-4px_rgba(239,68,68,0.4)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
                   >
                     <span>Get machine specs</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -322,7 +256,7 @@ export default function MachineShowcaseHero({
                     onClick={() => {
                       if (onNavigate) onNavigate('/contact-us');
                     }}
-                    className="px-4 py-3 rounded-full text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 border border-white/20 transition-all cursor-pointer"
+                    className="px-4 py-3 rounded-full text-xs font-semibold text-slate-700 hover:text-red-600 hover:bg-red-50 border border-slate-300 transition-all cursor-pointer"
                   >
                     Quick Quote
                   </button>
@@ -335,9 +269,9 @@ export default function MachineShowcaseHero({
               CENTER STAGE: Floating Machine Image with Soft Ground Shadow
              --------------------------------------------------------------- */}
           <div className="lg:col-span-5 relative flex flex-col items-center justify-center order-1 lg:order-2 py-4 sm:py-6">
-            {/* Ambient Radial Spotlight directly behind the machine */}
+            {/* Ambient Radial Glow directly behind the machine */}
             <div
-              className="absolute w-[320px] sm:w-[460px] lg:w-[540px] h-[320px] sm:h-[460px] lg:h-[540px] rounded-full bg-gradient-to-tr from-white/20 via-red-300/15 to-transparent blur-3xl pointer-events-none"
+              className="absolute w-[320px] sm:w-[460px] lg:w-[520px] h-[320px] sm:h-[460px] lg:h-[520px] rounded-full bg-gradient-to-tr from-red-500/10 via-rose-300/10 to-transparent blur-3xl pointer-events-none"
               aria-hidden="true"
             />
 
@@ -372,7 +306,7 @@ export default function MachineShowcaseHero({
                       alt={currentMachine.name}
                       width="540"
                       height="400"
-                      className="w-full h-full object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.55)] filter transition-transform duration-300 hover:scale-105"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.18)] filter transition-transform duration-300 hover:scale-105"
                       loading="eager"
                       decoding="async"
                     />
@@ -380,14 +314,14 @@ export default function MachineShowcaseHero({
                 </motion.div>
               </AnimatePresence>
 
-              {/* Realistic Ground Shadow under the Machine */}
+              {/* Realistic Soft Ground Shadow under the Machine */}
               <div
-                className="absolute bottom-1 w-[72%] h-7 bg-black/65 rounded-[100%] blur-xl pointer-events-none"
+                className="absolute bottom-1 w-[72%] h-6 bg-slate-900/15 rounded-[100%] blur-xl pointer-events-none"
                 aria-hidden="true"
               />
             </div>
 
-            {/* Bottom Center Tagline (Matching Pinterest Layout) */}
+            {/* Bottom Center Tagline (Matching Pinterest Layout with text-icon) */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentMachine.id + '-tagline'}
@@ -397,10 +331,10 @@ export default function MachineShowcaseHero({
                 transition={{ duration: 0.45 }}
                 className="mt-3 text-center"
               >
-                <p className="text-xs sm:text-sm font-light text-white/80 tracking-wide">
+                <p className="text-xs sm:text-sm font-normal text-slate-500 tracking-wide">
                   {currentMachine.taglineLine1}
                 </p>
-                <p className="text-xs sm:text-sm font-semibold text-white tracking-wide">
+                <p className="text-xs sm:text-sm font-bold text-icon tracking-wide">
                   {currentMachine.taglineLine2}
                 </p>
               </motion.div>
@@ -411,7 +345,7 @@ export default function MachineShowcaseHero({
               RIGHT COLUMN: Output Metric & Model Selectors
              --------------------------------------------------------------- */}
           <div className="lg:col-span-3 z-20 flex flex-col items-start lg:items-end justify-between space-y-6 lg:space-y-8 order-3">
-            {/* Top Metric / Output Speed */}
+            {/* Top Metric / Output Speed with text-icon */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentMachine.id + '-metric'}
@@ -421,13 +355,13 @@ export default function MachineShowcaseHero({
                 transition={{ duration: 0.45 }}
                 className="text-left lg:text-right"
               >
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight drop-shadow-md">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-icon tracking-tight">
                   {currentMachine.metric}
                 </div>
-                <div className="text-xs sm:text-sm text-white/60 line-through font-mono mt-0.5">
+                <div className="text-xs sm:text-sm text-slate-400 line-through font-mono mt-0.5">
                   {currentMachine.subMetric}
                 </div>
-                <div className="text-[11px] font-mono text-white/80 uppercase tracking-widest mt-1">
+                <div className="text-[11px] font-mono text-slate-800 font-bold uppercase tracking-widest mt-1">
                   {currentMachine.modelCode}
                 </div>
               </motion.div>
@@ -435,7 +369,7 @@ export default function MachineShowcaseHero({
 
             {/* Model / Series Selectors (Circular Pill Buttons) */}
             <div className="flex flex-col items-start lg:items-end space-y-2.5">
-              <span className="text-[11px] uppercase tracking-wider text-white/75 font-mono">
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 font-mono font-semibold">
                 Choose machine:
               </span>
               <div className="flex items-center gap-2">
@@ -449,8 +383,8 @@ export default function MachineShowcaseHero({
                       aria-label={`Select ${machine.name}`}
                       className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
                         isActive
-                          ? 'bg-white text-[#991016] shadow-xl scale-110 ring-2 ring-white/80'
-                          : 'bg-black/30 hover:bg-black/50 text-white border border-white/20 hover:scale-105'
+                          ? 'bs-mix-red text-white shadow-[0_4px_14px_rgba(239,68,68,0.4)] scale-110 ring-2 ring-red-400/40'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 hover:scale-105'
                       }`}
                     >
                       {machine.badge || String(idx + 1).padStart(2, '0')}
@@ -466,9 +400,9 @@ export default function MachineShowcaseHero({
               role="button"
               tabIndex={0}
               aria-label={`Next machine preview: ${nextMachine.name}`}
-              className="group cursor-pointer flex items-center gap-3 bg-black/30 hover:bg-black/50 border border-white/20 backdrop-blur-md rounded-2xl p-2.5 pr-4 transition-all duration-200 hover:scale-105 shadow-xl"
+              className="group cursor-pointer flex items-center gap-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl p-2.5 pr-4 transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
             >
-              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center p-1 overflow-hidden flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1 overflow-hidden flex-shrink-0">
                 <img
                   src={nextMachine.image}
                   alt={nextMachine.name}
@@ -478,14 +412,14 @@ export default function MachineShowcaseHero({
                 />
               </div>
               <div className="text-left">
-                <div className="text-[9px] uppercase tracking-wider text-white/60 font-mono">
+                <div className="text-[9px] uppercase tracking-wider text-icon font-mono font-bold">
                   Up next
                 </div>
-                <div className="text-xs font-semibold text-white truncate max-w-[120px]">
+                <div className="text-xs font-semibold text-slate-800 truncate max-w-[120px]">
                   {nextMachine.name}
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-white transition-colors ml-1" />
+              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-red-600 transition-colors ml-1" />
             </div>
           </div>
         </div>
@@ -493,62 +427,78 @@ export default function MachineShowcaseHero({
         {/* ===================================================================
             BOTTOM FOOTER STRIP: Social/Trust Icons & Progress Bar
            =================================================================== */}
-        <div className="pt-4 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 z-20">
+        <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 z-20">
           {/* Social / Trust Icons */}
-          <div className="flex items-center gap-3 text-white/70">
+          <div className="flex items-center gap-3 text-slate-500">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/icon.packtech/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors text-white"
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
             >
-              <Instagram className="w-4 h-4" />
+              <img
+                src="/footer/instagram.png"
+                alt="Instagram"
+                className="w-full h-full object-contain"
+              />
             </a>
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/people/Icon-Packtech-India-Pvt-Ltd/61561593819510/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors text-white"
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
             >
-              <Facebook className="w-4 h-4" />
+              <img
+                src="/footer/facebook-app-symbol.png"
+                alt="Facebook"
+                className="w-full h-full object-contain"
+              />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/icon-packtech/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors text-white"
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
             >
-              <Linkedin className="w-4 h-4" />
+              <img
+                src="/footer/linkedin.png"
+                alt="LinkedIn"
+                className="w-full h-full object-contain"
+              />
             </a>
             <a
-              href="https://youtube.com"
+              href="https://www.youtube.com/@icon.packtech"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors text-white"
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
             >
-              <Youtube className="w-4 h-4" />
+              <img
+                src="/footer/youtube.png"
+                alt="YouTube"
+                className="w-full h-full object-contain"
+              />
             </a>
 
-            <span className="hidden sm:inline-block h-3 w-px bg-white/20 ml-2" />
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono text-white/70 ml-2">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="hidden sm:inline-block h-3 w-px bg-slate-300 ml-2" />
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono text-slate-600 ml-2">
+              <ShieldCheck className="w-3.5 h-3.5 text-red-600" />
               ISO 9001:2015 Certified Plant · Made in India
             </span>
           </div>
 
           {/* Automatic slide progress bar */}
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <span className="text-[11px] font-mono text-white/60 tracking-wider">
+            <span className="text-[11px] font-mono text-slate-500 tracking-wider">
               {isPaused ? 'PAUSED' : 'AUTO-CYCLE'}
             </span>
-            <div className="w-32 sm:w-44 h-1.5 bg-black/35 rounded-full overflow-hidden border border-white/10">
+            <div className="w-32 sm:w-44 h-1.5 bg-slate-200 rounded-full overflow-hidden">
               <motion.div
                 style={{ width: `${progress}%` }}
-                className="h-full bg-white rounded-full"
+                className="h-full bs-mix-red rounded-full"
               />
             </div>
           </div>
