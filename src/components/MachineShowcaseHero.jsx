@@ -6,21 +6,18 @@ import {
   ArrowRight,
   Pause,
   Play,
-  RotateCw,
   ShieldCheck,
   Cpu,
-  Sparkles,
 } from 'lucide-react';
 
 /**
  * ============================================================================
  * MachineShowcaseHero Component
  * Inspired by Pinterest Studio Showcase Layout (clean white backdrop,
- * bold typography with signature text-icon gradient red, floating 3D machine
- * hero, automatic image cycle, output metric badge, and model selectors).
- *
- * Theme Colors: Clean white background with signature ICON Packtech text-icon
- * gradient (#ff0000 -> #610303) and industrial precision accents.
+ * signature text-icon gradient red, 3D spatial slide choreography:
+ * - Center machine flies to top-left and decreases in size.
+ * - Bottom-right preview machine flies to center and scales to full size.
+ * - Top-left shows previous machine, bottom-right shows up-next preview).
  * ============================================================================
  */
 
@@ -120,36 +117,45 @@ export default function MachineShowcaseHero({
   className = '',
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const timerRef = useRef(null);
 
   const total = machines.length;
   const currentMachine = machines[currentIndex];
+  const prevIndex = (currentIndex - 1 + total) % total;
+  const prevMachine = machines[prevIndex];
   const nextIndex = (currentIndex + 1) % total;
   const nextMachine = machines[nextIndex];
 
-  // Navigation handlers
+  // Navigation handlers with spatial direction tracking
   const handlePrev = useCallback(() => {
+    setDirection(-1);
     setCurrentIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
     setProgress(0);
   }, [total]);
 
   const handleNext = useCallback(() => {
+    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % total);
     setProgress(0);
   }, [total]);
 
-  const selectMachine = useCallback((idx) => {
-    setCurrentIndex(idx);
-    setProgress(0);
-  }, []);
+  const selectMachine = useCallback(
+    (idx) => {
+      setDirection(idx >= currentIndex ? 1 : -1);
+      setCurrentIndex(idx);
+      setProgress(0);
+    },
+    [currentIndex]
+  );
 
   // Automatic slide cycle with smooth progress indicator
   useEffect(() => {
     if (isPaused) return;
 
-    const intervalStep = 50; // update progress every 50ms
+    const intervalStep = 50;
     const totalSteps = autoPlayInterval / intervalStep;
 
     timerRef.current = setInterval(() => {
@@ -191,16 +197,12 @@ export default function MachineShowcaseHero({
         aria-hidden="true"
       />
 
-      <div className="relative max-w-[1440px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] px-6 sm:px-10 lg:px-14 py-4 lg:py-8 flex flex-col justify-between">
-        {/* ===================================================================
-            TOP BAR: Slider Controls & Auto-play Status
-           =================================================================== */}
-  
+ 
+    
 
-        {/* ===================================================================
-            MAIN THREE-COLUMN HERO GRID
-           =================================================================== */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center my-auto py-4 sm:py-6">
+      <div className="relative max-w-[1440px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] px-6 sm:px-10 lg:px-14 py-4 lg:py-8 flex flex-col justify-between">
+    
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center my-auto py-4 sm:py-6 overflow-visible">
           {/* ---------------------------------------------------------------
               LEFT COLUMN: Headline, Description & CTA Button
              --------------------------------------------------------------- */}
@@ -221,7 +223,7 @@ export default function MachineShowcaseHero({
                 </div>
 
                 {/* Main Headline with text-icon color */}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-4xl font-bold tracking-tight text-slate-900 leading-[1.08]">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-5xl font-bold tracking-tight text-slate-900 leading-[1.08]">
                   <span>{currentMachine.titleLine1}</span>
                   <br />
                   <span className="text-icon font-extrabold">
@@ -266,9 +268,11 @@ export default function MachineShowcaseHero({
           </div>
 
           {/* ---------------------------------------------------------------
-              CENTER STAGE: Floating Machine Image with Soft Ground Shadow
+              CENTER STAGE: 3D Spatial Machine Transition
+              - Exiting image flies to TOP-LEFT and decreases in size
+              - Incoming image flies from BOTTOM-RIGHT to CENTER and enlarges
              --------------------------------------------------------------- */}
-          <div className="lg:col-span-5 relative flex flex-col items-center justify-center order-1 lg:order-2 py-4 sm:py-6">
+          <div className="lg:col-span-5 relative flex flex-col items-center justify-center order-1 lg:order-2 py-4 sm:py-6 overflow-visible">
             {/* Ambient Radial Glow directly behind the machine */}
             <div
               className="absolute w-[320px] sm:w-[460px] lg:w-[520px] h-[320px] sm:h-[460px] lg:h-[520px] rounded-full bg-gradient-to-tr from-red-500/10 via-rose-300/10 to-transparent blur-3xl pointer-events-none"
@@ -276,18 +280,49 @@ export default function MachineShowcaseHero({
             />
 
             {/* Floating Machine Stage */}
-            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[520px] aspect-[4/3] flex items-center justify-center">
-              <AnimatePresence mode="wait">
+            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[520px] aspect-[4/3] flex items-center justify-center overflow-visible">
+              <AnimatePresence mode="popLayout" custom={direction}>
                 <motion.div
                   key={currentMachine.id}
-                  initial={{ opacity: 0, scale: 0.85, y: 30 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.88, y: -30 }}
-                  transition={{
-                    duration: 0.65,
-                    ease: [0.16, 1, 0.3, 1],
+                  custom={direction}
+                  variants={{
+                    enter: (dir) => ({
+                      // Incoming: starts from bottom-right (or top-left if reverse) and smaller
+                      x: dir > 0 ? 280 : -280,
+                      y: dir > 0 ? 190 : -190,
+                      scale: dir > 0 ? 0.32 : 0.38,
+                      opacity: 0.15,
+                      filter: 'blur(3px)',
+                    }),
+                    center: {
+                      // Center: sits large at center with full clarity
+                      x: 0,
+                      y: 0,
+                      scale: 1,
+                      opacity: 1,
+                      filter: 'blur(0px)',
+                      transition: {
+                        duration: 0.82,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
+                    },
+                    exit: (dir) => ({
+                      // Exiting: flies to top-left and decreases in size (or bottom-right if reverse)
+                      x: dir > 0 ? -280 : 280,
+                      y: dir > 0 ? -190 : 190,
+                      scale: dir > 0 ? 0.36 : 0.32,
+                      opacity: 0,
+                      filter: 'blur(4px)',
+                      transition: {
+                        duration: 0.78,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
+                    }),
                   }}
-                  className="relative w-full h-full flex items-center justify-center"
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="relative w-full h-full flex items-center justify-center will-change-transform z-10"
                 >
                   {/* Subtle float idle animation */}
                   <motion.div
@@ -315,8 +350,17 @@ export default function MachineShowcaseHero({
               </AnimatePresence>
 
               {/* Realistic Soft Ground Shadow under the Machine */}
-              <div
-                className="absolute bottom-1 w-[72%] h-6 bg-slate-900/15 rounded-[100%] blur-xl pointer-events-none"
+              <motion.div
+                animate={{
+                  scale: [1, 1.06, 1],
+                  opacity: [0.14, 0.22, 0.14],
+                }}
+                transition={{
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="absolute bottom-1 w-[72%] h-6 bg-slate-900/18 rounded-[100%] blur-xl pointer-events-none"
                 aria-hidden="true"
               />
             </div>
@@ -394,15 +438,15 @@ export default function MachineShowcaseHero({
               </div>
             </div>
 
-            {/* Bottom Right: Mini Next Machine Preview Thumbnail */}
+            {/* Bottom Right: Next Machine Preview Card (Flies to center on next) */}
             <div
               onClick={handleNext}
               role="button"
               tabIndex={0}
               aria-label={`Next machine preview: ${nextMachine.name}`}
-              className="group cursor-pointer flex items-center gap-3 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl p-2.5 pr-4 transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
+              className="group cursor-pointer flex items-center gap-3 bg-white/95 hover:bg-white border border-slate-200 rounded-2xl p-2.5 pr-4 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-xl"
             >
-              <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1 overflow-hidden flex-shrink-0">
+              <div className="w-13 h-13 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1 overflow-hidden flex-shrink-0">
                 <img
                   src={nextMachine.image}
                   alt={nextMachine.name}
