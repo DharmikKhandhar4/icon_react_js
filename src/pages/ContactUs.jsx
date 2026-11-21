@@ -1,6 +1,5 @@
-import { useState, lazy, Suspense } from 'react';
-import { FileText, Phone, Mail, MapPin, Building2, Send, CheckCircle2 } from 'lucide-react';
-const BrochureModal = lazy(() => import('../components/BrochureModal'));
+import { useState } from 'react';
+import { Phone, Mail, MapPin, Building2, Send, CheckCircle2 } from 'lucide-react';
 import WhyChooseUsSection from '../components/home/WhyChooseUsSection';
 import FaqSection from '../components/home/FaqSection';
 import LatestInsightsSection from '../components/home/LatestInsightsSection';
@@ -15,10 +14,34 @@ export default function ContactUs({ onNavigate }) {
     email: '',
     message: '',
   });
+  const [brochureForm, setBrochureForm] = useState({
+    name: '',
+    companyName: '',
+    email: '',
+    phone: '',
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBrochureInput = (e) => {
+    const { name, value } = e.target;
+    setBrochureForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBrochureSubmit = (e) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = '/Complete_Brochure.pdf';
+    link.download = 'Complete_Brochure.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setIsBrochureOpen(false);
+    setBrochureForm({ name: '', companyName: '', email: '', phone: '' });
   };
 
   const handleSubmit = (e) => {
@@ -37,10 +60,10 @@ export default function ContactUs({ onNavigate }) {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-20 font-Poppins">
+    <div className="min-h-screen bg-white pb-  font-Poppins">
       {/* ================= 1. HERO / BANNER SECTION ================= */}
-      <div className="max-w-7xl px-4 2xl:w-[1300px] mx-auto pt-6">
-        <section className="relative bg-red-50  py-3 md:py-3 rounded-[16px]  shadow-sm overflow-hidden">
+      <div className="max-w-7xl px-4 2xl:w-[1200px] lg:w-[80%] md11:w-[76%]  mx-auto pt-4">
+        <section className="relative bg-gradient-to-br from-red-50  to-red-100  py-3 md:py-[20px] rounded-[16px]  shadow-sm overflow-hidden">
           {/* Decorative Dot Background Pattern */}
           {/* <div 
             className="absolute inset-0 opacity-15 pointer-events-none"
@@ -52,7 +75,7 @@ export default function ContactUs({ onNavigate }) {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-3xl lg:text-3xl font-bold text-gray-900 mb-4 tracking-tight">
+              <h1 className="text-4xl md:text-3xl lg:text-3xl font-bold text-gray-900 mb-6 ">
                 Let's <span className="text-red-600">Connect</span> and Build Your Future
               </h1>
 
@@ -80,7 +103,7 @@ export default function ContactUs({ onNavigate }) {
       </div>
 
       {/* ================= 2. GET IN TOUCH / CONTACT FORM SECTION ================= */}
-      <div className="max-w-7xl px-4 2xl:w-[1300px] mx-auto pt-14 pb-10">
+      <div className="max-w-7xl px-4   pt-16 pb-10   font-Poppins w-[90%] md11:w-[76%]  2xl:w-[1200px]    h-[100%] mx-auto">
         {/* Section Heading */}
         <div className="text-center space-y-3 mb-14">
           <h2 className="text-5xl md:text-5xl font-bold tracking-tight text-gray-900">
@@ -108,9 +131,9 @@ export default function ContactUs({ onNavigate }) {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-8">
                   {/* First Name & Last Name */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 pt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-[32px] ">
                     <div className="relative">
                       <input
                         type="text"
@@ -119,7 +142,7 @@ export default function ContactUs({ onNavigate }) {
                         value={formData.firstName}
                         onChange={handleChange}
                         placeholder="First Name"
-                        className="w-full h-[42px] px-1 border-b border-[#ff1d1d] bg-transparent text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none focus:border-b-2 focus:border-b-red-600 transition rounded-none"
+                        className="w-full h-[42px] pl-[10px] border-b border-[#ff1d1d] bg-transparent font-Poppins text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none  transition rounded-none"
                       />
                     </div>
 
@@ -131,7 +154,7 @@ export default function ContactUs({ onNavigate }) {
                         value={formData.lastName}
                         onChange={handleChange}
                         placeholder="Last Name"
-                        className="w-full h-[42px] px-1 border-b border-[#ff1d1d] bg-transparent text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none focus:border-b-2 focus:border-b-red-600 transition rounded-none"
+                        className="w-full h-[42px] pl-[10px] border-b border-[#ff1d1d] bg-transparent font-Poppins text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none transition rounded-none"
                       />
                     </div>
                   </div>
@@ -147,7 +170,7 @@ export default function ContactUs({ onNavigate }) {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="Phone"
-                        className="w-full h-[42px] px-1 border-b border-[#ff1d1d] bg-transparent text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none focus:border-b-2 focus:border-b-red-600 transition rounded-none"
+                        className="w-full h-[42px] pl-[10px] border-b border-[#ff1d1d] bg-transparent font-Poppins text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none focus:border-b-2 focus:border-b-red-600 transition rounded-none"
                       />
                     </div>
 
@@ -159,22 +182,20 @@ export default function ContactUs({ onNavigate }) {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Email Address"
-                        className="w-full h-[42px] px-1 border-b border-[#ff1d1d] bg-transparent text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none focus:border-b-2 focus:border-b-red-600 transition rounded-none"
+                        className="w-full h-[42px] pl-[10px] border-b border-[#ff1d1d] bg-transparent font-Poppins text-gray-900 text-[15px] placeholder:text-gray-400 placeholder:font-normal focus:outline-none focus:border-b-2 focus:border-b-red-600 transition rounded-none"
                       />
                     </div>
                   </div>
 
                   {/* Message Textarea */}
                   <div className="relative">
-                    <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">
-                      Message
-                    </label>
+                  
                     <textarea
                       name="message"
                       rows={4}
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Write your packaging requirements or message here..."
+                      placeholder="Message"
                       className="w-full p-3.5 rounded-md border border-red-400 bg-white text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-600 transition resize-none"
                     />
                   </div>
@@ -182,10 +203,10 @@ export default function ContactUs({ onNavigate }) {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full font-semibold text-red-600 hover:text-white border border-red-600 hover:bg-red-600 py-3 px-4 rounded-md transition-all duration-200 shadow-sm hover:shadow flex items-center justify-center gap-2 group cursor-pointer"
+                    className="w-full font-semibold text-red-600  border border-red-600  py-3 px-4 rounded-md transition-all duration-200 shadow-sm hover:shadow flex items-center justify-center gap-2 group cursor-pointer"
                   >
                     <span>Send Message</span>
-                    <Send className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  
                   </button>
                 </form>
               )}
@@ -193,17 +214,17 @@ export default function ContactUs({ onNavigate }) {
           </div>
 
           {/* Right Column: Contact Details */}
-          <div className="lg:col-span-6 lg:py-[20px]">
-            <div className="space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-snug">
+          <div className="lg:col-span-6 lg:py-2">
+            <div className="space-y-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 ">
                 Let's Collaborate to Engineer the Future
               </h2>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+              <p className="text-gray-600 text-sm sm:text-base ">
                 From product development to precision packaging machinery, ICON Industries is equipped to deliver. Reach out to us for custom solutions or detailed consultations.
               </p>
 
               {/* Contact Info List */}
-              <div className="grid gap-[15px] pt-4">
+              <div className="grid gap-[15px] pt-[30px]">
                 
                 {/* Call Us */}
                 <div className="flex items-start gap-4  rounded-xl hover:bg-red-50/40 transition-colors">
@@ -211,10 +232,10 @@ export default function ContactUs({ onNavigate }) {
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-gray-700 font-semibold text-sm">Call Us</p>
+                    <p className="text-gray-700 font-semibold ">Call Us</p>
                     <a
                       href="tel:+919909036307"
-                      className="text-red-600 hover:underline text-sm font-medium transition-colors"
+                      className="text-red-600  text-[13px] font-medium transition-colors"
                     >
                       +91 99090 36307
                     </a>
@@ -227,10 +248,10 @@ export default function ContactUs({ onNavigate }) {
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-gray-700 font-semibold text-sm">Email Us</p>
+                    <p className="text-gray-700 font-semibold ">Email Us</p>
                     <a
                       href="mailto:info@iconindustriesindia.com"
-                      className="text-red-600 hover:underline text-sm font-medium transition-colors"
+                      className="text-red-600  text-[13px] font-medium transition-colors"
                     >
                       info@iconindustriesindia.com
                     </a>
@@ -242,17 +263,17 @@ export default function ContactUs({ onNavigate }) {
                   <div className="w-10 h-10 flex-shrink-0 rounded-full bg-red-100/70 flex items-center justify-center text-red-600 mt-0.5">
                     <MapPin className="h-5 w-5" />
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-700 font-semibold text-sm">Corporate Office :-</p>
+                  <div className="space-y-0">
+                    <p className="text-gray-700 font-semibold  mb-1">Corporate Office :-</p>
                     <a
                       href="https://www.google.com/maps/place/ICON+INDUSTRIES/@22.236774,70.8015475,17z/data=!3m1!4b1!4m6!3m5!1s0x3959ca98477fbf91:0xff4eb073219a81d4!8m2!3d22.236774!4d70.8015475!16s%2Fg%2F1pxwlmbfq?entry=ttu&g_ep=EgoyMDI1MDcyNy4wIKXMDSoASAFQAw%3D%3D"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-red-600 hover:underline text-[13px] leading-relaxed block"
+                      className="text-red-600  text-[13px] leading-relaxed block"
                     >
                       "Happy Home", Plot No.8, Atlas Industrial Estate, N.H. No. 8, Opp. Hotel Krishna Park, Nr. Gondal Chowkdi, Rajkot – 360004, Gujarat, India.
                     </a>
-                    <span className="inline-block text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                    <span className="inline-block text-[13px] font-[500]  text-red-600  ">
                       GST No: 24ARUPP0359E1ZL
                     </span>
                   </div>
@@ -261,19 +282,19 @@ export default function ContactUs({ onNavigate }) {
                 {/* State of the art Factory */}
                 <div className="flex items-center gap-4  rounded-xl hover:bg-red-50/40 transition-colors">
                   <div className="w-10 h-10 flex-shrink-0 rounded-full bg-red-100/70 flex items-center justify-center text-red-600 mt-0.5">
-                    <Building2 className="h-5 w-5" />
+                    <MapPin className="h-5 w-5" />
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-700 font-semibold text-sm">State of the art Factory :-</p>
+                  <div className="space-y-0">
+                    <p className="text-gray-700 font-semibold  mb-1">State of the art Factory :-</p>
                     <a
                       href="https://www.google.com/maps/place/ICON+PACKTECH+(INDIA)+PVT+LTD./@22.179618,70.7100117,3a,75y,68.42h,83.07t/data=!3m7!1e1!3m5!1slBV7KF-mIcdVXIr2dVPDpQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D6.926012519226646%26panoid%3DlBV7KF-mIcdVXIr2dVPDpQ%26yaw%3D68.42246486532297!7i13312!8i6656!4m9!1m2!2m1!1s%22Happy+Home%22,+Plot+No.8,+Atlas+Industrial+Estate,+N.H.+No.+8,+Opp.+Hotel+Krishna+Park,+Nr.+Gondal+Chowkdi,+Rajkot+%E2%80%93+360004,+Gujarat,+India+map+address!3m5!1s0x395833002ee53373:0xfb02dfe3c7197ac4!8m2!3d22.179705!4d70.7097974!16s%2Fg%2F11lct5_lfj?entry=ttu&g_ep=EgoyMDI1MDcyNy4wIKXMDSoASAFQAw%3D%3D"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-red-600 hover:underline text-[13px] leading-relaxed block"
+                      className="text-red-600  text-[13px] leading-relaxed block"
                     >
                       Plot no 24, J K Industrial Area, Ravki-Makhavad Road, Taravada, Rajkot – 360004, Gujarat, India.
                     </a>
-                    <span className="inline-block text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                    <span className="inline-block text-xs font-[500] text-red-600  rounded">
                       GST No: 24AAHCI6683H1ZA
                     </span>
                   </div>
@@ -295,14 +316,82 @@ export default function ContactUs({ onNavigate }) {
       {/* ================= 5. BLOG SECTION ================= */}
       <LatestInsightsSection />
 
-      {/* Brochure Modal integration */}
+      {/* Brochure Popup */}
       {isBrochureOpen && (
-        <Suspense fallback={null}>
-          <BrochureModal
-            isOpen={isBrochureOpen}
-            onClose={() => setIsBrochureOpen(false)}
-          />
-        </Suspense>
+        <div
+          className="fixed inset-0 z-[3000] bg-black/60 font-Poppins backdrop-blur-md flex items-center justify-center px-4 animate-[fadeIn_0.25s_ease-out_forwards]"
+        >
+          <div
+            className="relative w-full max-w-[850px] bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden animate-[popIn_0.35s_cubic-bezier(0.34,1.56,0.64,1)_forwards]"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setIsBrochureOpen(false)}
+              className="absolute top-3 right-4 text-red-500 text-xl z-10 cursor-pointer"
+            >
+              ✕
+            </button>
+
+            {/* Left Image */}
+            <div className="md:w-1/2 w-full h-[250px] md:h-auto">
+              <img
+                src="/assets/2image-BNMcTZMN.webp"
+                alt="Contact ICON Packtech — packaging machine manufacturer in Rajkot, Gujarat, India"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Right Form */}
+            <div className="md:w-1/2 w-full p-6 flex flex-col justify-center font-serif">
+              <h2 className="text-2xl font-[600] mb-2 md:text-[20px]">Download Brochure</h2>
+              <p className="text-sm text-gray-500 mb-4">
+                Fill your details to access brochure instantly.
+              </p>
+
+              <form onSubmit={handleBrochureSubmit} className="space-y-3">
+                <input
+                  name="name"
+                  value={brochureForm.name}
+                  onChange={handleBrochureInput}
+                  placeholder="Name"
+                  required
+                  className="w-full h-[45px] border border-gray-200 rounded-lg px-4"
+                />
+                <input
+                  name="companyName"
+                  value={brochureForm.companyName}
+                  onChange={handleBrochureInput}
+                  placeholder="Company Name"
+                  required
+                  className="w-full h-[45px] border border-gray-200 rounded-lg px-4"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={brochureForm.email}
+                  onChange={handleBrochureInput}
+                  placeholder="Email"
+                  required
+                  className="w-full h-[45px] border border-gray-200 rounded-lg px-4"
+                />
+                <input
+                  name="phone"
+                  value={brochureForm.phone}
+                  onChange={handleBrochureInput}
+                  placeholder="Phone"
+                  required
+                  className="w-full h-[45px] border border-gray-200 rounded-lg px-4"
+                />
+                <button
+                  type="submit"
+                  className="w-full h-[48px] bg-red-500/90 text-white rounded-lg font-[600] cursor-pointer text-[14px]"
+                >
+                  Submit &amp; Download
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -25,6 +25,7 @@ const AboutUs = lazy(() => import('./pages/AboutUs'));
 const Blogs = lazy(() => import('./pages/Blogs'));
 const BlogDetail = lazy(() => import('./pages/BlogDetail'));
 const Events = lazy(() => import('./pages/Events'));
+const EventDetail = lazy(() => import('./pages/EventDetail'));
 const AllPackagingMachines = lazy(() => import('./pages/AllPackagingMachines'));
 const PackagingSolutions = lazy(() => import('./pages/PackagingSolutions'));
 const SolutionMachines = lazy(() => import('./pages/SolutionMachines'));
@@ -66,6 +67,7 @@ export default function App() {
       '/contact-us': 'Contact Us | ICON Packtech Rajkot, Gujarat',
       '/blogs': 'Blogs & Industry Insights | ICON Packtech',
       '/events': 'Trade Shows & Exhibitions | ICON Packtech',
+      '/event-detail': 'Event Details | Packaging Exhibition | ICON Packtech',
       '/all-packaging-machines': 'All Packaging Machines | ICON Packtech',
       '/packaging-solutions': 'Packaging Solutions & Automation | ICON Packtech',
       '/packaging-as-per-product': 'Packaging as per Product | ICON Packtech',
@@ -80,6 +82,10 @@ export default function App() {
         title = 'Industry Packaging Solutions | ICON Packtech';
       } else if (currentPath.startsWith('/packaging-solutions/')) {
         title = 'Packaging Solution Machines | ICON Packtech';
+      } else if (currentPath.startsWith('/events/')) {
+        title = 'Event Details | Packaging Exhibition | ICON Packtech';
+      } else if (currentPath.startsWith('/blogs/')) {
+        title = 'Blog Article | ICON Packtech Insights';
       } else {
         title = 'ICON Packtech | Packaging & Thermoforming Machinery';
       }
@@ -143,13 +149,19 @@ export default function App() {
             <ContactUs onNavigate={handleNavigate} />
           ) : currentPath === '/blogs' ? (
             <Blogs onNavigate={handleNavigate} />
-          ) : currentPath === '/blog-detail' ? (
+          ) : currentPath === '/blog-detail' || currentPath.startsWith('/blogs/') ? (
             <BlogDetail 
+              blogSlug={currentPath.replace(/^\/blogs\/?/, '')}
               onNavigate={handleNavigate} 
               onOpenBrochure={() => setIsBrochureOpen(true)} 
             />
           ) : currentPath === '/events' ? (
             <Events onNavigate={handleNavigate} />
+          ) : currentPath === '/event-detail' || currentPath.startsWith('/events/') ? (
+            <EventDetail 
+              eventSlug={currentPath.replace(/^\/events\/?/, '')} 
+              onNavigate={handleNavigate} 
+            />
           ) : currentPath === '/all-packaging-machines' ? (
             <AllPackagingMachines onNavigate={handleNavigate} />
           ) : currentPath.startsWith('/packaging-solutions/') ? (

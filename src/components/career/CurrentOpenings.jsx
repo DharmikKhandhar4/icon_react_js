@@ -82,12 +82,19 @@ export default function CurrentOpenings() {
   const [applyingJob, setApplyingJob] = useState(null);
   const [appliedSuccess, setAppliedSuccess] = useState(false);
   const [applicantForm, setApplicantForm] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
-    experience: '',
-    message: '',
+    qualification: '',
+    city: '',
+    address: '',
   });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setApplicantForm((prev) => ({ ...prev, [name]: value }));
+  };
 
   const filteredJobs = activeFilter === 'all'
     ? jobsData
@@ -100,17 +107,19 @@ export default function CurrentOpenings() {
       setAppliedSuccess(false);
       setApplyingJob(null);
       setApplicantForm({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         phone: '',
-        experience: '',
-        message: '',
+        qualification: '',
+        city: '',
+        address: '',
       });
     }, 2500);
   };
 
   return (
-    <section className="py-12 md:py-16 px-4">
+    <section className="py-12 md:py-8 px-4">
       <div className="max-w-6xl mx-auto">
         
         {/* ================= HEADER ================= */}
@@ -132,37 +141,37 @@ export default function CurrentOpenings() {
         <div className="flex overflow-x-auto py-2 px-1 justify-start md:justify-center gap-3 mb-10 no-scrollbar scrollbar-hide">
           <button
             onClick={() => setActiveFilter('all')}
-            className={`inline-flex flex-shrink-0 items-center gap-2.5 px-6 py-3 rounded-full text-[16px] font-semibold transition-all duration-300 shadow-sm cursor-pointer ${
+            className={`inline-flex flex-shrink-0 items-center gap-2.5 px-6 py-3 rounded-full text-[16px] font-semibold transition-all duration-300  cursor-pointer ${
               activeFilter === 'all'
                 ? 'bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] text-white shadow-md scale-105'
-                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
             }`}
           >
-            <Briefcase className="w-4 h-4" />
+            <Briefcase className="w-5 h-5" />
             <span>All Positions ({jobsData.length})</span>
           </button>
 
           <button
             onClick={() => setActiveFilter('engineering')}
-            className={`inline-flex flex-shrink-0 items-center gap-2.5 px-6 py-3 rounded-full text-[16px] font-semibold transition-all duration-300 shadow-sm cursor-pointer ${
+            className={`inline-flex flex-shrink-0 items-center gap-2.5 px-6 py-3 rounded-full text-[16px] font-semibold transition-all duration-300  cursor-pointer ${
               activeFilter === 'engineering'
                 ? 'bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] text-white shadow-md scale-105'
-                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
             }`}
           >
-            <Building2 className="w-4 h-4" />
+            <Building2 className="w-5 h-5" />
             <span>Engineering (2)</span>
           </button>
 
           <button
             onClick={() => setActiveFilter('production')}
-            className={`inline-flex flex-shrink-0 items-center gap-2.5 px-6 py-3 rounded-full text-[16px] font-semibold transition-all duration-300 shadow-sm cursor-pointer ${
+            className={`inline-flex flex-shrink-0 items-center gap-2.5 px-6 py-3 rounded-full text-[16px] font-semibold transition-all duration-300  cursor-pointer ${
               activeFilter === 'production'
                 ? 'bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] text-white shadow-md scale-105'
-                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
             }`}
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="w-5 h-5" />
             <span>Production (1)</span>
           </button>
 
@@ -189,7 +198,7 @@ export default function CurrentOpenings() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 {/* Left Job Info */}
                 <div className="flex-1">
-                  <div className="flex items-center gap-3.5 mb-2.5">
+                  <div className="flex items-center gap-3.5 mb-1.5">
                     <div className="w-11 h-11  bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)]  text-white rounded-xl flex items-center justify-center border border-red-100 group-hover:scale-110  transition-all duration-300 shadow-sm">
                       <Briefcase className="w-5 h-5" />
                     </div>
@@ -197,14 +206,14 @@ export default function CurrentOpenings() {
                       <h3 className="text-lg sm:text-xl font-[600] text-gray-900  transition-colors">
                         {job.title}
                       </h3>
-                      <span className=" text-red-600   py-0.5 rounded-full text-xs font-semibold">
+                      <span className=" text-icon   py-1 px-1 rounded-full text-sm font-medium ">
                         {job.type}
                       </span>
                     </div>
                   </div>
 
                   {/* Badges / Meta row */}
-                  <div className="flex text-xs sm:text-[13px] flex-wrap items-center gap-4 text-gray-600 mt-1">
+                  <div className="flex text-xs sm:text-[13px] flex-wrap items-center gap-4 text-gray-600 ">
                     <div className="flex items-center gap-1.5 font-medium">
                       <Building2 className="w-4 h-4 text-red-500" />
                       <span>{job.department}</span>
@@ -259,20 +268,26 @@ export default function CurrentOpenings() {
 
       {/* ================= APPLY MODAL ================= */}
       {applyingJob && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-gray-100">
-            <button
-              onClick={() => {
-                setApplyingJob(null);
-                setAppliedSuccess(false);
-              }}
-              className="absolute top-5 right-5 p-1 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/40 bg-opacity-50 p-4">
+          <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-lg max-h-[95vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-gray-200 p-6">
+              <h2 className="text-xl font-bold text-gray-800">
+                APPLY FOR : {applyingJob?.title ? applyingJob.title.toUpperCase() : "SALES ASSISTANT - RAJKOT & ON FIELD"}
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  setApplyingJob(null);
+                  setAppliedSuccess(false);
+                }}
+                className="text-gray-500 hover:text-gray-700 cursor-pointer"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
 
             {appliedSuccess ? (
-              <div className="text-center py-8">
+              <div className="p-8 text-center">
                 <div className="w-16 h-16 rounded-full bg-red-50 text-red-600 mx-auto flex items-center justify-center mb-4">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
@@ -282,82 +297,137 @@ export default function CurrentOpenings() {
                 </p>
               </div>
             ) : (
-              <div>
-                <div className="mb-5">
-                  <span className="text-xs uppercase font-bold tracking-wider text-red-600">Apply for Position</span>
-                  <h3 className="text-xl font-bold text-gray-900 mt-1">{applyingJob.title}</h3>
-                  <p className="text-xs text-gray-500">{applyingJob.department} • {applyingJob.location}</p>
-                </div>
-
-                <form onSubmit={handleApplySubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Your Full Name"
-                      value={applicantForm.name}
-                      onChange={(e) => setApplicantForm({ ...applicantForm, name: e.target.value })}
-                      className="w-full h-10 px-3.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <form onSubmit={handleApplySubmit}>
+                <div className="p-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Email *</label>
+                      <label htmlFor="firstName" className="sr-only">First Name</label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        required
+                        placeholder="First Name"
+                        value={applicantForm.firstName}
+                        onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 bg-gray-100 px-4 py-3 text-gray-800 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="lastName" className="sr-only">Last Name</label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        required
+                        placeholder="Last Name"
+                        value={applicantForm.lastName}
+                        onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 bg-gray-100 px-4 py-3 text-gray-800 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="sr-only">Email</label>
                       <input
                         type="email"
+                        id="email"
+                        name="email"
                         required
-                        placeholder="you@email.com"
+                        placeholder="Email"
                         value={applicantForm.email}
-                        onChange={(e) => setApplicantForm({ ...applicantForm, email: e.target.value })}
-                        className="w-full h-10 px-3.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600"
+                        onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 bg-gray-100 px-4 py-3 text-gray-800 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Phone *</label>
+                      <label htmlFor="phone" className="sr-only">Phone</label>
                       <input
                         type="tel"
+                        id="phone"
+                        name="phone"
                         required
-                        placeholder="10-digit Mobile"
+                        placeholder="Phone"
                         value={applicantForm.phone}
-                        onChange={(e) => setApplicantForm({ ...applicantForm, phone: e.target.value })}
-                        className="w-full h-10 px-3.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600"
+                        onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 bg-gray-100 px-4 py-3 text-gray-800 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label htmlFor="qualification" className="sr-only">Qualification</label>
+                      <input
+                        type="text"
+                        id="qualification"
+                        name="qualification"
+                        required
+                        placeholder="Qualification"
+                        value={applicantForm.qualification}
+                        onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 bg-gray-100 px-4 py-3 text-gray-800 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="city" className="sr-only">City</label>
+                      <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        required
+                        placeholder="City"
+                        value={applicantForm.city}
+                        onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 bg-gray-100 px-4 py-3 text-gray-800 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="address" className="sr-only">Address</label>
+                      <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        required
+                        placeholder="Address"
+                        value={applicantForm.address}
+                        onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 bg-gray-100 px-4 py-3 text-gray-800 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label htmlFor="cvUpload" className="block text-sm font-medium text-gray-700 mb-2">
+                        Upload CV
+                      </label>
+                      <input
+                        type="file"
+                        id="cvUpload"
+                        required
+                        className="block w-full text-sm text-gray-500
+                          file:mr-4 file:py-2 file:px-4
+                          file:rounded-md file:border-0
+                          file:text-sm file:font-semibold
+                          file:bg-gray-200 file:text-gray-700
+                          hover:file:bg-gray-300 cursor-pointer"
                       />
                     </div>
                   </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Total Experience (Years)</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 3 Years"
-                      value={applicantForm.experience}
-                      onChange={(e) => setApplicantForm({ ...applicantForm, experience: e.target.value })}
-                      className="w-full h-10 px-3.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 uppercase mb-1">Cover Note / Key Skills</label>
-                    <textarea
-                      rows={3}
-                      placeholder="Brief note about your background and technical skills..."
-                      value={applicantForm.message}
-                      onChange={(e) => setApplicantForm({ ...applicantForm, message: e.target.value })}
-                      className="w-full p-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 resize-none"
-                    />
-                  </div>
-
+                </div>
+                <div className="flex justify-end gap-4 border-t border-gray-200 p-6">
                   <button
                     type="submit"
-                    className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg text-sm flex items-center justify-center gap-2 transition-colors shadow-md mt-2 cursor-pointer"
+                    className="rounded-md bg-red-600/90 px-6 py-3 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 cursor-pointer "
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Submit Application</span>
+                    APPLY
                   </button>
-                </form>
-              </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setApplyingJob(null);
+                      setAppliedSuccess(false);
+                    }}
+                    className="rounded-md border border-gray-300 bg-gray-200 px-6 py-3 text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 cursor-pointer "
+                  >
+                    CLOSE
+                  </button>
+                </div>
+              </form>
             )}
           </div>
         </div>

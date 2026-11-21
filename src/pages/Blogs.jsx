@@ -92,9 +92,9 @@ export default function Blogs({ onNavigate, initialCategory = 'Blog' }) {
   const displayedArticles = activeCategory === 'Blog' ? blogArticles : eventArticles;
 
   return (
-    <div className="min-h-screen bg-white pb-20 font-Poppins">
+    <div className="h-fite bg-white  font-Poppins">
       {/* ================= 1. PAGE HEADER ================= */}
-      <section className="relative py-12 md:py-16 bg-white overflow-hidden">
+      <section className="relative py-12 md:py-8 bg-white overflow-hidden">
         {/* Subtle Background Grid Pattern */}
         <div
           className="absolute inset-0 pointer-events-none opacity-40"
@@ -128,12 +128,12 @@ export default function Blogs({ onNavigate, initialCategory = 'Blog' }) {
             {displayedArticles.map((post) => (
               <div
                 key={post.id}
-                className="group md:w-[270px] h-[430px] border border-[#f333332c] shadow-icon 2xl:w-[290px] mb-[20px] 2xl:h-[440px] md11:h-[400px] w-[260px] mx-auto md:mx-0 relative shadow-lg overflow-hidden rounded-[14px] flex flex-col cursor-pointer flex-shrink-0 bg-white"
+                className="group md:w-[270px] h-[430px] 2xl:w-[290px] mb-[20px] 2xl:h-[440px] md11:h-[400px] w-[260px] mx-auto md:mx-0 relative shadow-lg overflow-hidden rounded-[14px] flex flex-col cursor-pointer flex-shrink-0 bg-white"
                 onClick={() => onNavigate && onNavigate(`/blogs/${post.slug || post.id}`)}
               >
-                <div className="overflow-hidden md:h-[190px] 2xl:h-[220px] h-[210px] w-full relative">
+                <div className="overflow-hidden md:h-[190px] 2xl:h-[230px] h-[210px] w-full relative">
                   <img
-                    className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-110"
+                    className="w-full h-full object-cover object-top transition-transform duration-500 ease-out "
                     src={post.image}
                     alt={post.title}
                     onError={(e) => {
@@ -146,7 +146,7 @@ export default function Blogs({ onNavigate, initialCategory = 'Blog' }) {
                 </div>
                 <div className="flex w-full px-[10px] flex-col mt-[10px] gap-[6px]">
                   <div className="font-[600] text-[16px]">
-                    <p className="flex font-Poppins font-[600] text-[#434343] leading-[22px] h-[66px]">
+                    <p className="flex font-Poppins font-[600] text-[#434343] leading-[22px] h-[50px]">
                       {post?.title?.split(" ").slice(0, 6).join(" ")}
                       {post?.title?.split(" ").length > 6 && "..."}
                     </p>

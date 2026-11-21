@@ -42,10 +42,10 @@ export default function ApplicationProcess() {
         {/* ================= HEADER ================= */}
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-3 mb-3">
-            <div className="w-12 h-12 bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] rounded-xl flex items-center justify-center shadow-md">
+            <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center shadow-md">
               <Target className="w-6 h-6 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 ">
               Application{' '}
               
                 Process
@@ -67,7 +67,7 @@ export default function ApplicationProcess() {
               const IconComp = item.icon;
               return (
                 <div key={item.step} className="relative">
-                  <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-xl min-h-[300px] border border-gray-100 hover:border-red-300 transition-all duration-300 group hover:-translate-y-1.5 flex flex-col justify-between items-center text-center">
+                  <div className="bg-white p-5 rounded-2xl  hover:shadow-md min-h-[300px] border border-gray-100  transition-all duration-300 group  flex flex-col justify-between items-center text-center">
                     
                     {/* Icon & Number Badge */}
                     <div className="relative mb-5 pt-1">
@@ -78,14 +78,14 @@ export default function ApplicationProcess() {
                       ">
                         <IconComp className="w-8 h-8 text-white" />
                       </div>
-                      <div className="absolute -top-1 -right-12 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2 border-white z-20">
+                      <div className="absolute -top-1 -right-12 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md  z-20">
                         {item.step}
                       </div>
                     </div>
 
                     {/* Step Title & Description */}
                     <div className="flex-1 flex flex-col justify-center">
-                      <h3 className="text-[17px] font-bold text-gray-900 mb-2.5 group-hover:text-red-600 transition-colors leading-snug">
+                      <h3 className="text-[17px] font-bold text-gray-900 mb-2.5  transition-colors leading-snug">
                         {item.title}
                       </h3>
                       <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">

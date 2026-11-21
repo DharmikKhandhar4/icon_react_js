@@ -60,7 +60,7 @@ export default function NewHeroSection() {
   };
 
   return (
-    <div className="relative pt-[78px] sm:pt-[82px] md:pt-[88px] lg:pt-[80px] mx-auto flex flex-col w-full 2xl:w-[1400px] mb-6 sm:mb-8 md:mb-10 lg:pb-6">
+    <div className="relative pt-[78px] sm:pt-[82px] md:pt-[88px] lg:pt-[145px] mx-auto flex flex-col w-full 2xl:w-[1400px] mb-6 sm:mb-8 md:mb-10 lg:pb-6">
       {/* Primary SEO H1 Heading for Home Page */}
       <h1 className="sr-only">
         ICON Packtech - Packaging &amp; Thermoforming Machinery Manufacturer in India
@@ -68,7 +68,7 @@ export default function NewHeroSection() {
 
       <div className="flex flex-col w-full px-2.5 sm:px-0 md:px-0 md11:px-0">
         <section
-          className="group relative w-full md11:w-[84%] 2xl:w-full mx-auto rounded-xl sm:rounded-2xl md:rounded-[14px] overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          className="group relative w-full md11:w-[84%] 2xl:w-full mx-auto rounded-xl sm:rounded-2xl md:rounded-[14px] overflow-hidden  transition-shadow"
           aria-roledescription="carousel"
           aria-label="Hero Banner Carousel"
           onTouchStart={handleTouchStart}
@@ -107,7 +107,7 @@ export default function NewHeroSection() {
          
 
           {/* Indicator Dots */}
-          <div className="absolute z-20 bottom-2.5 sm:bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 bg-black/20 backdrop-blur-xs px-2.5 py-1 rounded-full">
+          <div className="absolute z-20 bottom-2.5 sm:bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 bg backdrop-blur-xs px-2.5 py-1 rounded-full">
             {banners.map((_, dotIdx) => (
               <button
                 key={dotIdx}
@@ -117,7 +117,7 @@ export default function NewHeroSection() {
                 className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
                   currentSlide === dotIdx
                     ? 'bg-red-600 w-5 sm:w-6'
-                    : 'bg-white/70 w-2 sm:w-2.5 hover:bg-white'
+                    : 'bg-red-200 w-2 sm:w-2.5 hover:bg-white'
                 }`}
               />
             ))}

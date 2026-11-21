@@ -158,7 +158,7 @@ const TestimonialsSection = () => {
   const displayList = [...testimonials, ...testimonials];
 
   return (
-    <section className="w-full bg-white py-14 sm:py-10 px-4 sm:px-6 lg:px-12 font-sans overflow-hidden lg:pt-[80px]">
+    <section className="w-full bg-white py-14 sm:py-10 px-4 sm:px-6 lg:px-12 font-sans overflow-hidden lg:pt-[70px]">
       <div className="max-w-[1300px] mx-auto flex flex-col">
         
         {/* ================= HEADER ================= */}

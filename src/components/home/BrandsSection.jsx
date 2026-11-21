@@ -18,13 +18,13 @@ const BrandsSection = () => {
   const marqueeList = [...brands, ...brands, ...brands];
 
   return (
-    <section className="w-full bg-white py-10 md:py-6 font-sans overflow-hidden">
+    <section className="w-full bg-white py-10 md:py-6 font-sans overflow-hidden mt-12">
       <div className="max-w-[1300px] mx-auto px-4">
         
         {/* ================= SECTION TITLE WITH GRADIENT ACCENT LINES ================= */}
         <div className="flex items-center justify-center gap-4 sm:gap-3 mb-5">
           <div className="h-[2px] bg-gradient-to-r from-transparent to-[#ff4d00] flex-1 max-w-[320px]" />
-          <h2 className="text-xl sm:text-2xl md:text-[23px] font-[500] text-gray-900 tracking-tight whitespace-nowrap text-center">
+          <h2 className="text-xl sm:text-2xl md:text-[23px] font-[500] text-gray-900  whitespace-nowrap text-center">
             Brands Who Trust Us
           </h2>
           <div className="h-[2px] bg-gradient-to-r from-[#ff4d00] to-transparent flex-1 max-w-[320px]" />

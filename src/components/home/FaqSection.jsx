@@ -61,7 +61,7 @@ export default function FaqSection() {
             {faqs.map((item, index) => (
               <div
                 key={item.id}
-                className="flex flex-col gap-[5px] shadow-sm border border-[#f00] p-[10px] md:px-[15px] md:py-[4px] rounded-[5px] rounded-tl-[18px] custom-shadow1"
+                className="flex flex-col shadow-sm border border-[#f00] p-[10px] md:px-[15px] md:py-[4px] rounded-[5px] rounded-tl-[18px] custom-shadow1"
               >
                 {/* Accordion Header */}
                 <div
@@ -108,7 +108,7 @@ export default function FaqSection() {
                 key={faqs[openIndex]?.id}
                 src={faqs[openIndex]?.image}
                 alt={faqs[openIndex]?.question}
-                className="w-[430px] h-[260px] object-cover rounded-lg shadow-md transition-all duration-300"
+                className="w-[430px] h-[260px] object-cover rounded-lg  transition-all duration-300"
                 width="430"
                 height="260"
               />

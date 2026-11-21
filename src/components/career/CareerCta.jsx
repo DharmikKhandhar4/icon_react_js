@@ -13,7 +13,7 @@ export default function CareerCta({ onNavigate }) {
 
       <div className="relative max-w-4xl mx-auto text-center z-10">
         <div className="mb-4">
-          <h2 className="text-3xl sm:text-4xl md:text-4xl font-bold tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-4xl font-bold ">
             Ready to Start Your{' '}
          
               Journey?
@@ -21,14 +21,14 @@ export default function CareerCta({ onNavigate }) {
           </h2>
         </div>
 
-        <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8  mx-auto ">
           Join Icon Industry and become part of a team that's shaping the future of packaging automation and industrial machinery.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button
             onClick={() => onNavigate && onNavigate('/contact-us')}
-            className="inline-flex items-center gap-3 bg-red-600 text-white px-8 py-2 rounded-lg   font-bold text-base sm:text-lg hover:bg-red-700 transition-all duration-200 shadow-xl hover:shadow-red-600/30 hover:scale-105 cursor-pointer"
+            className="inline-flex items-center gap-3 bg-red-600 text-white px-8 py-2 rounded-lg   font-bold text-base sm:text-lg hover:bg-red-700 transition-all duration-200 shadow-xl cursor-pointer"
           >
             <span>Contact Now</span>
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

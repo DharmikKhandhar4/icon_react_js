@@ -56,16 +56,16 @@ const benefits = [
 
 export default function WhyChooseCareers() {
   return (
-    <section className="py-12 md:py-16 mt-4 px-4 bg-gray-50/80 font-Poppins">
+    <section className="py-12 md:py-10 mt-4 px-4 bg-gray-50/80 font-Poppins">
       <div className="max-w-7xl mx-auto">
         
         {/* ================= HEADER ================= */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-3 mb-3">
+          <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-12 h-12 bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] rounded-xl flex items-center justify-center shadow-md">
               <Star className="w-6 h-6 text-white fill-white/20" />
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 ">
               Why Choose{' '}
            
                 Icon Industry

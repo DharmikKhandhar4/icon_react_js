@@ -43,7 +43,7 @@ export default function CultureValues() {
             <div className="w-12 h-12 bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] rounded-xl flex items-center justify-center shadow-md">
               <Heart className="w-6 h-6 text-white fill-white/20" />
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 ">
               Our{' '}
            
                 Culture &amp; Values
@@ -67,7 +67,7 @@ export default function CultureValues() {
               return (
                 <div
                   key={val.id}
-                  className={`p-3 rounded-xl border-[1.3px] shadow-sm transition-all duration-300 group hover:shadow-md hover:-translate-y-0.5 ${
+                  className={`p-3 rounded-xl border-[1.3px] shadow-md transition-all duration-300 group   ${
                     isRed
                       ? 'border-red-200 bg-red-50/70 hover:border-red-300'
                       : 'border-gray-200 bg-gray-50/80 hover:border-gray-300'
@@ -77,8 +77,8 @@ export default function CultureValues() {
                     <div
                       className={`w-10 h-10 flex-shrink-0 rounded-[10px] border-[1.3px] flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ${
                         isRed
-                          ? 'bg-white border-red-200 text-red-600 shadow-sm'
-                          : 'bg-white border-gray-200 text-gray-600 shadow-sm'
+                          ? ' border-red-200 text-red-600 '
+                          : ' border-gray-200 text-gray-600 '
                       }`}
                     >
                       <IconComp className="w-4 h-4" />
@@ -101,7 +101,7 @@ export default function CultureValues() {
           </div>
 
           {/* Right Column: Factory Worker / Team Image */}
-          <div className="w-full lg:w-1/2 overflow-hidden rounded-2xl shadow-lg border border-gray-100 order-1 lg:order-2 flex min-h-[320px]">
+          <div className="w-full lg:w-1/2 overflow-hidden rounded-xl shadow-lg border border-gray-100 order-1 lg:order-2 flex min-h-[320px]">
             <img
               src="/assets/factoryworker-B_Wtn_51.jpg"
               alt="ICON factory and engineering team"
@@ -109,7 +109,7 @@ export default function CultureValues() {
               height="400"
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover object-center rounded-2xl hover:scale-105 transition-transform duration-700"
+              className="w-full h-full object-cover object-center rounded-xl "
               onError={(e) => {
                 e.currentTarget.src = '/career/career.webp';
               }}

@@ -37,16 +37,14 @@ export default function Careers({ onNavigate }) {
   return (
     <div className="min-h-screen bg-slate-50/60  font-Poppins">
       {/* ================= 1. HERO SECTION ================= */}
-      <div className="pt-6 px-4">
-        <section className="relative bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white w-[94%] sm:w-[85%] lg:w-[75%] 2xl:w-[1200px] rounded-[20px] mx-auto py-6 sm:py-8 px-4 sm:px-8 overflow-hidden  border border-red-500/30">
-          {/* Subtle Ambient Background Accents */}
-          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
-          <div className="absolute top-0 right-0 w-80 h-60 bg-red-500 rounded-full opacity-20 transform translate-x-32 -translate-y-32 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-400 rounded-full opacity-20 transform -translate-x-16 translate-y-16 pointer-events-none" />
-
-          <div className="relative max-w-4xl mx-auto text-center z-10">
+      <div className="pt-4 px-4">
+        <section className="relative bg-gradient-to-br from-red-600 w-[70%] 2xl:w-[1200px] rounded-[20px] mx-auto via-red-700 to-red-800 text-white py-3 px-4 overflow-hidden">
+          <div className="absolute inset-0 bg-black opacity-10"></div>
+          <div className="absolute top-0 right-0 w-80 h-60 bg-red-500 rounded-full opacity-20 transform translate-x-32 -translate-y-32"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-400 rounded-full opacity-20 transform -translate-x-16 translate-y-16"></div>
+          <div className="relative max-w-6xl mx-auto py-4 text-center">
             {/* Pill Badge */}
-            <div className=" items-center gap-1.5  backdrop-blur-md border border-white/20  text-xs sm:text-[13px]   text-white
+            <div className=" items-center gap-1.5  backdrop-blur-md   text-xs sm:text-[13px]   text-white
             inline-block bg-red-500/30 px-4 py-2 rounded-full shadow-2xl text-[13px] font-medium mb-3
             ">
               {/* <Sparkles className="w-3.5 h-3.5 text-red-200" /> */}
@@ -54,7 +52,7 @@ export default function Careers({ onNavigate }) {
             </div>
 
             {/* Main Title */}
-            <h1 className="text-2xl sm:text-3xl md:text-[30px] font-[600] tracking-tight mb-3 leading-tight ">
+            <h1 className="text-2xl sm:text-3xl md:text-[30px] font-[600]  mb-3 md11:leading-[39px]  ">
               Build the Future of{' '}
               <span className="block text-red-200 font-[600]">Packaging &amp; Automation</span>
             </h1>

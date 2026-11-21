@@ -60,7 +60,7 @@ const rightPills = [
 
 const WhyChooseUsSection = () => {
   return (
-    <section className="w-full bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <section className="w-full bg-white py-8 md:pb-12 mb:pt-0 px-4 sm:px-6 lg:px-8 font-sans">
       {/* Outer Card Container */}
       <div className="relative max-w-[1300px] mx-auto rounded-[15px]  bg-white  overflow-hidden ">
         

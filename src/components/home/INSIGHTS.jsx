@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, } from 'lucide-react';
 
 const articles = [
   {
@@ -19,7 +19,7 @@ const articles = [
   {
     id: 3,
     title: "Icon Packtech Pvt. Ltd.: How Low-Cost Vacuum...",
-    description: "For many farmers, the most challenging part of agriculture does not end at harvest; it being after. Months of labour, care and...",
+    description: "For many farmers, the most challenging part of agriculture does not end at harvest; it being after. Months of labour..",
     image: "/home/blog/blog3.webp",
     link: "#",
   },
@@ -86,8 +86,8 @@ const InsightsSection = () => {
           {articles.map((article) => (
             <div
               key={article.id}
-              className="group min-w-[290px] sm:min-w-[270px] max-w-[280px] h-[430px] md11:h-[400px] 2xl:h-[440px] bg-white rounded-3xl 
-               border border-gray-100 overflow-hidden flex flex-col justify-between snap-start shadow-md cursor-pointer"
+              className="group min-w-[290px] sm:min-w-[270px] max-w-[280px] h-[430px] md11:h-[400px] 2xl:h-[420px] bg-white rounded-3xl 
+               border border-gray-100 overflow-hidden  snap-start shadow-md cursor-pointer"
             >
               <div>
                 {/* Card Image */}
@@ -111,20 +111,25 @@ const InsightsSection = () => {
                   <p className="mt-1 text-sm leading-5 line-clamp-5 text-[#000]">
                     {article.description}
                   </p>
-                </div>
-              </div>
 
-              {/* Card Footer Link */}
-              <div className="px-5 pb-3 pt-1">
+                  
                 <a
                   href={article.link}
-                  className="inline-flex items-center font-[500] text-xs sm:text-sm transition-opacity hover:opacity-85"
+                  className="inline-flex items-center font-[500] text-xs sm:text-sm transition-opacity hover:opacity-85 mt-5"
                 >
                   <span className="bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent font-medium">
                     Read more
                   </span>
+                  <ArrowUpRight  className="w-3.5 h-3.5 ml-2 text-red-600
+                  transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </a>
+                </div>
+
               </div>
+
+              {/* Card Footer Link */}
+            
+           
             </div>
           ))}
         </div>
