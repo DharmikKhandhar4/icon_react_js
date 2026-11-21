@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowUpRight, } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import DepthCard, { DepthLayer } from '../DepthCard';
 
 const articles = [
   {
@@ -81,56 +82,56 @@ const InsightsSection = () => {
           </a>
         </div>
 
-        {/* Horizontal Scrollable Cards Container */}
-        <div className="flex gap-5 overflow-x-auto pb-8 pt-0 pr-6 sm:pr-12 lg:pr-20 scrollbar-hide snap-x">
+        {/* Horizontal Scrollable Cards Container with 3D Depth Card Tilt */}
+        <div className="flex gap-6 overflow-x-auto pb-10 pt-3 px-2 pr-6 sm:pr-12 lg:pr-20 scrollbar-hide snap-x">
           {articles.map((article) => (
-            <div
+            <DepthCard
               key={article.id}
-              className="group min-w-[290px] sm:min-w-[270px] max-w-[280px] h-[430px] md11:h-[400px] 2xl:h-[420px] bg-white rounded-3xl 
-               border border-gray-100 overflow-hidden  snap-start shadow-md cursor-pointer"
+              maxTilt={14}
+              scale={1.03}
+              glare={true}
+              glareOpacity={0.22}
+              shadow={true}
+              containerClassName="snap-start flex-shrink-0"
+              className="group min-w-[290px] sm:min-w-[270px] max-w-[280px] h-[430px] md11:h-[400px] 2xl:h-[420px] bg-white rounded-3xl border border-gray-200/80 shadow-md hover:shadow-xl transition-shadow cursor-pointer"
             >
-              <div>
-                {/* Card Image */}
-                <div className="w-full bg-gray-100 h-[210px] md11:h-[190px] 2xl:h-[220px] overflow-hidden">
+              <div className="h-full flex flex-col justify-between">
+                {/* Card Image with 3D Depth Layer */}
+                <DepthLayer depth={25} className="w-full bg-gray-100 h-[210px] md11:h-[190px] 2xl:h-[220px] overflow-hidden rounded-t-3xl">
                   <img
                     src={article.image}
                     alt={article.title}
                     width="280"
                     height="220"
-                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-108"
                     loading="lazy"
                     decoding="async"
                   />
-                </div>
+                </DepthLayer>
 
-                {/* Card Content */}
-                <div className="p-4">
-                  <h3 className="text-[17px] font-semibold line-clamp-2 leading-[22px] text-[#000] ">
-                    {article.title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-5 line-clamp-5 text-[#000]">
-                    {article.description}
-                  </p>
+                {/* Card Content with Raised 3D Depth Layer */}
+                <DepthLayer depth={45} className="p-4 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-[17px] font-semibold line-clamp-2 leading-[22px] text-gray-950">
+                      {article.title}
+                    </h3>
+                    <p className="mt-1 text-sm leading-5 line-clamp-5 text-gray-700">
+                      {article.description}
+                    </p>
+                  </div>
 
-                  
-                <a
-                  href={article.link}
-                  className="inline-flex items-center font-[500] text-xs sm:text-sm transition-opacity hover:opacity-85 mt-5"
-                >
-                  <span className="bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent font-medium">
-                    Read more
-                  </span>
-                  <ArrowUpRight  className="w-3.5 h-3.5 ml-2 text-red-600
-                  transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </a>
-                </div>
-
+                  <a
+                    href={article.link}
+                    className="inline-flex items-center font-[500] text-xs sm:text-sm transition-opacity hover:opacity-85 mt-4"
+                  >
+                    <span className="bg-[linear-gradient(38.46deg,red_0.15%,rgb(97,3,3)_98.48%)] bg-clip-text text-transparent font-medium">
+                      Read more
+                    </span>
+                    <ArrowUpRight className="w-3.5 h-3.5 ml-2 text-red-600 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </a>
+                </DepthLayer>
               </div>
-
-              {/* Card Footer Link */}
-            
-           
-            </div>
+            </DepthCard>
           ))}
         </div>
       </div>
