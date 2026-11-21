@@ -14,7 +14,7 @@ import LatestInsightsSection from './components/home/LatestInsightsSection';
 import Footer from './components/Footer';
 import FloatingBrochureButton from './components/FloatingBrochureButton';
 import NewHeader from './components/NewHeader';
-import NewHeroSection from './components/NewHeroSection';
+import ParticleHeroSection from './components/ParticleHeroSection';
 import './styles.css';
 
 
@@ -174,7 +174,7 @@ export default function App() {
           ) : (
             <>
               {/* <HeroSection /> */}
-              <NewHeroSection />
+              <ParticleHeroSection onNavigate={handleNavigate} />
               <ExhibitionSection />
               <INSIGHTS />
               <ManufacturerSection />

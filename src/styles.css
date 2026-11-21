@@ -468,40 +468,4 @@ body {
   transform: scale(0.92);
 }
 
-/* Floating Brochure Button: Start at center and expand outwards into their respective places */
-@keyframes brochureArrowFromCenter {
-  0% {
-    opacity: 0.9;
-    transform: translateX(95px) scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-@keyframes brochureTextFromCenter {
-  0% {
-    opacity: 0;
-    clip-path: inset(0 100% 0 0);
-    transform: translateX(15px);
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    clip-path: inset(0 0% 0 0);
-    transform: translateX(0);
-  }
-}
-
-.animate-arrow-from-center {
-  animation: brochureArrowFromCenter 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.animate-text-from-center {
-  animation: brochureTextFromCenter 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
-  will-change: clip-path, transform, opacity;
-}
 
