@@ -181,26 +181,26 @@ export default function MachineShowcaseHero({
       aria-label="ICON Packtech Machine Showcase"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`relative w-full overflow-hidden bg-white text-slate-800 pt-20 sm:pt-4 pb-8 font-Poppins select-none ${className}`}
+      className={`relative w-full overflow-hidden bg-white text-slate-800 pt-20 sm:pt-0 pb-8 font-Poppins select-none ${className}`}
+      style={{
+        backgroundImage: "url('/home/productbg.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
     >
-      {/* Subtle background ambient mesh */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.35]"
-        style={{
-          backgroundImage:
-            'radial-gradient(rgba(220, 38, 38, 0.12) 1px, transparent 1px)',
-          backgroundSize: '36px 36px',
-        }}
-        aria-hidden="true"
-      />
+      {/* Background Graphic Image */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <img
+          src="/home/productbg.png"
+          alt="ICON Packtech Machinery Background"
+          className="w-full h-full object-cover object-center pointer-events-none select-none"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
 
-      {/* Ambient Central Spotlight behind machine */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[720px] h-[450px] sm:h-[580px] rounded-full bg-gradient-to-tr from-red-500/10 via-rose-400/5 to-transparent blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-
-      <div className="relative max-w-[1440px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] px-6 sm:px-10 lg:px-14 py-4 lg:py-6 flex flex-col justify-between">
+      <div className="relative z-10 max-w-[1300px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[650px] px-6 sm:px-10 lg:px-14 py-4 lg:py-6 flex  ">
         {/* ===================================================================
             TOP BAR CONTROLS (Matching Pinterest Image 1 & 2 Top-Left)
             - Circular < > buttons
@@ -211,7 +211,7 @@ export default function MachineShowcaseHero({
         {/* ===================================================================
             MAIN 3-COLUMN HERO GRID
            =================================================================== */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center my-auto py-2 sm:py-4 overflow-visible">
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center  py-2 sm:py-4 overflow-visible">
           {/* ---------------------------------------------------------------
               LEFT COLUMN: Headline, Description & CTA Button
              --------------------------------------------------------------- */}
@@ -248,15 +248,15 @@ export default function MachineShowcaseHero({
                 className="space-y-4 sm:space-y-5"
               >
                 {/* Category Pill */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-red-50 border border-red-200/80 text-[11px] font-mono tracking-wider uppercase text-icon font-bold">
-                  <Cpu className="w-3.5 h-3.5 text-red-600" />
-                  <span>{currentMachine.category}</span>
+                <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-red-50 border border-red-200/80 text-[11px]  tracking-wider uppercase text-icon font-bold">
+                  {/* */}
+                  <span className=' flex gap-2'><Cpu className="w-3.5 h-3.5 text-red-600" /> {currentMachine.category}</span>
                 </div>
 
                 {/* Main Headline with text-icon color */}
                 <div className="relative">
                   {/* Subtle accent indicator dot matching Image 1 */}
-                  <span className="hidden sm:inline-block absolute -left-4 top-3 w-2 h-2 rounded-full bg-emerald-500" />
+                  
                   <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-5xl font-bold tracking-tight text-slate-900 leading-[1.08]">
                     <span>{currentMachine.titleLine1}</span>
                     <br />
@@ -282,7 +282,7 @@ export default function MachineShowcaseHero({
                         onOpenBrochure();
                       }
                     }}
-                    className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3 bs-mix-red hover:opacity-95 text-white rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-[0_8px_20px_-4px_rgba(239,68,68,0.4)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3 bs-mix-red hover:opacity-95 text-white rounded-full font-bold  tracking-wide text-xs  shadow-[0_8px_20px_-4px_rgba(239,68,68,0.4)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
                   >
                     <span>Get machine specs</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -442,7 +442,7 @@ export default function MachineShowcaseHero({
           {/* ---------------------------------------------------------------
               RIGHT COLUMN: Output Metric, Model Selectors & Floating Next Machine
              --------------------------------------------------------------- */}
-          <div className="lg:col-span-3 z-20 flex flex-col items-start lg:items-end justify-between space-y-6 lg:space-y-8 order-3">
+          <div className="lg:col-span-3 z-20 flex flex-col items-end lg:items-end justify-between space-y-6 lg:space-y-0 order-3">
             {/* Top Metric / Output Speed with text-icon (matching $149 / $199 price position) */}
             <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div
@@ -487,33 +487,7 @@ export default function MachineShowcaseHero({
               </motion.div>
             </AnimatePresence>
 
-            {/* Model / Series Selectors (Circular Buttons matching "Choose your size: 36 38 40") */}
-            <div className="flex flex-col items-start lg:items-end space-y-2.5">
-              <span className="text-[11px] uppercase tracking-wider text-slate-500 font-mono font-semibold">
-                Choose machine:
-              </span>
-              <div className="flex items-center gap-2">
-                {machines.map((machine, idx) => {
-                  const isActive = idx === currentIndex;
-                  return (
-                    <button
-                      key={machine.id}
-                      type="button"
-                      onClick={() => selectMachine(idx)}
-                      aria-label={`Select ${machine.name}`}
-                      className={`w-10 h-10 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-semibold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
-                        isActive
-                          ? 'bs-mix-red text-white shadow-[0_4px_14px_rgba(239,68,68,0.4)] scale-110'
-                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 hover:scale-105'
-                      }`}
-                    >
-                      {machine.badge || String(idx + 1).padStart(2, '0')}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
+        
             {/* Bottom-Right Floating Next Machine (Unboxed matching Image 1 & 2 bottom-right) */}
             <div
               onClick={handleNext}
@@ -589,85 +563,7 @@ export default function MachineShowcaseHero({
           </div>
         </div>
 
-        {/* ===================================================================
-            BOTTOM FOOTER STRIP: Social/Trust Icons & Progress Bar
-           =================================================================== */}
-        <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 z-20">
-          {/* Social / Trust Icons (matching bottom-left of Pinterest layout) */}
-          <div className="flex items-center gap-3 text-slate-500">
-            <a
-              href="https://www.instagram.com/icon.packtech/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
-            >
-              <img
-                src="/footer/instagram.png"
-                alt="Instagram"
-                className="w-full h-full object-contain"
-              />
-            </a>
-            <a
-              href="https://www.facebook.com/people/Icon-Packtech-India-Pvt-Ltd/61561593819510/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
-            >
-              <img
-                src="/footer/facebook-app-symbol.png"
-                alt="Facebook"
-                className="w-full h-full object-contain"
-              />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/icon-packtech/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
-            >
-              <img
-                src="/footer/linkedin.png"
-                alt="LinkedIn"
-                className="w-full h-full object-contain"
-              />
-            </a>
-            <a
-              href="https://www.youtube.com/@icon.packtech"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-50 border border-slate-200 flex items-center justify-center p-1.5 transition-transform hover:scale-105"
-            >
-              <img
-                src="/footer/youtube.png"
-                alt="YouTube"
-                className="w-full h-full object-contain"
-              />
-            </a>
-
-            <span className="hidden sm:inline-block h-3 w-px bg-slate-300 ml-2" />
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono text-slate-600 ml-2">
-              <ShieldCheck className="w-3.5 h-3.5 text-red-600" />
-              ISO 9001:2015 Certified Plant · Made in India
-            </span>
-          </div>
-
-          {/* Automatic slide progress bar */}
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <span className="text-[11px] font-mono text-slate-500 tracking-wider">
-              {isPaused ? 'PAUSED' : 'AUTO-CYCLE'}
-            </span>
-            <div className="w-32 sm:w-44 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-              <motion.div
-                style={{ width: `${progress}%` }}
-                className="h-full bs-mix-red rounded-full"
-              />
-            </div>
-          </div>
-        </div>
+     
       </div>
     </section>
   );
