@@ -468,30 +468,34 @@ body {
   transform: scale(0.92);
 }
 
-/* Floating Brochure Button: Converging animation (both come to center) */
-@keyframes brochureIconToCenter {
-  0%, 100% {
+/* Floating Brochure Button: First time load animation - both come to center into their place */
+@keyframes brochureIconEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(-35px);
+  }
+  100% {
+    opacity: 1;
     transform: translateX(0);
   }
-  50% {
-    transform: translateX(5px);
-  }
 }
 
-@keyframes brochureTextToCenter {
-  0%, 100% {
+@keyframes brochureTextEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+  100% {
+    opacity: 1;
     transform: translateX(0);
   }
-  50% {
-    transform: translateX(-5px);
-  }
 }
 
-.animate-icon-to-center {
-  animation: brochureIconToCenter 2.2s ease-in-out infinite;
+.animate-icon-entrance {
+  animation: brochureIconEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.animate-text-to-center {
-  animation: brochureTextToCenter 2.2s ease-in-out infinite;
+.animate-text-entrance {
+  animation: brochureTextEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
