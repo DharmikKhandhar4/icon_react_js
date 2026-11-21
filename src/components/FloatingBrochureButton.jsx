@@ -1,31 +1,32 @@
 import React from 'react';
 import { Lottie } from 'lottie-react';
-import downloadAnimation from '../assets/download.json';
-
-const LOTTIE_URL = 'https://lottie.host/4a924de7-c0ff-4751-8dc4-54e64dbd1559/Ja9aDvHCci.json';
+import downloadWhiteAnimation from '../assets/download-white.json';
 
 export default function FloatingBrochureButton({ onClick }) {
-  const animationSource = downloadAnimation || LOTTIE_URL;
-
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label="Download ICON Packtech brochure"
-      className="z-[100] bottom-11 fixed font-Poppins right-[30px] bs-mix-red text-white h-[48px] px-4 sm:px-5 rounded-[12px] shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2.5 sm:gap-3 cursor-pointer hover:scale-105 active:scale-95 group border border-white/20 select-none"
+      className="z-[100] bottom-11 fixed right-[30px] font-Poppins bg-[#00a624] hover:bg-[#00911f] text-white rounded-full p-[5px] shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer select-none group"
     >
-      <div className="w-[32px] h-[32px] bg-white rounded-full flex items-center justify-center p-0.5 shadow-sm flex-shrink-0 group-hover:rotate-6 transition-transform duration-300 overflow-hidden">
-        <Lottie
-          src={animationSource}
-          loop={true}
-          autoplay={true}
-          style={{ width: 26, height: 26 }}
-          className="flex items-center justify-center"
-        />
+      <div className="border-[2.5px] border-white rounded-full pl-1.5 pr-6 py-1.5 flex items-center gap-3.5">
+        {/* Left Circular Section with Animated Arrow */}
+        <div className="w-[42px] h-[42px] rounded-full border-[2.5px] border-white flex items-center justify-center p-1.5 flex-shrink-0 bg-transparent overflow-hidden">
+          <Lottie
+            src={downloadWhiteAnimation}
+            loop={true}
+            autoplay={true}
+            style={{ width: '100%', height: '100%' }}
+            className="flex items-center justify-center"
+          />
+        </div>
+
+        {/* Button Label */}
+        <span className="text-[15px] sm:text-[16px] font-extrabold tracking-wider text-white whitespace-nowrap">
+          DOWNLOAD BROCHURE
+        </span>
       </div>
-      <span className="text-[14px] sm:text-[15px] font-[600] tracking-wide whitespace-nowrap text-white">
-        Download Brochure
-      </span>
     </button>
   );
 }
