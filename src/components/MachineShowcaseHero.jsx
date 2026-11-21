@@ -182,25 +182,34 @@ export default function MachineShowcaseHero({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       className={`relative w-full overflow-hidden bg-white text-slate-800 pt-20 sm:pt-0 pb-8 font-Poppins select-none ${className}`}
-      style={{
-        backgroundImage: "url('/home/productbg.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
     >
-      {/* Background Graphic Image */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+      {/* Subtle background ambient mesh */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.35]"
+        style={{
+          backgroundImage:
+            'radial-gradient(rgba(220, 38, 38, 0.12) 1px, transparent 1px)',
+          backgroundSize: '36px 36px',
+        }}
+        aria-hidden="true"
+      />
+       <div className="absolute inset-0 pointer-events-none z-0 opacity-30">
         <img
           src="/home/productbg.png"
           alt="ICON Packtech Machinery Background"
-          className="w-full h-full object-cover object-center pointer-events-none select-none"
+          className="w-full h-[100%] object-cover object-center pointer-events-none select-none"
           loading="eager"
           decoding="async"
         />
       </div>
 
-      <div className="relative z-10 max-w-[1300px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[650px] px-6 sm:px-10 lg:px-14 py-4 lg:py-6 flex  ">
+      {/* Ambient Central Spotlight behind machine */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[720px] h-[450px] sm:h-[580px] rounded-full bg-gradient-to-tr from-red-500/10 via-rose-400/5 to-transparent blur-3xl pointer-events-none"
+        aria-hidden="true"
+      />
+
+      <div className="relative max-w-[1300px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[650px] px-6 sm:px-10 lg:px-14 py-4 lg:py-6 flex  ">
         {/* ===================================================================
             TOP BAR CONTROLS (Matching Pinterest Image 1 & 2 Top-Left)
             - Circular < > buttons
@@ -211,7 +220,9 @@ export default function MachineShowcaseHero({
         {/* ===================================================================
             MAIN 3-COLUMN HERO GRID
            =================================================================== */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center  py-2 sm:py-4 overflow-visible">
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center  py-2 sm:py-4 overflow-visible "
+       
+        >
           {/* ---------------------------------------------------------------
               LEFT COLUMN: Headline, Description & CTA Button
              --------------------------------------------------------------- */}
@@ -442,7 +453,7 @@ export default function MachineShowcaseHero({
           {/* ---------------------------------------------------------------
               RIGHT COLUMN: Output Metric, Model Selectors & Floating Next Machine
              --------------------------------------------------------------- */}
-          <div className="lg:col-span-3 z-20 flex flex-col items-end lg:items-end justify-between space-y-6 lg:space-y-0 order-3">
+          <div className="lg:col-span-3 z-20 flex flex-col items-end lg:items-end justify-between space-y-6 lg:space-y-0 order-3 pt-28">
             {/* Top Metric / Output Speed with text-icon (matching $149 / $199 price position) */}
             <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div

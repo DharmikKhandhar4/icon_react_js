@@ -134,7 +134,7 @@ export default function DepthCard({
           transformStyle: 'preserve-3d',
           ...style,
         }}
-        className={`relative will-change-transform select-none rounded-[inherit] ${className}`}
+        className={`relative will-change-transform select-none overflow-hidden ${className}`}
         {...props}
       >
         {/* Dynamic 3D Floating Shadow */}
@@ -167,7 +167,7 @@ export default function DepthCard({
                 background: glareBackground,
               }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 pointer-events-none z-40 transition-opacity duration-200"
+              className="absolute inset-0 pointer-events-none z-40 transition-opacity duration-200 rounded-[inherit] overflow-hidden"
             />
           )}
         </div>

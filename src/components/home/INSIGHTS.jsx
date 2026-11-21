@@ -83,7 +83,7 @@ const InsightsSection = () => {
         </div>
 
         {/* Horizontal Scrollable Cards Container with 3D Depth Card Tilt */}
-        <div className="flex gap-6 overflow-x-auto pb-10 pt-3 px-2 pr-6 sm:pr-12 lg:pr-20 scrollbar-hide snap-x">
+        <div className="flex gap-6 overflow-x-auto pb-10 pt-3 px-2 pr-6 sm:pr-12 lg:pr-20 scrollbar-hide snap-x ">
           {articles.map((article) => (
             <DepthCard
               key={article.id}
@@ -92,10 +92,10 @@ const InsightsSection = () => {
               glare={true}
               glareOpacity={0.22}
               shadow={true}
-              containerClassName="snap-start flex-shrink-0"
-              className="group min-w-[290px] sm:min-w-[270px] max-w-[280px] h-[430px] md11:h-[400px] 2xl:h-[420px] bg-white rounded-3xl border border-gray-200/80 shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+              containerClassName="snap-start flex-shrink-0 rounded-3xl"
+              className="group min-w-[290px] sm:min-w-[270px] max-w-[280px] h-[430px] md11:h-[400px] 2xl:h-[420px] bg-white rounded-3xl border border-gray-200/80 shadow-md hover:shadow-xl transition-shadow cursor-pointer overflow-hidden"
             >
-              <div className="h-full flex flex-col justify-between">
+              <div className="h-full flex flex-col justify-between rounded-3xl overflow-hidden">
                 {/* Card Image with 3D Depth Layer */}
                 <DepthLayer depth={25} className="w-full bg-gray-100 h-[210px] md11:h-[190px] 2xl:h-[220px] overflow-hidden rounded-t-3xl">
                   <img
@@ -103,7 +103,7 @@ const InsightsSection = () => {
                     alt={article.title}
                     width="280"
                     height="220"
-                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-108"
+                    className="w-full h-full object-cover rounded-t-3xl transition-transform duration-500 ease-out group-hover:scale-108"
                     loading="lazy"
                     decoding="async"
                   />
