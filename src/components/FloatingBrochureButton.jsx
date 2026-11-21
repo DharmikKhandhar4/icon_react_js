@@ -22,8 +22,8 @@ export default function FloatingBrochureButton({ onClick }) {
           />
         </div>
 
-        {/* Button Label - starts at center and moves right to its place */}
-        <span className="text-[15px] sm:text-[14px] font-bold tracking-wider text-white whitespace-nowrap animate-text-from-center">
+        {/* Button Label - starts from first character and reveals rightward */}
+        <span className="text-[15px] sm:text-[14px] font-bold tracking-wider text-white whitespace-nowrap animate-text-from-center inline-block">
           DOWNLOAD BROCHURE
         </span>
       </div>
