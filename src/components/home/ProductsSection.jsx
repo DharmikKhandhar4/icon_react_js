@@ -217,7 +217,7 @@ export default function ProductsSection({ onNavigate }) {
             </div>
 
             {/* Products Grid */}
-            <div className="flex overflow-x-auto md77:overflow-hidden md:grid md77:grid-cols-2 md11:grid-cols-4 gap-[10px] justify-between">
+            <div className="flex overflow-x-auto md77:overflow-visible md:grid md77:grid-cols-2 md11:grid-cols-4 gap-[10px] justify-between pt-[260px] md11:pt-[260px] -mt-[260px]">
               {products.slice(0, 4).map((product, index) => {
                   const currentId = product._id || product.id || index;
                   const isSelected = selectedProduct === currentId;
