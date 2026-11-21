@@ -6,7 +6,7 @@ const faqs = [
     id: 1,
     question: "What types of vacuum machines do you manufacture?",
     answer:
-      "We manufacture a wide range of high-performance packaging systems including Inline Tray Sealers (MAP), Continuous Tray Sealers, Linear Cup Filling & Sealing Machines, and Thermoforming Vacuum Packaging Machines tailored for diverse production capacities.",
+      "Icon manufactures a range of vacuum machines, including industrial vacuum cleaners,packaging vacuum sealers, and custom solutions for specific industries.",
     image: "/home/whychoose/imageone.webp",
   },
   {

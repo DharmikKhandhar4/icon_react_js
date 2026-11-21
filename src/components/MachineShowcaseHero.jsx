@@ -32,7 +32,7 @@ export const DEFAULT_MACHINES = [
     description:
       'Engineered for maximum hygiene and vacuum sealing performance in food & pharma packaging. Full SS-304 stainless steel washdown chassis with servo-driven continuous indexing.',
     metric: '120 PPM',
-    subMetric: '150 PPM Max',
+  
     badge: 'TF',
     image: '/product-image/Product1.png',
     taglineLine1: 'Industrial Excellence,',
@@ -53,7 +53,7 @@ export const DEFAULT_MACHINES = [
     description:
       'High-speed continuous MAP tray sealing system for fresh meat, ready meals, and produce. Advanced gas-flushing matrix guarantees extended shelf-life without chemical preservatives.',
     metric: '85 PPM',
-    subMetric: '100 PPM Max',
+  
     badge: 'VS',
     image: '/product-image/Product2.png',
     taglineLine1: 'Advanced MAP Gas Flush,',
@@ -74,7 +74,7 @@ export const DEFAULT_MACHINES = [
     description:
       'Ultra-clean automated multi-lane cup filling and sealing machine with servo volumetric dosing for dairy, yogurts, dips, and liquid pharmaceuticals.',
     metric: '140 PPM',
-    subMetric: '160 PPM Max',
+    
     badge: 'CF',
     image: '/product-image/Product3.png',
     taglineLine1: 'Multi-Lane Dosing,',
@@ -95,7 +95,7 @@ export const DEFAULT_MACHINES = [
     description:
       'Continuous horizontal form-fill-seal flow wrap system for bakery, confections, and industrial hardware. Servo tension control eliminates film breakage during 24/7 continuous runs.',
     metric: '250 PPM',
-    subMetric: '300 PPM Max',
+   
     badge: 'FW',
     image: '/product-image/Product4.png',
     taglineLine1: '24/7 Continuous Indexing,',
@@ -207,13 +207,38 @@ export default function MachineShowcaseHero({
               LEFT COLUMN: Headline, Description & CTA Button
              --------------------------------------------------------------- */}
           <div className="lg:col-span-4 z-20 flex flex-col items-start justify-center order-2 lg:order-1">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div
                 key={currentMachine.id + '-left'}
-                initial={{ opacity: 0, x: -28 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                custom={direction}
+                variants={{
+                  enter: (dir) => ({
+                    opacity: 0,
+                    y: dir > 0 ? 18 : -18,
+                    filter: 'blur(3px)',
+                  }),
+                  center: {
+                    opacity: 1,
+                    y: 0,
+                    filter: 'blur(0px)',
+                    transition: {
+                      duration: 0.65,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  },
+                  exit: (dir) => ({
+                    opacity: 0,
+                    y: dir > 0 ? -18 : 18,
+                    filter: 'blur(3px)',
+                    transition: {
+                      duration: 0.5,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
                 className="space-y-4 sm:space-y-5"
               >
                 {/* Category Pill */}
@@ -366,13 +391,35 @@ export default function MachineShowcaseHero({
             </div>
 
             {/* Bottom Center Tagline (Matching Pinterest Layout with text-icon) */}
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div
                 key={currentMachine.id + '-tagline'}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.45 }}
+                custom={direction}
+                variants={{
+                  enter: (dir) => ({
+                    opacity: 0,
+                    y: dir > 0 ? 10 : -10,
+                  }),
+                  center: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.65,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  },
+                  exit: (dir) => ({
+                    opacity: 0,
+                    y: dir > 0 ? -10 : 10,
+                    transition: {
+                      duration: 0.5,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
                 className="mt-3 text-center"
               >
                 <p className="text-xs sm:text-sm font-normal text-slate-500 tracking-wide">
@@ -390,22 +437,44 @@ export default function MachineShowcaseHero({
              --------------------------------------------------------------- */}
           <div className="lg:col-span-3 z-20 flex flex-col items-start lg:items-end justify-between space-y-6 lg:space-y-8 order-3">
             {/* Top Metric / Output Speed with text-icon */}
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div
                 key={currentMachine.id + '-metric'}
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 15 }}
-                transition={{ duration: 0.45 }}
+                custom={direction}
+                variants={{
+                  enter: (dir) => ({
+                    opacity: 0,
+                    y: dir > 0 ? 15 : -15,
+                  }),
+                  center: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.65,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  },
+                  exit: (dir) => ({
+                    opacity: 0,
+                    y: dir > 0 ? -15 : 15,
+                    transition: {
+                      duration: 0.5,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
                 className="text-left lg:text-right"
               >
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-icon tracking-tight">
+                <div className="text-3xl sm:text-3xl lg:text-3xl font-bold text-icon ">
                   {currentMachine.metric}
                 </div>
-                <div className="text-xs sm:text-sm text-slate-400 line-through font-mono mt-0.5">
+                {/* <div className="text-xs sm:text-sm text-slate-400 line-through font-mono mt-0.5">
                   {currentMachine.subMetric}
-                </div>
-                <div className="text-[11px] font-mono text-slate-800 font-bold uppercase tracking-widest mt-1">
+                </div> */}
+                <div className="text-[11px]  text-slate-800 font-bold uppercase tracking-widest mt-1">
                   {currentMachine.modelCode}
                 </div>
               </motion.div>
@@ -425,9 +494,9 @@ export default function MachineShowcaseHero({
                       type="button"
                       onClick={() => selectMachine(idx)}
                       aria-label={`Select ${machine.name}`}
-                      className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
+                      className={`w-10 h-10 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-semibold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
                         isActive
-                          ? 'bs-mix-red text-white shadow-[0_4px_14px_rgba(239,68,68,0.4)] scale-110 ring-2 ring-red-400/40'
+                          ? 'bs-mix-red text-white shadow-[0_4px_14px_rgba(239,68,68,0.4)] scale-110 '
                           : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 hover:scale-105'
                       }`}
                     >
