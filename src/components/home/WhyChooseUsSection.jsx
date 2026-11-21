@@ -86,96 +86,252 @@ const WhyChooseUsSection = () => {
 
         {/* ================= DIAGRAM WRAPPER WITH PROPER ROUND ORBIT & CONNECTOR LINES ================= */}
         <div className="relative z-10 max-w-[1060px] mx-auto">
-          
-          {/* SVG Connecting Lines: Connects Center Orbit to Labels directly */}
+          {/* Running Line CSS Keyframes */}
+          <style>{`
+            @keyframes lineRunningFlow {
+              0% {
+                stroke-dashoffset: 28;
+              }
+              100% {
+                stroke-dashoffset: 0;
+              }
+            }
+            @keyframes orbitRunningSpin {
+              0% {
+                stroke-dashoffset: 0;
+              }
+              100% {
+                stroke-dashoffset: 96;
+              }
+            }
+            .running-connector-line {
+              animation: lineRunningFlow 1.1s linear infinite;
+            }
+            .running-orbit-ring {
+              animation: orbitRunningSpin 9s linear infinite;
+            }
+          `}</style>
+
+          {/* SVG Connecting Lines: Connects Center Orbit to Labels directly with Running Animation */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block"
             viewBox="0 0 1060 360"
             preserveAspectRatio="xMidYMid meet"
           >
-            {/* Proper Round Dashed Orbit Circle */}
+            <defs>
+              {/* Glow filter for energy pulses */}
+              <filter id="energyGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {/* Base Static Orbit Guide */}
             <circle
               cx="530"
               cy="180"
               r="140"
-              stroke="#fca5a5"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
+              stroke="#fee2e2"
+              strokeWidth="1"
+              strokeDasharray="3 3"
               fill="none"
-              className="opacity-75"
+              className="opacity-60"
             />
 
-            {/* Top-Left: from Pill (350, 42) to Orbit (419, 95) */}
+            {/* Proper Round Dashed Orbit Circle (Animated Running Orbit) */}
+            <circle
+              cx="530"
+              cy="180"
+              r="140"
+              stroke="#ef4444"
+              strokeWidth="1.5"
+              strokeDasharray="8 8"
+              fill="none"
+              className="running-orbit-ring opacity-85"
+            />
+
+            {/* Orbiting Energy Packet around Central Logo */}
+            <circle r="3.5" fill="#dc2626" filter="url(#energyGlow)">
+              <animateMotion
+                path="M 530 40 A 140 140 0 1 1 529.9 40"
+                dur="5.5s"
+                repeatCount="indefinite"
+              />
+            </circle>
+
+            {/* ============================================================
+                1. Top-Left: from Pill (350, 42) to Orbit (419, 95)
+               ============================================================ */}
+            {/* Guide line */}
             <path
               d="M 350 42 L 419 95"
-              stroke="#fca5a5"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
+              stroke="#fee2e2"
+              strokeWidth="1"
               fill="none"
-              className="opacity-80"
+              className="opacity-50"
             />
-            <circle cx="350" cy="42" r="3.5" fill="#ef4444" />
-            <circle cx="419" cy="95" r="3.5" fill="#ef4444" />
+            {/* Running dashed line */}
+            <path
+              d="M 350 42 L 419 95"
+              stroke="#ef4444"
+              strokeWidth="1.6"
+              strokeDasharray="6 6"
+              fill="none"
+              className="running-connector-line opacity-90"
+            />
+            {/* Traveling energy pulse */}
+            <circle r="3" fill="#dc2626" filter="url(#energyGlow)">
+              <animateMotion
+                path="M 350 42 L 419 95"
+                dur="1.4s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle cx="350" cy="42" r="3.5" fill="#dc2626" className="animate-pulse" />
+            <circle cx="419" cy="95" r="3.5" fill="#dc2626" className="animate-pulse" />
 
-            {/* Mid-Left: from Pill (350, 180) to Orbit (390, 180) */}
+            {/* ============================================================
+                2. Mid-Left: from Pill (350, 180) to Orbit (390, 180)
+               ============================================================ */}
             <path
               d="M 350 180 L 390 180"
-              stroke="#fca5a5"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
+              stroke="#fee2e2"
+              strokeWidth="1"
               fill="none"
-              className="opacity-80"
+              className="opacity-50"
             />
-            <circle cx="350" cy="180" r="3.5" fill="#ef4444" />
-            <circle cx="390" cy="180" r="3.5" fill="#ef4444" />
+            <path
+              d="M 350 180 L 390 180"
+              stroke="#ef4444"
+              strokeWidth="1.6"
+              strokeDasharray="6 6"
+              fill="none"
+              className="running-connector-line opacity-90"
+            />
+            <circle r="3" fill="#dc2626" filter="url(#energyGlow)">
+              <animateMotion
+                path="M 350 180 L 390 180"
+                dur="1.1s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle cx="350" cy="180" r="3.5" fill="#dc2626" className="animate-pulse" />
+            <circle cx="390" cy="180" r="3.5" fill="#dc2626" className="animate-pulse" />
 
-            {/* Bottom-Left: from Pill (350, 318) to Orbit (419, 265) */}
+            {/* ============================================================
+                3. Bottom-Left: from Pill (350, 318) to Orbit (419, 265)
+               ============================================================ */}
             <path
               d="M 350 318 L 419 265"
-              stroke="#fca5a5"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
+              stroke="#fee2e2"
+              strokeWidth="1"
               fill="none"
-              className="opacity-80"
+              className="opacity-50"
             />
-            <circle cx="350" cy="318" r="3.5" fill="#ef4444" />
-            <circle cx="419" cy="265" r="3.5" fill="#ef4444" />
+            <path
+              d="M 350 318 L 419 265"
+              stroke="#ef4444"
+              strokeWidth="1.6"
+              strokeDasharray="6 6"
+              fill="none"
+              className="running-connector-line opacity-90"
+            />
+            <circle r="3" fill="#dc2626" filter="url(#energyGlow)">
+              <animateMotion
+                path="M 350 318 L 419 265"
+                dur="1.4s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle cx="350" cy="318" r="3.5" fill="#dc2626" className="animate-pulse" />
+            <circle cx="419" cy="265" r="3.5" fill="#dc2626" className="animate-pulse" />
 
-            {/* Top-Right: from Pill (710, 42) to Orbit (641, 95) */}
+            {/* ============================================================
+                4. Top-Right: from Pill (710, 42) to Orbit (641, 95)
+               ============================================================ */}
             <path
               d="M 710 42 L 641 95"
-              stroke="#fca5a5"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
+              stroke="#fee2e2"
+              strokeWidth="1"
               fill="none"
-              className="opacity-80"
+              className="opacity-50"
             />
-            <circle cx="710" cy="42" r="3.5" fill="#ef4444" />
-            <circle cx="641" cy="95" r="3.5" fill="#ef4444" />
+            <path
+              d="M 710 42 L 641 95"
+              stroke="#ef4444"
+              strokeWidth="1.6"
+              strokeDasharray="6 6"
+              fill="none"
+              className="running-connector-line opacity-90"
+            />
+            <circle r="3" fill="#dc2626" filter="url(#energyGlow)">
+              <animateMotion
+                path="M 710 42 L 641 95"
+                dur="1.4s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle cx="710" cy="42" r="3.5" fill="#dc2626" className="animate-pulse" />
+            <circle cx="641" cy="95" r="3.5" fill="#dc2626" className="animate-pulse" />
 
-            {/* Mid-Right: from Pill (710, 180) to Orbit (670, 180) */}
+            {/* ============================================================
+                5. Mid-Right: from Pill (710, 180) to Orbit (670, 180)
+               ============================================================ */}
             <path
               d="M 710 180 L 670 180"
-              stroke="#fca5a5"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
+              stroke="#fee2e2"
+              strokeWidth="1"
               fill="none"
-              className="opacity-80"
+              className="opacity-50"
             />
-            <circle cx="710" cy="180" r="3.5" fill="#ef4444" />
-            <circle cx="670" cy="180" r="3.5" fill="#ef4444" />
+            <path
+              d="M 710 180 L 670 180"
+              stroke="#ef4444"
+              strokeWidth="1.6"
+              strokeDasharray="6 6"
+              fill="none"
+              className="running-connector-line opacity-90"
+            />
+            <circle r="3" fill="#dc2626" filter="url(#energyGlow)">
+              <animateMotion
+                path="M 710 180 L 670 180"
+                dur="1.1s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle cx="710" cy="180" r="3.5" fill="#dc2626" className="animate-pulse" />
+            <circle cx="670" cy="180" r="3.5" fill="#dc2626" className="animate-pulse" />
 
-            {/* Bottom-Right: from Pill (710, 318) to Orbit (641, 265) */}
+            {/* ============================================================
+                6. Bottom-Right: from Pill (710, 318) to Orbit (641, 265)
+               ============================================================ */}
             <path
               d="M 710 318 L 641 265"
-              stroke="#fca5a5"
-              strokeWidth="1.2"
-              strokeDasharray="4 4"
+              stroke="#fee2e2"
+              strokeWidth="1"
               fill="none"
-              className="opacity-80"
+              className="opacity-50"
             />
-            <circle cx="710" cy="318" r="3.5" fill="#ef4444" />
-            <circle cx="641" cy="265" r="3.5" fill="#ef4444" />
+            <path
+              d="M 710 318 L 641 265"
+              stroke="#ef4444"
+              strokeWidth="1.6"
+              strokeDasharray="6 6"
+              fill="none"
+              className="running-connector-line opacity-90"
+            />
+            <circle r="3" fill="#dc2626" filter="url(#energyGlow)">
+              <animateMotion
+                path="M 710 318 L 641 265"
+                dur="1.4s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <circle cx="710" cy="318" r="3.5" fill="#dc2626" className="animate-pulse" />
+            <circle cx="641" cy="265" r="3.5" fill="#dc2626" className="animate-pulse" />
           </svg>
 
           {/* 3-Column Content (Left Pills - Center Circle - Right Pills) */}
