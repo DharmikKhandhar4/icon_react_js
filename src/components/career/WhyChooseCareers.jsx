@@ -85,7 +85,7 @@ export default function WhyChooseCareers() {
             return (
               <div
                 key={item.id}
-                className={`bg-white border border-gray-200/80 p-6 sm:p-7 rounded-2xl shadow-sm hover:shadow-xl hover:border-red-300 transition-all duration-300 group hover:-translate-y-1 flex flex-col justify-between ${
+                className={`bg-white border border-gray-200/80 p-6 sm:p-7 rounded-2xl shadow-sm hover:shadow-xl  transition-all duration-300 group  flex flex-col justify-between ${
                   index === 4 ? 'lg:col-start-2' : ''
                 }`}
               >
@@ -98,7 +98,7 @@ export default function WhyChooseCareers() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2.5 group-hover:text-red-600 transition-colors">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2.5  transition-colors">
                     {item.title}
                   </h3>
 

@@ -4,8 +4,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowRight,
-  Pause,
-  Play,
   ShieldCheck,
   Cpu,
 } from 'lucide-react';
@@ -13,15 +11,19 @@ import {
 /**
  * ============================================================================
  * MachineShowcaseHero Component
- * Inspired by Pinterest Studio Showcase Layout (clean white backdrop,
- * signature text-icon gradient red, 3D spatial slide choreography:
- * - Center machine flies to top-left and decreases in size.
- * - Bottom-right preview machine flies to center and scales to full size.
- * - Top-left shows previous machine, bottom-right shows up-next preview).
+ * Inspired by Pinterest Studio 3D Showcase Layout:
+ * - Clean white backdrop with signature text-icon gradient red branding.
+ * - Top-left: Circular < > navigation buttons + floating Previous Machine with shadow.
+ * - Center: Large active machine with ambient spotlight & soft ground contact shadow.
+ * - Bottom-right: Floating Next Machine with soft ground contact shadow (unboxed).
+ * - Spatial 3D transitions:
+ *    * Next: Bottom-right flies to center; center flies to top-left.
+ *    * Prev: Top-left flies to center; center flies to bottom-right.
+ * - Zero blur filter on text and images for razor-sharp clarity.
  * ============================================================================
  */
 
-// Default machines data (easily replaceable with user's images)
+// Default machines data
 export const DEFAULT_MACHINES = [
   {
     id: 'thermoforming-pro',
@@ -32,8 +34,8 @@ export const DEFAULT_MACHINES = [
     description:
       'Engineered for maximum hygiene and vacuum sealing performance in food & pharma packaging. Full SS-304 stainless steel washdown chassis with servo-driven continuous indexing.',
     metric: '120 PPM',
-  
-    badge: 'TF',
+    subMetric: 'Standard 80 PPM',
+    badge: '01',
     image: '/product-image/Product1.png',
     taglineLine1: 'Industrial Excellence,',
     taglineLine2: 'sealed with airtight precision',
@@ -53,8 +55,8 @@ export const DEFAULT_MACHINES = [
     description:
       'High-speed continuous MAP tray sealing system for fresh meat, ready meals, and produce. Advanced gas-flushing matrix guarantees extended shelf-life without chemical preservatives.',
     metric: '85 PPM',
-  
-    badge: 'VS',
+    subMetric: 'Standard 50 PPM',
+    badge: '02',
     image: '/product-image/Product2.png',
     taglineLine1: 'Advanced MAP Gas Flush,',
     taglineLine2: 'freshness preserved naturally',
@@ -74,8 +76,8 @@ export const DEFAULT_MACHINES = [
     description:
       'Ultra-clean automated multi-lane cup filling and sealing machine with servo volumetric dosing for dairy, yogurts, dips, and liquid pharmaceuticals.',
     metric: '140 PPM',
-    
-    badge: 'CF',
+    subMetric: 'Standard 90 PPM',
+    badge: '03',
     image: '/product-image/Product3.png',
     taglineLine1: 'Multi-Lane Dosing,',
     taglineLine2: 'sterile cup packaging standard',
@@ -95,8 +97,8 @@ export const DEFAULT_MACHINES = [
     description:
       'Continuous horizontal form-fill-seal flow wrap system for bakery, confections, and industrial hardware. Servo tension control eliminates film breakage during 24/7 continuous runs.',
     metric: '250 PPM',
-   
-    badge: 'FW',
+    subMetric: 'Standard 160 PPM',
+    badge: '04',
     image: '/product-image/Product4.png',
     taglineLine1: '24/7 Continuous Indexing,',
     taglineLine2: 'maximum throughput guaranteed',
@@ -111,7 +113,7 @@ export const DEFAULT_MACHINES = [
 
 export default function MachineShowcaseHero({
   machines = DEFAULT_MACHINES,
-  autoPlayInterval = 5000,
+  autoPlayInterval = 5500,
   onNavigate,
   onOpenBrochure,
   className = '',
@@ -144,7 +146,8 @@ export default function MachineShowcaseHero({
 
   const selectMachine = useCallback(
     (idx) => {
-      setDirection(idx >= currentIndex ? 1 : -1);
+      if (idx === currentIndex) return;
+      setDirection(idx > currentIndex ? 1 : -1);
       setCurrentIndex(idx);
       setProgress(0);
     },
@@ -178,7 +181,7 @@ export default function MachineShowcaseHero({
       aria-label="ICON Packtech Machine Showcase"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`relative w-full overflow-hidden bg-white text-slate-800 pt-24 sm:pt-0 pb-8 font-Poppins select-none ${className}`}
+      className={`relative w-full overflow-hidden bg-white text-slate-800 pt-20 sm:pt-4 pb-8 font-Poppins select-none ${className}`}
     >
       {/* Subtle background ambient mesh */}
       <div
@@ -197,12 +200,18 @@ export default function MachineShowcaseHero({
         aria-hidden="true"
       />
 
- 
-    
+      <div className="relative max-w-[1440px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] px-6 sm:px-10 lg:px-14 py-4 lg:py-6 flex flex-col justify-between">
+        {/* ===================================================================
+            TOP BAR CONTROLS (Matching Pinterest Image 1 & 2 Top-Left)
+            - Circular < > buttons
+            - Floating Previous Machine with soft shadow
+           =================================================================== */}
+   
 
-      <div className="relative max-w-[1440px] mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] px-6 sm:px-10 lg:px-14 py-4 lg:py-8 flex flex-col justify-between">
-    
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center my-auto py-4 sm:py-6 overflow-visible">
+        {/* ===================================================================
+            MAIN 3-COLUMN HERO GRID
+           =================================================================== */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center my-auto py-2 sm:py-4 overflow-visible">
           {/* ---------------------------------------------------------------
               LEFT COLUMN: Headline, Description & CTA Button
              --------------------------------------------------------------- */}
@@ -215,12 +224,10 @@ export default function MachineShowcaseHero({
                   enter: (dir) => ({
                     opacity: 0,
                     y: dir > 0 ? 18 : -18,
-                    filter: 'blur(3px)',
                   }),
                   center: {
                     opacity: 1,
                     y: 0,
-                    filter: 'blur(0px)',
                     transition: {
                       duration: 0.65,
                       ease: [0.16, 1, 0.3, 1],
@@ -229,7 +236,6 @@ export default function MachineShowcaseHero({
                   exit: (dir) => ({
                     opacity: 0,
                     y: dir > 0 ? -18 : 18,
-                    filter: 'blur(3px)',
                     transition: {
                       duration: 0.5,
                       ease: [0.16, 1, 0.3, 1],
@@ -248,20 +254,24 @@ export default function MachineShowcaseHero({
                 </div>
 
                 {/* Main Headline with text-icon color */}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-5xl font-bold tracking-tight text-slate-900 leading-[1.08]">
-                  <span>{currentMachine.titleLine1}</span>
-                  <br />
-                  <span className="text-icon font-extrabold">
-                    {currentMachine.titleLine2}
-                  </span>
-                </h1>
+                <div className="relative">
+                  {/* Subtle accent indicator dot matching Image 1 */}
+                  <span className="hidden sm:inline-block absolute -left-4 top-3 w-2 h-2 rounded-full bg-emerald-500" />
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-5xl font-bold tracking-tight text-slate-900 leading-[1.08]">
+                    <span>{currentMachine.titleLine1}</span>
+                    <br />
+                    <span className="text-icon font-extrabold">
+                      {currentMachine.titleLine2}
+                    </span>
+                  </h1>
+                </div>
 
-                {/* Product Description */}
+                {/* Product Description (Clean, Zero Blur) */}
                 <p className="text-slate-600 text-xs sm:text-sm lg:text-[14px] leading-relaxed max-w-[430px]">
                   {currentMachine.description}
                 </p>
 
-                {/* Primary CTA Button */}
+                {/* Primary CTA Buttons (Pill shaped matching Pinterest button) */}
                 <div className="pt-2 sm:pt-4 flex items-center gap-3">
                   <button
                     type="button"
@@ -305,7 +315,7 @@ export default function MachineShowcaseHero({
             />
 
             {/* Floating Machine Stage */}
-            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[520px] aspect-[4/3] flex items-center justify-center overflow-visible">
+            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[530px] aspect-[4/3] flex items-center justify-center overflow-visible">
               <AnimatePresence mode="popLayout" custom={direction}>
                 <motion.div
                   key={currentMachine.id}
@@ -313,11 +323,10 @@ export default function MachineShowcaseHero({
                   variants={{
                     enter: (dir) => ({
                       // Incoming: starts from bottom-right (or top-left if reverse) and smaller
-                      x: dir > 0 ? 280 : -280,
+                      x: dir > 0 ? 320 : -320,
                       y: dir > 0 ? 190 : -190,
-                      scale: dir > 0 ? 0.32 : 0.38,
-                      opacity: 0.15,
-                      filter: 'blur(3px)',
+                      scale: dir > 0 ? 0.34 : 0.38,
+                      opacity: 0.2,
                     }),
                     center: {
                       // Center: sits large at center with full clarity
@@ -325,7 +334,6 @@ export default function MachineShowcaseHero({
                       y: 0,
                       scale: 1,
                       opacity: 1,
-                      filter: 'blur(0px)',
                       transition: {
                         duration: 0.82,
                         ease: [0.16, 1, 0.3, 1],
@@ -333,11 +341,10 @@ export default function MachineShowcaseHero({
                     },
                     exit: (dir) => ({
                       // Exiting: flies to top-left and decreases in size (or bottom-right if reverse)
-                      x: dir > 0 ? -280 : 280,
+                      x: dir > 0 ? -320 : 320,
                       y: dir > 0 ? -190 : 190,
-                      scale: dir > 0 ? 0.36 : 0.32,
+                      scale: dir > 0 ? 0.36 : 0.34,
                       opacity: 0,
-                      filter: 'blur(4px)',
                       transition: {
                         duration: 0.78,
                         ease: [0.16, 1, 0.3, 1],
@@ -366,7 +373,7 @@ export default function MachineShowcaseHero({
                       alt={currentMachine.name}
                       width="540"
                       height="400"
-                      className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.18)] filter transition-transform duration-300 hover:scale-105"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.18)] filter transition-transform duration-300 hover:scale-105"
                       loading="eager"
                       decoding="async"
                     />
@@ -378,14 +385,14 @@ export default function MachineShowcaseHero({
               <motion.div
                 animate={{
                   scale: [1, 1.06, 1],
-                  opacity: [0.14, 0.22, 0.14],
+                  opacity: [0.16, 0.24, 0.16],
                 }}
                 transition={{
                   duration: 4.5,
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="absolute bottom-1 w-[72%] h-6 bg-slate-900/18 rounded-[100%] blur-xl pointer-events-none"
+                className="absolute bottom-1 w-[72%] h-6 bg-slate-900/20 rounded-[100%] blur-xl pointer-events-none"
                 aria-hidden="true"
               />
             </div>
@@ -433,10 +440,10 @@ export default function MachineShowcaseHero({
           </div>
 
           {/* ---------------------------------------------------------------
-              RIGHT COLUMN: Output Metric & Model Selectors
+              RIGHT COLUMN: Output Metric, Model Selectors & Floating Next Machine
              --------------------------------------------------------------- */}
           <div className="lg:col-span-3 z-20 flex flex-col items-start lg:items-end justify-between space-y-6 lg:space-y-8 order-3">
-            {/* Top Metric / Output Speed with text-icon */}
+            {/* Top Metric / Output Speed with text-icon (matching $149 / $199 price position) */}
             <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div
                 key={currentMachine.id + '-metric'}
@@ -468,19 +475,19 @@ export default function MachineShowcaseHero({
                 exit="exit"
                 className="text-left lg:text-right"
               >
-                <div className="text-3xl sm:text-3xl lg:text-3xl font-bold text-icon ">
+                <div className="text-3xl sm:text-4xl font-extrabold text-icon tracking-tight">
                   {currentMachine.metric}
                 </div>
-                {/* <div className="text-xs sm:text-sm text-slate-400 line-through font-mono mt-0.5">
+                <div className="text-xs text-slate-400 font-mono line-through mt-0.5">
                   {currentMachine.subMetric}
-                </div> */}
-                <div className="text-[11px]  text-slate-800 font-bold uppercase tracking-widest mt-1">
+                </div>
+                <div className="text-[11px] text-slate-800 font-bold uppercase tracking-widest mt-1">
                   {currentMachine.modelCode}
                 </div>
               </motion.div>
             </AnimatePresence>
 
-            {/* Model / Series Selectors (Circular Pill Buttons) */}
+            {/* Model / Series Selectors (Circular Buttons matching "Choose your size: 36 38 40") */}
             <div className="flex flex-col items-start lg:items-end space-y-2.5">
               <span className="text-[11px] uppercase tracking-wider text-slate-500 font-mono font-semibold">
                 Choose machine:
@@ -496,7 +503,7 @@ export default function MachineShowcaseHero({
                       aria-label={`Select ${machine.name}`}
                       className={`w-10 h-10 sm:w-9 sm:h-9 rounded-full flex items-center justify-center font-semibold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
                         isActive
-                          ? 'bs-mix-red text-white shadow-[0_4px_14px_rgba(239,68,68,0.4)] scale-110 '
+                          ? 'bs-mix-red text-white shadow-[0_4px_14px_rgba(239,68,68,0.4)] scale-110'
                           : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 hover:scale-105'
                       }`}
                     >
@@ -507,32 +514,77 @@ export default function MachineShowcaseHero({
               </div>
             </div>
 
-            {/* Bottom Right: Next Machine Preview Card (Flies to center on next) */}
+            {/* Bottom-Right Floating Next Machine (Unboxed matching Image 1 & 2 bottom-right) */}
             <div
               onClick={handleNext}
               role="button"
               tabIndex={0}
-              aria-label={`Next machine preview: ${nextMachine.name}`}
-              className="group cursor-pointer flex items-center gap-3 bg-white/95 hover:bg-white border border-slate-200 rounded-2xl p-2.5 pr-4 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-xl"
+              aria-label={`Next machine: ${nextMachine.name}`}
+              className="group cursor-pointer flex flex-col items-center lg:items-end transition-all duration-300 hover:scale-105 mt-2"
             >
-              <div className="w-13 h-13 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1 overflow-hidden flex-shrink-0">
-                <img
-                  src={nextMachine.image}
-                  alt={nextMachine.name}
-                  width="48"
-                  height="48"
-                  className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-                />
+              <div className="relative w-32 h-24 sm:w-36 sm:h-28 lg:w-40 lg:h-32 flex items-center justify-center">
+                <AnimatePresence mode="popLayout" custom={direction}>
+                  <motion.div
+                    key={nextMachine.id + '-bottom-next'}
+                    custom={direction}
+                    variants={{
+                      enter: (dir) => ({
+                        opacity: 0,
+                        x: dir > 0 ? 30 : -30,
+                        scale: 0.85,
+                      }),
+                      center: {
+                        opacity: 1,
+                        x: 0,
+                        scale: 1,
+                        transition: {
+                          duration: 0.55,
+                          ease: [0.16, 1, 0.3, 1],
+                        },
+                      },
+                      exit: (dir) => ({
+                        opacity: 0,
+                        x: dir > 0 ? -30 : 30,
+                        scale: 0.85,
+                        transition: {
+                          duration: 0.4,
+                          ease: [0.16, 1, 0.3, 1],
+                        },
+                      }),
+                    }}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    className="w-full h-full flex items-center justify-center"
+                  >
+                    <motion.div
+                      animate={{ y: [-3, 3, -3] }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: 0.5,
+                      }}
+                      className="w-full h-full flex items-center justify-center p-1"
+                    >
+                      <img
+                        src={nextMachine.image}
+                        alt={nextMachine.name}
+                        className="w-full h-full object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.15)] group-hover:scale-110 transition-transform duration-300"
+                        loading="eager"
+                      />
+                    </motion.div>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Soft ground shadow under next machine */}
+                <div className="absolute -bottom-0.5 w-[70%] h-3 bg-slate-900/15 rounded-[100%] blur-sm pointer-events-none" />
               </div>
-              <div className="text-left">
-                <div className="text-[9px] uppercase tracking-wider text-icon font-mono font-bold">
-                  Up next
-                </div>
-                <div className="text-xs font-semibold text-slate-800 truncate max-w-[120px]">
-                  {nextMachine.name}
-                </div>
+
+              <div className="flex items-center gap-1.5 mt-1.5 text-[11px] font-mono font-semibold text-slate-500 group-hover:text-red-600 transition-colors">
+                <span className="uppercase tracking-wider">Next Machine</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </div>
-              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-red-600 transition-colors ml-1" />
             </div>
           </div>
         </div>
@@ -541,7 +593,7 @@ export default function MachineShowcaseHero({
             BOTTOM FOOTER STRIP: Social/Trust Icons & Progress Bar
            =================================================================== */}
         <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 z-20">
-          {/* Social / Trust Icons */}
+          {/* Social / Trust Icons (matching bottom-left of Pinterest layout) */}
           <div className="flex items-center gap-3 text-slate-500">
             <a
               href="https://www.instagram.com/icon.packtech/"
