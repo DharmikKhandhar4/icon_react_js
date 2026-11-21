@@ -316,6 +316,89 @@ export default function ProductsSection({ onNavigate }) {
                             isSelected ? "w-full" : "w-0 group-hover:w-full"
                           }`}
                         ></div>
+
+                        {/* ========== HOVER INFO POPUP OVERLAY ========== */}
+                        <div
+                          className={`absolute inset-0 z-30 rounded-[15px] flex flex-col justify-end transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none ${
+                            hoveredIndex === index
+                              ? "opacity-100"
+                              : "opacity-0"
+                          }`}
+                        >
+                          {/* Dark gradient scrim */}
+                          <div
+                            className={`absolute inset-0 rounded-[15px] bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-500 ${
+                              hoveredIndex === index ? "opacity-100" : "opacity-0"
+                            }`}
+                          />
+
+                          {/* Popup Content Panel */}
+                          <div
+                            className={`relative z-10 p-5 pb-6 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                              hoveredIndex === index
+                                ? "translate-y-0 opacity-100"
+                                : "translate-y-8 opacity-0"
+                            }`}
+                          >
+                            {/* Category Badge */}
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-600/90 text-white mb-2.5 backdrop-blur-sm">
+                              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                              {product.category || selectedCategory}
+                            </span>
+
+                            {/* Product Name */}
+                            <h4 className="text-white font-bold text-[15px] leading-tight mb-2 drop-shadow-sm">
+                              {product.mainTitle || product.name}
+                            </h4>
+
+                            {/* Full Description */}
+                            <p className="text-gray-200 text-xs leading-relaxed mb-4 line-clamp-4">
+                              {product.mainDesription || product.description}
+                            </p>
+
+                            {/* Quick Specs Chips */}
+                            <div className="flex flex-wrap gap-1.5 mb-4">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm text-[10px] font-medium text-white/90 border border-white/10">
+                                <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                High Speed
+                              </span>
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm text-[10px] font-medium text-white/90 border border-white/10">
+                                <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                SS-304 Build
+                              </span>
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-sm text-[10px] font-medium text-white/90 border border-white/10">
+                                <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                Servo Driven
+                              </span>
+                            </div>
+
+                            {/* CTA Buttons */}
+                            <div className="flex items-center gap-2 pointer-events-auto">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleNavigate(product);
+                                }}
+                                className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-900 font-bold text-xs py-2.5 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all duration-200 shadow-lg active:scale-95"
+                              >
+                                <span>View Specs</span>
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (onNavigate) onNavigate('/contact-us');
+                                }}
+                                className="flex items-center justify-center gap-1.5 bg-red-600 text-white font-bold text-xs py-2.5 px-4 rounded-lg hover:bg-red-700 transition-all duration-200 shadow-lg active:scale-95"
+                              >
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                                <span>Quote</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );
