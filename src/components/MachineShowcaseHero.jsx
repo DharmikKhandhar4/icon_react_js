@@ -172,7 +172,7 @@ export default function MachineShowcaseHero({
       aria-label="ICON Packtech Machine Showcase"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`relative w-full overflow-hidden bg-white text-slate-800 pt-24 sm:pt-20 pb-8 font-Poppins select-none ${className}`}
+      className={`relative w-full overflow-hidden bg-white text-slate-800 pt-24 sm:pt-0 pb-8 font-Poppins select-none ${className}`}
     >
       {/* Subtle background ambient mesh */}
       <div
@@ -221,7 +221,7 @@ export default function MachineShowcaseHero({
                 </div>
 
                 {/* Main Headline with text-icon color */}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08]">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-4xl font-bold tracking-tight text-slate-900 leading-[1.08]">
                   <span>{currentMachine.titleLine1}</span>
                   <br />
                   <span className="text-icon font-extrabold">
@@ -245,7 +245,7 @@ export default function MachineShowcaseHero({
                         onOpenBrochure();
                       }
                     }}
-                    className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 bs-mix-red hover:opacity-95 text-white rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-[0_8px_20px_-4px_rgba(239,68,68,0.4)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3 bs-mix-red hover:opacity-95 text-white rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-[0_8px_20px_-4px_rgba(239,68,68,0.4)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
                   >
                     <span>Get machine specs</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
