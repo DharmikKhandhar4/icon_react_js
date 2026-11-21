@@ -128,10 +128,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800 flex flex-col selection:bg-brand-500 selection:text-white">
       {/* 1. COMPLETED HEADER */}
-      <MachineShowcaseHero
-        onNavigate={handleNavigate}
-        onOpenBrochure={() => setIsBrochureOpen(true)}
-      />
       <NewHeader currentPath={currentPath} onNavigate={handleNavigate} />
 
       <main className={`flex-1 ${currentPath !== "/" ? "pt-[76px]" : ""}`}>
@@ -192,6 +188,10 @@ export default function App() {
             <PackagingSolutions onNavigate={handleNavigate} />
           ) : (
             <>
+              <MachineShowcaseHero
+                onNavigate={handleNavigate}
+                onOpenBrochure={() => setIsBrochureOpen(true)}
+              />
               {/* <HeroSection /> */}
               <NewHeroSection />
               <ExhibitionSection />
