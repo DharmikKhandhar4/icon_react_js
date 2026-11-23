@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, Eye, PhoneCall } from 'lucide-react';
+import React, { useState } from 'react';
 
 const getLocalProductImage = (src) => {
   if (!src) return '/product-image/Product1.png';
@@ -138,21 +136,15 @@ const defaultProductsByCategory = {
 
 export default function ProductsSection({ onNavigate }) {
   const [selectedCategory, setSelectedCategory] = useState("Food");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [categoryTypes] = useState(["Food", "Non-Food", "Pharma"]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
-  // Centered Modal State
-  const [modalProduct, setModalProduct] = useState(null);
-  const [isLockedOpen, setIsLockedOpen] = useState(false);
-
-  const hoverTimeoutRef = useRef(null);
-  const closeTimeoutRef = useRef(null);
 
   const products = defaultProductsByCategory[selectedCategory] || defaultProductsByCategory["Food"];
 
   const handleCategoryClick = (categoryType) => {
     setSelectedCategory(categoryType);
-    setModalProduct(null);
+    setSelectedProduct(null);
   };
 
   const slugify = (text = "") =>
@@ -171,7 +163,6 @@ export default function ProductsSection({ onNavigate }) {
       return;
     }
 
-    setModalProduct(null);
     const targetUrl = `/product-details/${slug || id}`;
     if (onNavigate) {
       onNavigate(targetUrl);
@@ -188,333 +179,289 @@ export default function ProductsSection({ onNavigate }) {
     }
   };
 
-  // Hover open with debounce
-  const handleCardMouseEnter = (product, index) => {
-    setHoveredIndex(index);
-    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-
-    hoverTimeoutRef.current = setTimeout(() => {
-      setModalProduct(product);
-      setIsLockedOpen(false);
-    }, 220);
-  };
-
-  const handleCardMouseLeave = () => {
-    setHoveredIndex(null);
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-
-    if (!isLockedOpen) {
-      closeTimeoutRef.current = setTimeout(() => {
-        setModalProduct(null);
-      }, 320);
-    }
-  };
-
-  // Click card locks modal open
-  const handleCardClick = (product) => {
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-    setModalProduct(product);
-    setIsLockedOpen(true);
-  };
-
-  const closeModal = useCallback(() => {
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-    setModalProduct(null);
-    setIsLockedOpen(false);
-  }, []);
-
-  // Escape key listener & Body scroll management
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        closeModal();
-      }
-    };
-
-    if (modalProduct) {
-      window.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [modalProduct, closeModal]);
+  const selectedProductData =
+    selectedProduct !== null
+      ? products.find((p, i) => (p._id || p.id || i) === selectedProduct) || products[selectedProduct]
+      : null;
 
   return (
     <>
-      <div className="font-Poppins pt-[60px] pb-12 relative">
+      <div className="font-Poppins pt-[80px]">
         <div className="md:w-[85%] 2xl:w-[1300px] mx-auto px-4">
           {/* Header */}
-          <div className="text-center mb-6 w-[100%]">
-            <h2 className="text-3xl sm:text-4xl md:text-[45px] font-bold text-gray-800 mb-1">
+          <div className="text-center mb-5 w-[100%]">
+            <h2 className="text-4xl md:text-[45px] font-bold text-gray-800 mb-1">
               What Products <span className="text-icon animate-pulse ml-[10px]">?</span>
-              <span className="text-icon animate-pulse delay-100">?</span>
+              <span className="text-icon animate-pulse delay-100 ">?</span>
             </h2>
-            <div className="w-24 h-1 bs-mix-red mx-auto mb-4"></div>
-            <p className="text-gray-600 max-w-2xl mx-auto text-xs sm:text-sm">
-              Explore our industrial packaging machinery — hover or click any machine to preview
+            <div className="w-24 h-1 bs-mix-red mx-auto mb-5"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto text-[14px]">
+              Explore some of our Hot-Cakes, to fulfil your Smart and Sustainable Packaging Needs
             </p>
           </div>
 
           <div className="flex w-[100%] flex-col">
             {/* Category Tabs */}
-            <div className="flex gap-3 md:gap-6 overflow-x-auto md:items-center pb-6 scrollbar-hide">
+            <div className="flex gap-[16px] md:gap-[30px] overflow-x-auto md:items-center pb-[30px]">
               {categoryTypes.map((type) => (
-                <button
-                  type="button"
+                <div
                   key={type}
                   onClick={() => handleCategoryClick(type)}
-                  className={`cursor-pointer gap-2 rounded-xl flex justify-center px-6 py-2.5 items-center h-[46px] flex-shrink-0 transition-all duration-300 font-semibold text-xs sm:text-sm tracking-wide ${
-                    selectedCategory === type
-                      ? "bs-mix-red text-white shadow-md scale-105"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  className={`cursor-pointer gap-[14px] w-fit rounded-[10px] flex justify-center px-[15px] md:py-0 py-[10px] items-center h-[50px] flex-shrink-0 transition-all duration-300 ${
+                    selectedCategory === type ? "bs-mix-red text-white" : "mainnn text-black"
                   }`}
                 >
-                  {type}
-                </button>
+                  <h3 className="flex font-[600]">{type}</h3>
+                </div>
               ))}
             </div>
 
             {/* Products Grid */}
-            <div className="flex overflow-x-auto md:grid md77:grid-cols-2 md11:grid-cols-4 gap-5 justify-between pb-4">
+            <div className="flex overflow-x-auto md:overflow-visible md77:overflow-visible md11:overflow-visible md:grid md77:grid-cols-2 md11:grid-cols-4 gap-[10px] justify-between relative">
               {products.slice(0, 4).map((product, index) => {
-                const currentId = product._id || product.id || index;
-                const isHovered = hoveredIndex === index;
+                  const currentId = product._id || product.id || index;
+                  const isSelected = selectedProduct === currentId;
 
-                return (
-                  <div
-                    key={currentId}
-                    className="relative group w-[280px] md:w-auto flex-shrink-0"
-                    onMouseEnter={() => handleCardMouseEnter(product, index)}
-                    onMouseLeave={handleCardMouseLeave}
-                    onClick={() => handleCardClick(product)}
-                  >
-                    {/* Main Card Box */}
+                  return (
                     <div
-                      className={`relative bg-white h-[420px] md11:h-[395px] 2xl:h-[430px] rounded-2xl w-[280px] mx-auto shadow-sm hover:shadow-xl border border-slate-200/80 hover:border-red-300 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col justify-between ${
-                        isHovered ? "ring-2 ring-red-500/40 -translate-y-1" : ""
+                      key={currentId}
+                      className={`relative group w-[280px] md:w-auto flex-shrink-0 transition-all duration-200 ${
+                        hoveredIndex === index ? "z-50" : "z-10"
                       }`}
+                      onClick={() => setSelectedProduct(isSelected ? null : currentId)}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
                     >
-                      {/* Image Container */}
-                      <div className="relative w-full h-[240px] md11:h-[215px] 2xl:h-[245px] bg-slate-50 overflow-hidden flex items-center justify-center p-6 border-b border-slate-100">
-                        {/* Quick Specs Badge Overlay */}
-                        <div
-                          className={`absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-white/90 backdrop-blur-sm text-red-600 border border-red-100 shadow-sm transition-all duration-200 ${
-                            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                          }`}
-                        >
-                          <Eye className="w-3 h-3 text-red-600" />
-                          <span>Preview</span>
+                      {/* ========== FLOATING HOVER POPOVER (Outside Card, Above with Down Arrow) ========== */}
+                      <div
+                        className={`absolute left-1/2 -translate-x-1/2 bottom-[calc(100%-4px)] pb-3 z-50 w-[280px] sm:w-[290px] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                          hoveredIndex === index
+                            ? "opacity-100 translate-y-0 pointer-events-auto visible"
+                            : "opacity-0 translate-y-2 pointer-events-none invisible"
+                        }`}
+                      >
+                        <div className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.18),0_8px_20px_-6px_rgba(239,68,68,0.15)] border border-red-100 overflow-hidden">
+                          {/* Top Red Accent Bar */}
+                          <div className="h-1 w-full bs-mix-red" />
+
+                          <div className="p-4 pb-3.5">
+                            {/* Category · Status Row */}
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-50 text-red-600 border border-red-100/80">
+                                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                                {product.category || selectedCategory}
+                              </span>
+                              <span className="text-[10px] font-mono text-gray-500 font-semibold uppercase tracking-wider">
+                                Auto-Cycle
+                              </span>
+                            </div>
+
+                            {/* Product Title */}
+                            <h4 className="text-[14px] font-bold text-gray-900 leading-snug truncate mb-1">
+                              {product.mainTitle || product.name}
+                            </h4>
+
+                            {/* Description */}
+                            <p className="text-gray-500 text-[11px] leading-relaxed mb-3 line-clamp-2">
+                              {product.mainDesription || product.description}
+                            </p>
+
+                            {/* Quick Spec Chips: [High Speed] [SS304] [Servo] */}
+                            <div className="flex flex-wrap gap-1.5 mb-3.5">
+                              <span className="inline-flex items-center gap-1 px-2 py-[3px] rounded-md bg-red-50/80 text-[10px] font-semibold text-red-700 border border-red-100">
+                                <svg className="w-2.5 h-2.5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                High Speed
+                              </span>
+                              <span className="inline-flex items-center gap-1 px-2 py-[3px] rounded-md bg-slate-50 text-[10px] font-semibold text-slate-700 border border-slate-200">
+                                <svg className="w-2.5 h-2.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                SS-304
+                              </span>
+                              <span className="inline-flex items-center gap-1 px-2 py-[3px] rounded-md bg-slate-50 text-[10px] font-semibold text-slate-700 border border-slate-200">
+                                <svg className="w-2.5 h-2.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Servo
+                              </span>
+                            </div>
+
+                            {/* Action Buttons: [View Specs] [Quote] */}
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleNavigate(product);
+                                }}
+                                className="flex-1 flex items-center justify-center gap-1.5 bs-mix-red hover:opacity-95 text-white font-bold text-[11px] py-2 rounded-lg transition-all active:scale-95 shadow-sm cursor-pointer"
+                              >
+                                <span>View Specs</span>
+                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (onNavigate) {
+                                    onNavigate('/contact-us');
+                                  } else {
+                                    window.location.href = '/contact-us';
+                                  }
+                                }}
+                                className="flex items-center justify-center gap-1 bg-white hover:bg-red-50 text-slate-700 hover:text-red-600 border border-slate-200 hover:border-red-200 font-bold text-[11px] py-2 px-3.5 rounded-lg transition-all active:scale-95 shadow-xs cursor-pointer"
+                              >
+                                <svg className="w-3 h-3 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <span>Quote</span>
+                              </button>
+                            </div>
+                          </div>
                         </div>
 
-                        {/* Category Tag */}
-                        <div className="absolute top-3 left-3 z-10">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-200/80 text-slate-700">
-                            {product.category || selectedCategory}
-                          </span>
-                        </div>
-
-                        {/* Machine Image */}
-                        <img
-                          src={getLocalProductImage(product.mainImage || product.image)}
-                          alt={product.mainTitle || product.name || "Product"}
-                          className={`w-full h-full object-contain transition-transform duration-500 ease-out ${
-                            isHovered ? "scale-110 drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)]" : "scale-100 drop-shadow-md"
-                          }`}
-                          onError={(e) => {
-                            e.currentTarget.src = "/product-image/img_6878939f4af644.42421642.png";
-                          }}
-                        />
-
-                        {/* Subtle Corner Accent */}
-                        <div className="absolute bottom-0 right-0 w-12 h-12 bs-mix-red transform rotate-45 translate-x-6 translate-y-6 opacity-80" />
+                        {/* Down Arrow pointer pointing directly to card */}
+                        <div className="absolute left-1/2 -translate-x-1/2 bottom-[6px] w-3 h-3 bg-white border-r border-b border-red-100 rotate-45 pointer-events-none shadow-xs" />
                       </div>
 
-                      {/* Content Area */}
-                      <div className="p-4 flex-1 flex flex-col justify-between">
-                        <div>
-                          {/* Machine Title */}
-                          <h3 className="text-sm font-bold mb-1 text-slate-900 group-hover:text-red-600 transition-colors line-clamp-1">
+                      {/* Main Square Box */}
+                      <div
+                        className={`relative bg-white h-[430px] md11:h-[400px] 2xl:h-[440px] rounded-[15px] w-[280px] mx-auto shadow-icon border border-[#f22] overflow-hidden cursor-pointer ${
+                          isSelected
+                            ? "ring-4 ring-red-500 shadow-xl"
+                            : ""
+                        }`}
+                      >
+                        {/* Square Image Container */}
+                        <div className="relative w-[100%] h-[260px] md11:h-[230px] 2xl:h-[260px] rounded-[15px] bg-[#fff] shadow-md overflow-hidden">
+                          <div className="absolute inset-0 flex items-center justify-center p-6">
+                            <img
+                              src={getLocalProductImage(product.mainImage || product.image)}
+                              alt={product.mainTitle || product.name || "Product"}
+                              className={`transition-transform w-[100%] h-[100%] object-contain duration-500 ${
+                                hoveredIndex === index ? "scale-110" : "scale-105"
+                              }`}
+                              onError={(e) => {
+                                e.currentTarget.src =
+                                  "/product-image/img_6878939f4af644.42421642.png";
+                              }}
+                            />
+                          </div>
+
+                          {/* Corner Accent */}
+                          <div
+                            className={`absolute bottom-0 right-0 w-16 h-16 bs-mix-red transform rotate-45 translate-x-8 translate-y-8 transition-all duration-300 ${
+                              isSelected ? "scale-150" : "scale-100"
+                            }`}
+                          ></div>
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="px-[20px] py-[10px]">
+                          {/* Category / Product Title */}
+                          <h3
+                            className={`text-[14px] font-[600] mb-1 transition-colors duration-300 line-clamp-1 ${
+                              isSelected ? "text-icon" : "text-gray-800"
+                            }`}
+                          >
                             {product.mainTitle || product.name}
                           </h3>
 
                           {/* Description */}
-                          <p className="text-slate-600 text-xs leading-relaxed line-clamp-3">
+                          <p className="text-gray-600 text-sm leading-[19px] mb-[10px] line-clamp-3">
                             {product.mainDesription || product.description}
                           </p>
-                        </div>
 
-                        {/* Action Button */}
-                        <div className="pt-3">
+                          {/* Action Button */}
                           <button
                             type="button"
-                            className="w-full py-2 px-3 text-xs rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 bs-mix-red hover:opacity-95 text-white shadow-sm hover:shadow active:scale-95 cursor-pointer"
+                            className={`w-[85%] bottom-[20px] border py-[8px] px-4 text-[14px] absolute rounded-lg font-medium transition-all duration-300 flex items-center justify-center group ${
+                              isSelected
+                                ? "bg-red-600 border border-red-600 text-white"
+                                : "bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600"
+                            }`}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleNavigate(product);
                             }}
                           >
                             <span>VIEW DETAILS</span>
-                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                            <svg
+                              className={`w-5 h-5 ml-2 transition-transform duration-300 ${
+                                hoveredIndex === index ? "translate-x-1" : ""
+                              }`}
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                              />
+                            </svg>
                           </button>
                         </div>
-                      </div>
 
-                      {/* Bottom Accent Line */}
-                      <div
-                        className={`h-1 bg-red-600 transition-all duration-300 ${
-                          isHovered ? "w-full" : "w-0"
-                        }`}
-                      />
+                        {/* Bottom Border Accent */}
+                        <div
+                          className={`absolute bottom-0 left-0 h-1 bg-red-600 transition-all duration-500 ${
+                            isSelected ? "w-full" : "w-0 group-hover:w-full"
+                          }`}
+                        ></div>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
 
+          {/* Selected Product Info */}
+          {selectedProduct && selectedProductData && (
+            <div className="mt-12 bg-white rounded-lg p-8 border-l-4 border-red-600 shadow-lg">
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">Selected Product</h3>
+              <p className="text-red-600 font-medium mb-4">
+                {selectedProductData.mainTitle || selectedProductData.name}
+              </p>
+              <p className="text-gray-600">
+                {selectedProductData.mainDesription || selectedProductData.description}
+              </p>
+              <div className="mt-6 flex space-x-4">
+                <button
+                  type="button"
+                  onClick={() => handleNavigate(selectedProductData)}
+                  className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                >
+                  Get Quote
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNavigate(selectedProductData)}
+                  className="border border-red-600 text-red-600 px-6 py-3 rounded-lg font-medium hover:bg-red-50 transition-colors"
+                >
+                  Download Specs
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* View All Button */}
-          <div className="mt-8 text-center">
+          <div className="mt-16 text-center">
             <button
               type="button"
-              className="bs-mix-red text-white font-semibold text-sm px-8 py-3 rounded-full hover:opacity-95 transition-all shadow-md hover:shadow-xl transform hover:-translate-y-0.5 duration-200 cursor-pointer"
+              className="bs-mix-red text-white font-[500] px-10 py-[10px] rounded-lg hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300"
               onClick={handleAllProduct}
             >
-              View All Packaging Machines
+              View All Products
             </button>
           </div>
         </div>
-
-        {/* ===================================================================
-            CENTERED CLEAN PREVIEW MODAL (Opens in center of page)
-            - Clean, focused design with large image, title, description, and buttons
-            - Removed extra specs grid, applications chips & bullet points
-           =================================================================== */}
-        <AnimatePresence>
-          {modalProduct && (
-            <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 md:p-8">
-              {/* Dark Blur Backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onClick={closeModal}
-                className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm cursor-pointer"
-              />
-
-              {/* Centered Modal Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.94, y: 14 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.94, y: 14 }}
-                transition={{ type: "spring", damping: 26, stiffness: 320 }}
-                onMouseEnter={() => {
-                  if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-                }}
-                onMouseLeave={() => {
-                  if (!isLockedOpen) {
-                    closeTimeoutRef.current = setTimeout(() => {
-                      setModalProduct(null);
-                    }, 300);
-                  }
-                }}
-                className="relative z-10 w-full max-w-[780px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] border border-slate-100 overflow-hidden flex flex-col md:flex-row"
-              >
-                {/* Close Button */}
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  aria-label="Close modal"
-                  className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-colors cursor-pointer shadow-xs"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                {/* -----------------------------------------------------------
-                    LEFT COLUMN: Large Product Image
-                   ----------------------------------------------------------- */}
-                <div className="md:w-1/2 bg-gradient-to-br from-slate-50 via-rose-50/20 to-slate-100 p-6 sm:p-8 flex flex-col items-center justify-center relative overflow-hidden border-b md:border-b-0 md:border-r border-slate-200/80">
-                  {/* Subtle Background Glow */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] h-[240px] rounded-full bg-red-500/10 blur-2xl pointer-events-none" />
-
-                  {/* Category Badge Top-Left */}
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-600 text-white shadow-xs">
-                      {modalProduct.category || selectedCategory}
-                    </span>
-                  </div>
-
-                  {/* Machine Center Image */}
-                  <div className="relative z-10 w-full max-w-[300px] h-[230px] sm:h-[260px] flex items-center justify-center my-4">
-                    <img
-                      src={getLocalProductImage(modalProduct.mainImage || modalProduct.image)}
-                      alt={modalProduct.mainTitle || modalProduct.name}
-                      className="w-full h-full object-contain drop-shadow-[0_16px_30px_rgba(0,0,0,0.18)] transition-transform duration-300 hover:scale-105"
-                    />
-                  </div>
-
-                  {/* Floor Shadow */}
-                  <div className="w-[70%] h-3.5 bg-slate-900/15 rounded-[100%] blur-md pointer-events-none" />
-                </div>
-
-                {/* -----------------------------------------------------------
-                    RIGHT COLUMN: Title, Description & Action Buttons
-                   ----------------------------------------------------------- */}
-                <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between">
-                  <div className="space-y-4 pt-2">
-                    {/* Machine Title */}
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-600 block mb-1">
-                        ICON PACKTECH MACHINERY
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
-                        {modalProduct.mainTitle || modalProduct.name}
-                      </h3>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                      {modalProduct.mainDesription || modalProduct.description}
-                    </p>
-                  </div>
-
-                  {/* Action CTA Buttons */}
-                  <div className="pt-6 mt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        closeModal();
-                        if (onNavigate) {
-                          onNavigate('/contact-us');
-                        } else {
-                          window.location.href = '/contact-us';
-                        }
-                      }}
-                      className="w-full sm:flex-1 py-3 px-5 rounded-full bs-mix-red hover:opacity-95 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer"
-                    >
-                      <PhoneCall className="w-4 h-4" />
-                      <span>Get Quote</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleNavigate(modalProduct)}
-                      className="w-full sm:flex-1 py-3 px-5 rounded-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 hover:border-red-400 transition-all active:scale-95 cursor-pointer"
-                    >
-                      <span>View Specs</span>
-                      <ArrowRight className="w-4 h-4 text-red-600" />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
       </div>
     </>
   );
