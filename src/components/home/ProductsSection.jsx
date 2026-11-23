@@ -286,89 +286,10 @@ export default function ProductsSection({ onNavigate }) {
                   <div
                     key={currentId}
                     className="relative group w-[280px] md:w-auto flex-shrink-0"
-                    onClick={() =>
-                      setSelectedProduct(isSelected ? null : currentId)
-                    }
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
+                    onClick={() => handleCardClick(product)}
+                    onMouseEnter={() => handleCardMouseEnter(product, index)}
+                    onMouseLeave={handleCardMouseLeave}
                   >
-                    {/* ========== FLOATING HOVER POPOVER (Outside Card, Above) ========== */}
-                    <div
-                      key={currentId}
-                      className="relative group w-[280px] md:w-auto flex-shrink-0"
-                      onClick={() => handleCardClick(product)}
-                      onMouseEnter={() => handleCardMouseEnter(product, index)}
-                      onMouseLeave={handleCardMouseLeave}
-                    >
-                      {/* Main Square Box */}
-                      <div
-                        className={`relative bg-white h-[430px] md11:h-[400px] 2xl:h-[440px] rounded-[15px] w-[280px] mx-auto shadow-icon border border-[#f22] overflow-hidden cursor-pointer ${
-                          isSelected
-                            ? "ring-4 ring-red-500 shadow-xl"
-                            : ""
-                        }`}
-                      >
-                        {/* Square Image Container */}
-                        <div className="relative w-[100%] h-[260px] md11:h-[230px] 2xl:h-[260px] rounded-[15px] bg-[#fff] shadow-md overflow-hidden">
-                          <div className="absolute inset-0 flex items-center justify-center p-6">
-                            <img
-                              src={getLocalProductImage(product.mainImage || product.image)}
-                              alt={product.mainTitle || product.name || "Product"}
-                              className={`transition-transform w-[100%] h-[100%] object-contain duration-500 ${
-                                hoveredIndex === index ? "scale-110" : "scale-105"
-                              }`}
-                              onError={(e) => {
-                                e.currentTarget.src =
-                                  "/product-image/img_6878939f4af644.42421642.png";
-                              }}
-                              className="flex-1 flex items-center justify-center gap-1.5 bs-mix-red text-white font-bold text-[11px] py-2 rounded-lg hover:opacity-90 transition-all active:scale-95 shadow-sm"
-                            >
-                              <span>View Specs</span>
-                              <svg
-                                className="w-3 h-3"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2.5}
-                                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                />
-                              </svg>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (onNavigate) onNavigate("/contact-us");
-                              }}
-                              className="flex items-center justify-center gap-1 border border-gray-200 bg-white text-gray-700 font-bold text-[11px] py-2 px-3.5 rounded-lg hover:border-red-300 hover:text-red-600 hover:bg-red-50 transition-all active:scale-95"
-                            >
-                              <svg
-                                className="w-3 h-3"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                                />
-                              </svg>
-                              <span>Quote</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Arrow pointer pointing down toward card */}
-                      <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-4 h-4 bg-white border-r border-b border-gray-100 rotate-45 shadow-sm" />
-                    </div>
-
                     {/* Main Square Box */}
                     <div
                       className={`relative bg-white h-[430px] md11:h-[400px] 2xl:h-[440px] rounded-[15px] w-[280px] mx-auto shadow-icon border border-[#f22] overflow-hidden cursor-pointer ${
