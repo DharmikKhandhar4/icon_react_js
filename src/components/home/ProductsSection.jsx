@@ -1,136 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  X,
-  Zap,
-  Gauge,
-  Cpu,
-  ShieldCheck,
-  CheckCircle2,
-  ArrowRight,
-  Eye,
-  Layers,
-  Sparkles,
-  PhoneCall,
-  FileText,
-} from 'lucide-react';
+import { X, ArrowRight, Eye, PhoneCall } from 'lucide-react';
 
 const getLocalProductImage = (src) => {
   if (!src) return '/product-image/Product1.png';
   return src;
-};
-
-// Rich technical metadata for machines displayed in the centered showcase modal
-const MACHINE_EXTRA_DETAILS = {
-  "inline-tray": {
-    modelCode: "IP-TS 500 INLINE",
-    speed: "60 - 120 Trays / Min",
-    vacuum: "MAP Gas Flush (< 0.5% Residual O2)",
-    power: "3-Phase 415V / 50Hz, 4.5 kW",
-    build: "Full SS-304 Sanitary Stainless Steel",
-    tagline: "Industrial MAP tray sealing with continuous servo motion",
-    applications: ["Fresh Meat", "Seafood", "Ready Meals", "Poultry", "Cut Produce", "Sweets"],
-    description:
-      "Fully automated inline tray sealing system engineered for Modified Atmosphere Packaging (MAP). Features precision vacuum evacuation and gas-flushing matrix that quadruples fresh product shelf-life without chemical preservatives.",
-    highlights: [
-      "Continuous servo-driven tray indexing system",
-      "Digital PID temperature control for hermetic film sealing",
-      "Tool-less quick mold changeover in under 15 minutes",
-      "IP-65 washdown compliant stainless steel body",
-    ],
-  },
-  "continuous-tray": {
-    modelCode: "IP-CTS 700 AUTO",
-    speed: "80 - 160 Trays / Min",
-    vacuum: "Continuous Multi-Lane MAP Evacuation",
-    power: "3-Phase 415V / 50Hz, 6.0 kW",
-    build: "Washdown SS-304 Sanitary Construction",
-    tagline: "High-capacity non-stop tray sealing for 24/7 continuous lines",
-    applications: ["Industrial Food Plants", "Ready Meals", "Fresh Produce", "Bakery", "Sweets"],
-    description:
-      "Continuous-motion tray sealing machine designed for high-capacity industrial production lines. Delivers rapid, uninterrupted heat-sealing with automated waste film rewinding and synchronized discharge conveyors.",
-    highlights: [
-      "Non-stop continuous motion high-speed sealing",
-      "Automatic waste film trimming and motorized auto-rewind",
-      "PLC color touchscreen recipe management",
-      "Hermetic leak-proof perimeter knife seal",
-    ],
-  },
-  "linear-cup": {
-    modelCode: "IP-LCF 300 MULTI",
-    speed: "100 - 220 Cups / Min",
-    vacuum: "±0.2g High-Precision Servo Volumetric Dosing",
-    power: "3-Phase 415V / 50Hz, 5.5 kW",
-    build: "Food/Pharma SS-316 Contact Parts & SS-304 Frame",
-    tagline: "Sterile multi-lane volumetric cup filling and roll-film sealing line",
-    applications: ["Curd & Yogurt", "Dips & Sauces", "Jam & Cream", "Desserts", "Liquid Pharma"],
-    description:
-      "Ultra-clean multi-lane linear cup filling and roll-film sealing line. Equipped with automated cup de-nesting, servo volumetric piston dosing, UV sterilization, roll-stock heat-sealing, and automated tray discharge.",
-    highlights: [
-      "Multi-lane synchronized cup de-nesting & indexing",
-      "Anti-drip servo cutoff volumetric nozzles",
-      "Clean-in-Place (CIP) automated washdown ready",
-      "UV foil sterilization & integrated date coder",
-    ],
-  },
-  "thermoforming": {
-    modelCode: "ITF - 400 PRO",
-    speed: "8 - 14 Cycles / Min (up to 200 packs/min)",
-    vacuum: "Deep Vacuum down to 2 mbar with German Pump",
-    power: "3-Phase 415V / 50Hz, 12.0 kW",
-    build: "Heavy-Duty Modular SS-304 Washdown Body",
-    tagline: "Horizontal rollstock thermoforming with airtight vacuum packaging",
-    applications: ["Paneer & Cheese", "Dates", "Frozen Meat", "Seafood", "Medical Kits", "Hardware"],
-    description:
-      "State-of-the-art horizontal rollstock thermoforming machine. Automatically forms bottom pockets from film roll, loads product, extracts air down to 2 mbar, and seals top film with razor-sharp perimeter trimming.",
-    highlights: [
-      "High-vacuum German Busch vacuum pump integrated",
-      "Servo-driven chain gripper film transport",
-      "Modular tooling for rapid pocket shape change",
-      "Automated cross-cut and rotary perimeter slitting",
-    ],
-  },
-  "double-chamber": {
-    modelCode: "IP-DC 800 HEAVY",
-    speed: "2 - 4 Cycles / Min (Dual Chamber Alternate)",
-    vacuum: "< 1 mbar Deep Industrial Vacuum",
-    power: "3-Phase 415V / 50Hz, 3.2 kW",
-    build: "Seamless Heavy-Gauge SS-304 Chamber",
-    tagline: "Heavy-duty dual chamber vacuum packaging with 100% duty cycle",
-    applications: ["Bulk Spices", "Pulses & Grains", "Paneer Blocks", "Frozen Seafood", "Chemicals"],
-    description:
-      "Dual-chamber heavy-duty industrial vacuum packaging machine. While one chamber undergoes automated vacuum and heat-sealing, the operator loads bags in the adjacent chamber, maximizing continuous throughput.",
-    highlights: [
-      "Dual-side alternating operation eliminates idle loading time",
-      "High-flow Busch vacuum pump for fast evacuation",
-      "Double-weld heavy-duty seal bars for thick laminates",
-      "Ergonomic counterbalanced swinging chamber hood",
-    ],
-  },
-  "vffs-pharma": {
-    modelCode: "IP-VFFS 6H MULTI",
-    speed: "60 - 120 Pouches / Min",
-    vacuum: "±0.1g - 0.5g Electronic Combination Weigher",
-    power: "3-Phase 415V / 50Hz, 4.8 kW",
-    build: "Pharma-Grade SS-304 / SS-316 Contact Parts",
-    tagline: "Vertical form-fill-seal system with computer combination weigher",
-    applications: ["Pharma Powders", "Granules", "Tablets", "Spices", "Confectionery", "Dry Fruits"],
-    description:
-      "High-speed vertical form-fill-seal system equipped with multi-head electronic combination weigher. Delivers sterile, hermetically sealed pillow pouches with automated nitrogen flushing.",
-    highlights: [
-      "Multi-head electronic combination weigher with IP-65 washdown",
-      "Twin belt servo film pulling for delicate laminate films",
-      "Pneumatically operated cross-seal jaws with digital PID",
-      "Integrated nitrogen gas flushing for extended shelf-life",
-    ],
-  },
-};
-
-const getProductDetails = (product) => {
-  const id = String(product?._id || product?.id || "").toLowerCase();
-  const matchedKey = Object.keys(MACHINE_EXTRA_DETAILS).find((k) => id.includes(k));
-  const fallback = MACHINE_EXTRA_DETAILS["inline-tray"];
-  return matchedKey ? MACHINE_EXTRA_DETAILS[matchedKey] : fallback;
 };
 
 const defaultProductsByCategory = {
@@ -267,7 +141,7 @@ export default function ProductsSection({ onNavigate }) {
   const [categoryTypes] = useState(["Food", "Non-Food", "Pharma"]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  // Centered Large Modal State
+  // Centered Modal State
   const [modalProduct, setModalProduct] = useState(null);
   const [isLockedOpen, setIsLockedOpen] = useState(false);
 
@@ -314,7 +188,7 @@ export default function ProductsSection({ onNavigate }) {
     }
   };
 
-  // Smooth hover open with debounce
+  // Hover open with debounce
   const handleCardMouseEnter = (product, index) => {
     setHoveredIndex(index);
     if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
@@ -332,11 +206,11 @@ export default function ProductsSection({ onNavigate }) {
     if (!isLockedOpen) {
       closeTimeoutRef.current = setTimeout(() => {
         setModalProduct(null);
-      }, 350);
+      }, 320);
     }
   };
 
-  // Card click locks modal open until explicitly closed
+  // Click card locks modal open
   const handleCardClick = (product) => {
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
@@ -370,8 +244,6 @@ export default function ProductsSection({ onNavigate }) {
     };
   }, [modalProduct, closeModal]);
 
-  const activeSpecs = modalProduct ? getProductDetails(modalProduct) : null;
-
   return (
     <>
       <div className="font-Poppins pt-[60px] pb-12 relative">
@@ -384,7 +256,7 @@ export default function ProductsSection({ onNavigate }) {
             </h2>
             <div className="w-24 h-1 bs-mix-red mx-auto mb-4"></div>
             <p className="text-gray-600 max-w-2xl mx-auto text-xs sm:text-sm">
-              Explore our industrial packaging machinery — hover or click any machine to open detailed specifications
+              Explore our industrial packaging machinery — hover or click any machine to preview
             </p>
           </div>
 
@@ -436,7 +308,7 @@ export default function ProductsSection({ onNavigate }) {
                           }`}
                         >
                           <Eye className="w-3 h-3 text-red-600" />
-                          <span>Quick Specs</span>
+                          <span>Preview</span>
                         </div>
 
                         {/* Category Tag */}
@@ -518,29 +390,28 @@ export default function ProductsSection({ onNavigate }) {
         </div>
 
         {/* ===================================================================
-            CENTERED LARGE QUICK-VIEW MODAL (Opens in center of page)
-            - Big, spacious design with prominent machine image
-            - Complete technical specifications & applications
-            - Smooth Framer Motion entrance & exit
+            CENTERED CLEAN PREVIEW MODAL (Opens in center of page)
+            - Clean, focused design with large image, title, description, and buttons
+            - Removed extra specs grid, applications chips & bullet points
            =================================================================== */}
         <AnimatePresence>
           {modalProduct && (
-            <div className="fixed inset-0 z-[999] flex items-center justify-center p-3 sm:p-6 md:p-8">
+            <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 md:p-8">
               {/* Dark Blur Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.22 }}
+                transition={{ duration: 0.2 }}
                 onClick={closeModal}
-                className="fixed inset-0 bg-slate-950/75 backdrop-blur-md cursor-pointer"
+                className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm cursor-pointer"
               />
 
-              {/* Centered Large Modal Box */}
+              {/* Centered Modal Card */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.94, y: 16 }}
+                initial={{ opacity: 0, scale: 0.94, y: 14 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                exit={{ opacity: 0, scale: 0.94, y: 14 }}
                 transition={{ type: "spring", damping: 26, stiffness: 320 }}
                 onMouseEnter={() => {
                   if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
@@ -549,188 +420,71 @@ export default function ProductsSection({ onNavigate }) {
                   if (!isLockedOpen) {
                     closeTimeoutRef.current = setTimeout(() => {
                       setModalProduct(null);
-                    }, 320);
+                    }, 300);
                   }
                 }}
-                className="relative z-10 w-full max-w-[960px] max-h-[90vh] bg-white rounded-3xl shadow-[0_25px_70px_-15px_rgba(0,0,0,0.5)] border border-slate-100 overflow-hidden flex flex-col md:flex-row"
+                className="relative z-10 w-full max-w-[780px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] border border-slate-100 overflow-hidden flex flex-col md:flex-row"
               >
                 {/* Close Button */}
                 <button
                   type="button"
                   onClick={closeModal}
                   aria-label="Close modal"
-                  className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-white/90 hover:bg-slate-100 text-slate-500 hover:text-slate-900 border border-slate-200 flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                  className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-colors cursor-pointer shadow-xs"
                 >
                   <X className="w-5 h-5" />
                 </button>
 
                 {/* -----------------------------------------------------------
-                    LEFT COLUMN: Large Image & Visual Studio Showcase
+                    LEFT COLUMN: Large Product Image
                    ----------------------------------------------------------- */}
-                <div className="md:w-5/12 bg-gradient-to-br from-slate-50 via-rose-50/25 to-slate-100 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden border-b md:border-b-0 md:border-r border-slate-200/80">
-                  {/* Subtle Background Radial Glow */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] rounded-full bg-red-500/10 blur-3xl pointer-events-none" />
+                <div className="md:w-1/2 bg-gradient-to-br from-slate-50 via-rose-50/20 to-slate-100 p-6 sm:p-8 flex flex-col items-center justify-center relative overflow-hidden border-b md:border-b-0 md:border-r border-slate-200/80">
+                  {/* Subtle Background Glow */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] h-[240px] rounded-full bg-red-500/10 blur-2xl pointer-events-none" />
 
-                  {/* Header Badges */}
-                  <div className="relative z-10 flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-600 text-white shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  {/* Category Badge Top-Left */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-600 text-white shadow-xs">
                       {modalProduct.category || selectedCategory}
                     </span>
-                    <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold text-slate-700 bg-white/80 border border-slate-200 shadow-xs">
-                      {activeSpecs?.modelCode || "ICON PRO"}
-                    </span>
                   </div>
 
-                  {/* Machine Center Showcase Image */}
-                  <div className="relative z-10 my-auto py-6 flex flex-col items-center justify-center">
-                    <div className="relative w-full max-w-[340px] aspect-[4/3] flex items-center justify-center">
-                      <img
-                        src={getLocalProductImage(modalProduct.mainImage || modalProduct.image)}
-                        alt={modalProduct.mainTitle || modalProduct.name}
-                        className="w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.22)] filter transition-transform duration-300 hover:scale-105"
-                      />
-                    </div>
-                    {/* Floor Shadow */}
-                    <div className="w-[75%] h-4 bg-slate-900/15 rounded-[100%] blur-md mt-1 pointer-events-none" />
+                  {/* Machine Center Image */}
+                  <div className="relative z-10 w-full max-w-[300px] h-[230px] sm:h-[260px] flex items-center justify-center my-4">
+                    <img
+                      src={getLocalProductImage(modalProduct.mainImage || modalProduct.image)}
+                      alt={modalProduct.mainTitle || modalProduct.name}
+                      className="w-full h-full object-contain drop-shadow-[0_16px_30px_rgba(0,0,0,0.18)] transition-transform duration-300 hover:scale-105"
+                    />
                   </div>
 
-                  {/* Bottom Trust Badges */}
-                  <div className="relative z-10 pt-4 border-t border-slate-200/70 flex items-center justify-between text-[11px] font-mono text-slate-600">
-                    <span className="inline-flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5 text-red-600" />
-                      SS-304 Sanitary Build
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                      ISO 9001:2015
-                    </span>
-                  </div>
+                  {/* Floor Shadow */}
+                  <div className="w-[70%] h-3.5 bg-slate-900/15 rounded-[100%] blur-md pointer-events-none" />
                 </div>
 
                 {/* -----------------------------------------------------------
-                    RIGHT COLUMN: Full Machine Information & Specifications
+                    RIGHT COLUMN: Title, Description & Action Buttons
                    ----------------------------------------------------------- */}
-                <div className="md:w-7/12 p-6 sm:p-8 overflow-y-auto max-h-[85vh] flex flex-col justify-between">
-                  <div className="space-y-5">
-                    {/* Machine Title & Tagline */}
+                <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between">
+                  <div className="space-y-4 pt-2">
+                    {/* Machine Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl lg:text-[26px] font-extrabold text-slate-900 leading-tight">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-600 block mb-1">
+                        ICON PACKTECH MACHINERY
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
                         {modalProduct.mainTitle || modalProduct.name}
                       </h3>
-                      {activeSpecs?.tagline && (
-                        <p className="text-xs sm:text-sm font-semibold text-icon mt-1">
-                          {activeSpecs.tagline}
-                        </p>
-                      )}
                     </div>
 
-                    {/* Full Product Description */}
+                    {/* Description */}
                     <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                      {activeSpecs?.description || modalProduct.mainDesription || modalProduct.description}
+                      {modalProduct.mainDesription || modalProduct.description}
                     </p>
-
-                    {/* Technical Specifications 2x2 Grid */}
-                    <div className="space-y-2">
-                      <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                        <Cpu className="w-3.5 h-3.5 text-red-600" />
-                        <span>Technical Specifications:</span>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        {/* Speed */}
-                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600">
-                            <Zap className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-mono uppercase text-slate-500">Output Speed</div>
-                            <div className="text-xs sm:text-sm font-bold text-slate-900">
-                              {activeSpecs?.speed || "Up to 120 Packs/min"}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Vacuum / Sealing */}
-                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600">
-                            <Gauge className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-mono uppercase text-slate-500">Sealing / Vacuum</div>
-                            <div className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-1">
-                              {activeSpecs?.vacuum || "Hermetic Seal"}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Power */}
-                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center flex-shrink-0 text-slate-700">
-                            <Cpu className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-mono uppercase text-slate-500">Power Rating</div>
-                            <div className="text-xs sm:text-sm font-bold text-slate-900">
-                              {activeSpecs?.power || "3-Phase 415V / 50Hz"}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Construction */}
-                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center flex-shrink-0 text-slate-700">
-                            <ShieldCheck className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-mono uppercase text-slate-500">Hygiene Standard</div>
-                            <div className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-1">
-                              {activeSpecs?.build || "SS-304 Sanitary"}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Suitable Applications */}
-                    {activeSpecs?.applications && (
-                      <div className="space-y-1.5">
-                        <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                          <Layers className="w-3.5 h-3.5 text-red-600" />
-                          <span>Suitable Packaging Products:</span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {activeSpecs.applications.map((item, idx) => (
-                            <span
-                              key={idx}
-                              className="px-2.5 py-1 rounded-md text-xs font-medium bg-red-50 text-red-700 border border-red-100"
-                            >
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Key Highlights */}
-                    {activeSpecs?.highlights && (
-                      <div className="space-y-1.5">
-                        <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500">
-                          Key Advantages:
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                          {activeSpecs.highlights.map((highlight, idx) => (
-                            <div key={idx} className="flex items-start gap-1.5 text-xs text-slate-700">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                              <span>{highlight}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
 
-                  {/* Modal Action CTA Buttons */}
-                  <div className="pt-6 mt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center gap-3">
+                  {/* Action CTA Buttons */}
+                  <div className="pt-6 mt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-3">
                     <button
                       type="button"
                       onClick={() => {
@@ -741,10 +495,10 @@ export default function ProductsSection({ onNavigate }) {
                           window.location.href = '/contact-us';
                         }
                       }}
-                      className="w-full sm:flex-1 py-3 px-5 rounded-full bs-mix-red hover:opacity-95 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
+                      className="w-full sm:flex-1 py-3 px-5 rounded-full bs-mix-red hover:opacity-95 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer"
                     >
                       <PhoneCall className="w-4 h-4" />
-                      <span>Get Instant Quote</span>
+                      <span>Get Quote</span>
                     </button>
 
                     <button
@@ -752,7 +506,7 @@ export default function ProductsSection({ onNavigate }) {
                       onClick={() => handleNavigate(modalProduct)}
                       className="w-full sm:flex-1 py-3 px-5 rounded-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 hover:border-red-400 transition-all active:scale-95 cursor-pointer"
                     >
-                      <span>View Full Machine Page</span>
+                      <span>View Specs</span>
                       <ArrowRight className="w-4 h-4 text-red-600" />
                     </button>
                   </div>
