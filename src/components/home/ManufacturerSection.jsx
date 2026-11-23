@@ -268,44 +268,7 @@ export default function ManufacturerSection({ onNavigate }) {
             </div>
 
             {/* Bottom Actions & Trust Row (Compact) */}
-            <div className="pt-1">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <button
-                  type="button"
-                  onClick={navigateToContact}
-                  className="inline-flex items-center justify-center gap-1.5 bs-mix-red hover:opacity-95 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer"
-                >
-                  <PhoneCall className="w-3.5 h-3.5" />
-                  <span>Request Custom Quote</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={navigateToMachines}
-                  className="inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-red-600 font-bold text-xs px-4 py-2.5 rounded-xl border border-slate-200 transition-all active:scale-[0.98] cursor-pointer shadow-2xs"
-                >
-                  <Layers className="w-3.5 h-3.5 text-red-600" />
-                  <span>All Machines</span>
-                </button>
-              </div>
-
-              {/* Trust Checkmarks */}
-              <div className="flex flex-wrap items-center gap-3.5 mt-2.5 text-[10px] font-semibold text-slate-500">
-                <span className="inline-flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-red-600" />
-                  30+ Yrs Mfg
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-red-600" />
-                  SS-304 Sanitary
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-red-600" />
-                  Pan-India Direct Service
-                </span>
-              </div>
-            </div>
+          
           </div>
 
           {/* Right Panel: High-Tech Machine Stage (Col 7-12, Compact Max-H) */}
