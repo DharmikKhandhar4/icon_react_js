@@ -318,7 +318,7 @@ export default function ProductDetail({ machineSlug, onNavigate, onOpenBrochure 
               {whyChooseList.map((usp, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-center justify-center rounded-xl border border-gray-200 bg-white p-4 shadow-md transition-shadow duration-300 hover:shadow-lg w-[170px]"
+                  className="flex flex-col items-center justify-center rounded-xl border border-gray-200 bg-white p-4 shadow-md transition-shadow duration-300 hover:shadow-lg min-w-[170px]"
                 >
                   <div className="mx-auto mb-4 h-16 w-16 flex items-center justify-center">
                     <img
@@ -331,7 +331,7 @@ export default function ProductDetail({ machineSlug, onNavigate, onOpenBrochure 
                     />
                   </div>
 
-                  <h3 className="mb-2 text-center text-[15px] font-normal text-gray-900">
+                  <h3 className="mb-2 text-center text-[15px] font-normal text-gray-900 whitespace-nowrap">
                     {usp.title}
                   </h3>
                 </div>

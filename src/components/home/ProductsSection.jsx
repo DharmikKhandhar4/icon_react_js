@@ -1,8 +1,136 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  X,
+  Zap,
+  Gauge,
+  Cpu,
+  ShieldCheck,
+  CheckCircle2,
+  ArrowRight,
+  Eye,
+  Layers,
+  Sparkles,
+  PhoneCall,
+  FileText,
+} from 'lucide-react';
 
 const getLocalProductImage = (src) => {
   if (!src) return '/product-image/Product1.png';
   return src;
+};
+
+// Rich technical metadata for machines displayed in the centered showcase modal
+const MACHINE_EXTRA_DETAILS = {
+  "inline-tray": {
+    modelCode: "IP-TS 500 INLINE",
+    speed: "60 - 120 Trays / Min",
+    vacuum: "MAP Gas Flush (< 0.5% Residual O2)",
+    power: "3-Phase 415V / 50Hz, 4.5 kW",
+    build: "Full SS-304 Sanitary Stainless Steel",
+    tagline: "Industrial MAP tray sealing with continuous servo motion",
+    applications: ["Fresh Meat", "Seafood", "Ready Meals", "Poultry", "Cut Produce", "Sweets"],
+    description:
+      "Fully automated inline tray sealing system engineered for Modified Atmosphere Packaging (MAP). Features precision vacuum evacuation and gas-flushing matrix that quadruples fresh product shelf-life without chemical preservatives.",
+    highlights: [
+      "Continuous servo-driven tray indexing system",
+      "Digital PID temperature control for hermetic film sealing",
+      "Tool-less quick mold changeover in under 15 minutes",
+      "IP-65 washdown compliant stainless steel body",
+    ],
+  },
+  "continuous-tray": {
+    modelCode: "IP-CTS 700 AUTO",
+    speed: "80 - 160 Trays / Min",
+    vacuum: "Continuous Multi-Lane MAP Evacuation",
+    power: "3-Phase 415V / 50Hz, 6.0 kW",
+    build: "Washdown SS-304 Sanitary Construction",
+    tagline: "High-capacity non-stop tray sealing for 24/7 continuous lines",
+    applications: ["Industrial Food Plants", "Ready Meals", "Fresh Produce", "Bakery", "Sweets"],
+    description:
+      "Continuous-motion tray sealing machine designed for high-capacity industrial production lines. Delivers rapid, uninterrupted heat-sealing with automated waste film rewinding and synchronized discharge conveyors.",
+    highlights: [
+      "Non-stop continuous motion high-speed sealing",
+      "Automatic waste film trimming and motorized auto-rewind",
+      "PLC color touchscreen recipe management",
+      "Hermetic leak-proof perimeter knife seal",
+    ],
+  },
+  "linear-cup": {
+    modelCode: "IP-LCF 300 MULTI",
+    speed: "100 - 220 Cups / Min",
+    vacuum: "±0.2g High-Precision Servo Volumetric Dosing",
+    power: "3-Phase 415V / 50Hz, 5.5 kW",
+    build: "Food/Pharma SS-316 Contact Parts & SS-304 Frame",
+    tagline: "Sterile multi-lane volumetric cup filling and roll-film sealing line",
+    applications: ["Curd & Yogurt", "Dips & Sauces", "Jam & Cream", "Desserts", "Liquid Pharma"],
+    description:
+      "Ultra-clean multi-lane linear cup filling and roll-film sealing line. Equipped with automated cup de-nesting, servo volumetric piston dosing, UV sterilization, roll-stock heat-sealing, and automated tray discharge.",
+    highlights: [
+      "Multi-lane synchronized cup de-nesting & indexing",
+      "Anti-drip servo cutoff volumetric nozzles",
+      "Clean-in-Place (CIP) automated washdown ready",
+      "UV foil sterilization & integrated date coder",
+    ],
+  },
+  "thermoforming": {
+    modelCode: "ITF - 400 PRO",
+    speed: "8 - 14 Cycles / Min (up to 200 packs/min)",
+    vacuum: "Deep Vacuum down to 2 mbar with German Pump",
+    power: "3-Phase 415V / 50Hz, 12.0 kW",
+    build: "Heavy-Duty Modular SS-304 Washdown Body",
+    tagline: "Horizontal rollstock thermoforming with airtight vacuum packaging",
+    applications: ["Paneer & Cheese", "Dates", "Frozen Meat", "Seafood", "Medical Kits", "Hardware"],
+    description:
+      "State-of-the-art horizontal rollstock thermoforming machine. Automatically forms bottom pockets from film roll, loads product, extracts air down to 2 mbar, and seals top film with razor-sharp perimeter trimming.",
+    highlights: [
+      "High-vacuum German Busch vacuum pump integrated",
+      "Servo-driven chain gripper film transport",
+      "Modular tooling for rapid pocket shape change",
+      "Automated cross-cut and rotary perimeter slitting",
+    ],
+  },
+  "double-chamber": {
+    modelCode: "IP-DC 800 HEAVY",
+    speed: "2 - 4 Cycles / Min (Dual Chamber Alternate)",
+    vacuum: "< 1 mbar Deep Industrial Vacuum",
+    power: "3-Phase 415V / 50Hz, 3.2 kW",
+    build: "Seamless Heavy-Gauge SS-304 Chamber",
+    tagline: "Heavy-duty dual chamber vacuum packaging with 100% duty cycle",
+    applications: ["Bulk Spices", "Pulses & Grains", "Paneer Blocks", "Frozen Seafood", "Chemicals"],
+    description:
+      "Dual-chamber heavy-duty industrial vacuum packaging machine. While one chamber undergoes automated vacuum and heat-sealing, the operator loads bags in the adjacent chamber, maximizing continuous throughput.",
+    highlights: [
+      "Dual-side alternating operation eliminates idle loading time",
+      "High-flow Busch vacuum pump for fast evacuation",
+      "Double-weld heavy-duty seal bars for thick laminates",
+      "Ergonomic counterbalanced swinging chamber hood",
+    ],
+  },
+  "vffs-pharma": {
+    modelCode: "IP-VFFS 6H MULTI",
+    speed: "60 - 120 Pouches / Min",
+    vacuum: "±0.1g - 0.5g Electronic Combination Weigher",
+    power: "3-Phase 415V / 50Hz, 4.8 kW",
+    build: "Pharma-Grade SS-304 / SS-316 Contact Parts",
+    tagline: "Vertical form-fill-seal system with computer combination weigher",
+    applications: ["Pharma Powders", "Granules", "Tablets", "Spices", "Confectionery", "Dry Fruits"],
+    description:
+      "High-speed vertical form-fill-seal system equipped with multi-head electronic combination weigher. Delivers sterile, hermetically sealed pillow pouches with automated nitrogen flushing.",
+    highlights: [
+      "Multi-head electronic combination weigher with IP-65 washdown",
+      "Twin belt servo film pulling for delicate laminate films",
+      "Pneumatically operated cross-seal jaws with digital PID",
+      "Integrated nitrogen gas flushing for extended shelf-life",
+    ],
+  },
+};
+
+const getProductDetails = (product) => {
+  const id = String(product?._id || product?.id || "").toLowerCase();
+  const matchedKey = Object.keys(MACHINE_EXTRA_DETAILS).find((k) => id.includes(k));
+  const fallback = MACHINE_EXTRA_DETAILS["inline-tray"];
+  return matchedKey ? MACHINE_EXTRA_DETAILS[matchedKey] : fallback;
 };
 
 const defaultProductsByCategory = {
@@ -136,15 +264,21 @@ const defaultProductsByCategory = {
 
 export default function ProductsSection({ onNavigate }) {
   const [selectedCategory, setSelectedCategory] = useState("Food");
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [categoryTypes] = useState(["Food", "Non-Food", "Pharma"]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  // Centered Large Modal State
+  const [modalProduct, setModalProduct] = useState(null);
+  const [isLockedOpen, setIsLockedOpen] = useState(false);
+
+  const hoverTimeoutRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
 
   const products = defaultProductsByCategory[selectedCategory] || defaultProductsByCategory["Food"];
 
   const handleCategoryClick = (categoryType) => {
     setSelectedCategory(categoryType);
-    setSelectedProduct(null);
+    setModalProduct(null);
   };
 
   const slugify = (text = "") =>
@@ -163,6 +297,7 @@ export default function ProductsSection({ onNavigate }) {
       return;
     }
 
+    setModalProduct(null);
     const targetUrl = `/product-details/${slug || id}`;
     if (onNavigate) {
       onNavigate(targetUrl);
@@ -179,271 +314,453 @@ export default function ProductsSection({ onNavigate }) {
     }
   };
 
-  const selectedProductData =
-    selectedProduct !== null
-      ? products.find((p, i) => (p._id || p.id || i) === selectedProduct) || products[selectedProduct]
-      : null;
+  // Smooth hover open with debounce
+  const handleCardMouseEnter = (product, index) => {
+    setHoveredIndex(index);
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+
+    hoverTimeoutRef.current = setTimeout(() => {
+      setModalProduct(product);
+      setIsLockedOpen(false);
+    }, 220);
+  };
+
+  const handleCardMouseLeave = () => {
+    setHoveredIndex(null);
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+
+    if (!isLockedOpen) {
+      closeTimeoutRef.current = setTimeout(() => {
+        setModalProduct(null);
+      }, 350);
+    }
+  };
+
+  // Card click locks modal open until explicitly closed
+  const handleCardClick = (product) => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setModalProduct(product);
+    setIsLockedOpen(true);
+  };
+
+  const closeModal = useCallback(() => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setModalProduct(null);
+    setIsLockedOpen(false);
+  }, []);
+
+  // Escape key listener & Body scroll management
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    if (modalProduct) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [modalProduct, closeModal]);
+
+  const activeSpecs = modalProduct ? getProductDetails(modalProduct) : null;
 
   return (
     <>
-      <div className="font-Poppins pt-[80px]">
+      <div className="font-Poppins pt-[60px] pb-12 relative">
         <div className="md:w-[85%] 2xl:w-[1300px] mx-auto px-4">
           {/* Header */}
-          <div className="text-center mb-5 w-[100%]">
-            <h2 className="text-4xl md:text-[45px] font-bold text-gray-800 mb-1">
+          <div className="text-center mb-6 w-[100%]">
+            <h2 className="text-3xl sm:text-4xl md:text-[45px] font-bold text-gray-800 mb-1">
               What Products <span className="text-icon animate-pulse ml-[10px]">?</span>
-              <span className="text-icon animate-pulse delay-100 ">?</span>
+              <span className="text-icon animate-pulse delay-100">?</span>
             </h2>
-            <div className="w-24 h-1 bs-mix-red mx-auto mb-5"></div>
-            <p className="text-gray-600 max-w-2xl mx-auto text-[14px]">
-              Explore some of our Hot-Cakes, to fulfil your Smart and Sustainable Packaging Needs
+            <div className="w-24 h-1 bs-mix-red mx-auto mb-4"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto text-xs sm:text-sm">
+              Explore our industrial packaging machinery — hover or click any machine to open detailed specifications
             </p>
           </div>
 
           <div className="flex w-[100%] flex-col">
             {/* Category Tabs */}
-            <div className="flex gap-[16px] md:gap-[30px] overflow-x-auto md:items-center pb-[30px]">
+            <div className="flex gap-3 md:gap-6 overflow-x-auto md:items-center pb-6 scrollbar-hide">
               {categoryTypes.map((type) => (
-                <div
+                <button
+                  type="button"
                   key={type}
                   onClick={() => handleCategoryClick(type)}
-                  className={`cursor-pointer gap-[14px] w-fit rounded-[10px] flex justify-center px-[15px] md:py-0 py-[10px] items-center h-[50px] flex-shrink-0 transition-all duration-300 ${
-                    selectedCategory === type ? "bs-mix-red text-white" : "mainnn text-black"
+                  className={`cursor-pointer gap-2 rounded-xl flex justify-center px-6 py-2.5 items-center h-[46px] flex-shrink-0 transition-all duration-300 font-semibold text-xs sm:text-sm tracking-wide ${
+                    selectedCategory === type
+                      ? "bs-mix-red text-white shadow-md scale-105"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                   }`}
                 >
-                  <h3 className="flex font-[600]">{type}</h3>
-                </div>
+                  {type}
+                </button>
               ))}
             </div>
 
             {/* Products Grid */}
-            <div className="flex overflow-x-auto md77:overflow-visible md:grid md77:grid-cols-2 md11:grid-cols-4 gap-[10px] justify-between pt-[260px] md11:pt-[260px] -mt-[260px]">
+            <div className="flex overflow-x-auto md:grid md77:grid-cols-2 md11:grid-cols-4 gap-5 justify-between pb-4">
               {products.slice(0, 4).map((product, index) => {
-                  const currentId = product._id || product.id || index;
-                  const isSelected = selectedProduct === currentId;
+                const currentId = product._id || product.id || index;
+                const isHovered = hoveredIndex === index;
 
-                  return (
+                return (
+                  <div
+                    key={currentId}
+                    className="relative group w-[280px] md:w-auto flex-shrink-0"
+                    onMouseEnter={() => handleCardMouseEnter(product, index)}
+                    onMouseLeave={handleCardMouseLeave}
+                    onClick={() => handleCardClick(product)}
+                  >
+                    {/* Main Card Box */}
                     <div
-                      key={currentId}
-                      className="relative group w-[280px] md:w-auto flex-shrink-0"
-                      onClick={() => setSelectedProduct(isSelected ? null : currentId)}
-                      onMouseEnter={() => setHoveredIndex(index)}
-                      onMouseLeave={() => setHoveredIndex(null)}
+                      className={`relative bg-white h-[420px] md11:h-[395px] 2xl:h-[430px] rounded-2xl w-[280px] mx-auto shadow-sm hover:shadow-xl border border-slate-200/80 hover:border-red-300 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col justify-between ${
+                        isHovered ? "ring-2 ring-red-500/40 -translate-y-1" : ""
+                      }`}
                     >
-                      {/* ========== FLOATING HOVER POPOVER (Outside Card, Above) ========== */}
-                      <div
-                        className={`absolute left-1/2 -translate-x-1/2 bottom-full mb-3 z-50 w-[290px] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none ${
-                          hoveredIndex === index
-                            ? "opacity-100 translate-y-0 pointer-events-auto"
-                            : "opacity-0 translate-y-3"
-                        }`}
-                      >
-                        <div className="relative bg-white rounded-2xl shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25)] border border-gray-100 overflow-hidden">
-                          {/* Top Red Accent Bar */}
-                          <div className="h-1 w-full bs-mix-red" />
-
-                          <div className="p-4 pb-3.5">
-                            {/* Category + Title Row */}
-                            <div className="flex items-start gap-2.5 mb-2.5">
-                              <div className="w-8 h-8 rounded-lg bs-mix-red flex items-center justify-center flex-shrink-0 shadow-sm">
-                                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-red-600 block mb-0.5">
-                                  {product.category || selectedCategory}
-                                </span>
-                                <h4 className="text-[13px] font-bold text-gray-900 leading-tight truncate">
-                                  {product.mainTitle || product.name}
-                                </h4>
-                              </div>
-                            </div>
-
-                            {/* Description */}
-                            <p className="text-gray-500 text-[11px] leading-relaxed mb-3 line-clamp-2">
-                              {product.mainDesription || product.description}
-                            </p>
-
-                            {/* Quick Spec Chips */}
-                            <div className="flex flex-wrap gap-1.5 mb-3">
-                              <span className="inline-flex items-center gap-1 px-2 py-[3px] rounded-md bg-red-50 text-[10px] font-semibold text-red-700 border border-red-100">
-                                <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                High Speed
-                              </span>
-                              <span className="inline-flex items-center gap-1 px-2 py-[3px] rounded-md bg-gray-50 text-[10px] font-semibold text-gray-600 border border-gray-200">
-                                <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                                SS-304
-                              </span>
-                              <span className="inline-flex items-center gap-1 px-2 py-[3px] rounded-md bg-gray-50 text-[10px] font-semibold text-gray-600 border border-gray-200">
-                                <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                Servo
-                              </span>
-                            </div>
-
-                            {/* CTA Row */}
-                            <div className="flex items-center gap-2">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleNavigate(product);
-                                }}
-                                className="flex-1 flex items-center justify-center gap-1.5 bs-mix-red text-white font-bold text-[11px] py-2 rounded-lg hover:opacity-90 transition-all active:scale-95 shadow-sm"
-                              >
-                                <span>View Specs</span>
-                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (onNavigate) onNavigate('/contact-us');
-                                }}
-                                className="flex items-center justify-center gap-1 border border-gray-200 bg-white text-gray-700 font-bold text-[11px] py-2 px-3.5 rounded-lg hover:border-red-300 hover:text-red-600 hover:bg-red-50 transition-all active:scale-95"
-                              >
-                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                                <span>Quote</span>
-                              </button>
-                            </div>
-                          </div>
+                      {/* Image Container */}
+                      <div className="relative w-full h-[240px] md11:h-[215px] 2xl:h-[245px] bg-slate-50 overflow-hidden flex items-center justify-center p-6 border-b border-slate-100">
+                        {/* Quick Specs Badge Overlay */}
+                        <div
+                          className={`absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-white/90 backdrop-blur-sm text-red-600 border border-red-100 shadow-sm transition-all duration-200 ${
+                            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-90"
+                          }`}
+                        >
+                          <Eye className="w-3 h-3 text-red-600" />
+                          <span>Quick Specs</span>
                         </div>
 
-                        {/* Arrow pointer pointing down toward card */}
-                        <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-4 h-4 bg-white border-r border-b border-gray-100 rotate-45 shadow-sm" />
+                        {/* Category Tag */}
+                        <div className="absolute top-3 left-3 z-10">
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-200/80 text-slate-700">
+                            {product.category || selectedCategory}
+                          </span>
+                        </div>
+
+                        {/* Machine Image */}
+                        <img
+                          src={getLocalProductImage(product.mainImage || product.image)}
+                          alt={product.mainTitle || product.name || "Product"}
+                          className={`w-full h-full object-contain transition-transform duration-500 ease-out ${
+                            isHovered ? "scale-110 drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)]" : "scale-100 drop-shadow-md"
+                          }`}
+                          onError={(e) => {
+                            e.currentTarget.src = "/product-image/img_6878939f4af644.42421642.png";
+                          }}
+                        />
+
+                        {/* Subtle Corner Accent */}
+                        <div className="absolute bottom-0 right-0 w-12 h-12 bs-mix-red transform rotate-45 translate-x-6 translate-y-6 opacity-80" />
                       </div>
 
-                      {/* Main Square Box */}
-                      <div
-                        className={`relative bg-white h-[430px] md11:h-[400px] 2xl:h-[440px] rounded-[15px] w-[280px] mx-auto shadow-icon border border-[#f22] overflow-hidden cursor-pointer ${
-                          isSelected
-                            ? "ring-4 ring-red-500 shadow-xl"
-                            : ""
-                        }`}
-                      >
-                        {/* Square Image Container */}
-                        <div className="relative w-[100%] h-[260px] md11:h-[230px] 2xl:h-[260px] rounded-[15px] bg-[#fff] shadow-md overflow-hidden">
-                          <div className="absolute inset-0 flex items-center justify-center p-6">
-                            <img
-                              src={getLocalProductImage(product.mainImage || product.image)}
-                              alt={product.mainTitle || product.name || "Product"}
-                              className={`transition-transform w-[100%] h-[100%] object-contain duration-500 ${
-                                hoveredIndex === index ? "scale-110" : "scale-105"
-                              }`}
-                              onError={(e) => {
-                                e.currentTarget.src =
-                                  "/product-image/img_6878939f4af644.42421642.png";
-                              }}
-                            />
-                          </div>
-
-                          {/* Corner Accent */}
-                          <div
-                            className={`absolute bottom-0 right-0 w-16 h-16 bs-mix-red transform rotate-45 translate-x-8 translate-y-8 transition-all duration-300 ${
-                              isSelected ? "scale-150" : "scale-100"
-                            }`}
-                          ></div>
-                        </div>
-
-                        {/* Content Area */}
-                        <div className="px-[20px] py-[10px]">
-                          {/* Category / Product Title */}
-                          <h3
-                            className={`text-[14px] font-[600] mb-1 transition-colors duration-300 line-clamp-1 ${
-                              isSelected ? "text-icon" : "text-gray-800"
-                            }`}
-                          >
+                      {/* Content Area */}
+                      <div className="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                          {/* Machine Title */}
+                          <h3 className="text-sm font-bold mb-1 text-slate-900 group-hover:text-red-600 transition-colors line-clamp-1">
                             {product.mainTitle || product.name}
                           </h3>
 
                           {/* Description */}
-                          <p className="text-gray-600 text-sm leading-[19px] mb-[10px] line-clamp-3">
+                          <p className="text-slate-600 text-xs leading-relaxed line-clamp-3">
                             {product.mainDesription || product.description}
                           </p>
+                        </div>
 
-                          {/* Action Button */}
+                        {/* Action Button */}
+                        <div className="pt-3">
                           <button
                             type="button"
-                            className={`w-[85%] bottom-[20px] border py-[8px] px-4 text-[14px] absolute rounded-lg font-medium transition-all duration-300 flex items-center justify-center group ${
-                              isSelected
-                                ? "bg-red-600 border border-red-600 text-white"
-                                : "bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600"
-                            }`}
+                            className="w-full py-2 px-3 text-xs rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 bs-mix-red hover:opacity-95 text-white shadow-sm hover:shadow active:scale-95 cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleNavigate(product);
                             }}
                           >
                             <span>VIEW DETAILS</span>
-                            <svg
-                              className={`w-5 h-5 ml-2 transition-transform duration-300 ${
-                                hoveredIndex === index ? "translate-x-1" : ""
-                              }`}
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                              />
-                            </svg>
+                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                           </button>
                         </div>
-
-                        {/* Bottom Border Accent */}
-                        <div
-                          className={`absolute bottom-0 left-0 h-1 bg-red-600 transition-all duration-500 ${
-                            isSelected ? "w-full" : "w-0 group-hover:w-full"
-                          }`}
-                        ></div>
                       </div>
+
+                      {/* Bottom Accent Line */}
+                      <div
+                        className={`h-1 bg-red-600 transition-all duration-300 ${
+                          isHovered ? "w-full" : "w-0"
+                        }`}
+                      />
                     </div>
-                  );
-                })}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          {/* Selected Product Info */}
-          {selectedProduct && selectedProductData && (
-            <div className="mt-12 bg-white rounded-lg p-8 border-l-4 border-red-600 shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Selected Product</h3>
-              <p className="text-red-600 font-medium mb-4">
-                {selectedProductData.mainTitle || selectedProductData.name}
-              </p>
-              <p className="text-gray-600">
-                {selectedProductData.mainDesription || selectedProductData.description}
-              </p>
-              <div className="mt-6 flex space-x-4">
-                <button
-                  type="button"
-                  onClick={() => handleNavigate(selectedProductData)}
-                  className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
-                >
-                  Get Quote
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavigate(selectedProductData)}
-                  className="border border-red-600 text-red-600 px-6 py-3 rounded-lg font-medium hover:bg-red-50 transition-colors"
-                >
-                  Download Specs
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* View All Button */}
-          <div className="mt-16 text-center">
+          <div className="mt-8 text-center">
             <button
               type="button"
-              className="bs-mix-red text-white font-[500] px-10 py-[10px] rounded-lg hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-300"
+              className="bs-mix-red text-white font-semibold text-sm px-8 py-3 rounded-full hover:opacity-95 transition-all shadow-md hover:shadow-xl transform hover:-translate-y-0.5 duration-200 cursor-pointer"
               onClick={handleAllProduct}
             >
-              View All Products
+              View All Packaging Machines
             </button>
           </div>
         </div>
+
+        {/* ===================================================================
+            CENTERED LARGE QUICK-VIEW MODAL (Opens in center of page)
+            - Big, spacious design with prominent machine image
+            - Complete technical specifications & applications
+            - Smooth Framer Motion entrance & exit
+           =================================================================== */}
+        <AnimatePresence>
+          {modalProduct && (
+            <div className="fixed inset-0 z-[999] flex items-center justify-center p-3 sm:p-6 md:p-8">
+              {/* Dark Blur Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22 }}
+                onClick={closeModal}
+                className="fixed inset-0 bg-slate-950/75 backdrop-blur-md cursor-pointer"
+              />
+
+              {/* Centered Large Modal Box */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                transition={{ type: "spring", damping: 26, stiffness: 320 }}
+                onMouseEnter={() => {
+                  if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+                }}
+                onMouseLeave={() => {
+                  if (!isLockedOpen) {
+                    closeTimeoutRef.current = setTimeout(() => {
+                      setModalProduct(null);
+                    }, 320);
+                  }
+                }}
+                className="relative z-10 w-full max-w-[960px] max-h-[90vh] bg-white rounded-3xl shadow-[0_25px_70px_-15px_rgba(0,0,0,0.5)] border border-slate-100 overflow-hidden flex flex-col md:flex-row"
+              >
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  aria-label="Close modal"
+                  className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-white/90 hover:bg-slate-100 text-slate-500 hover:text-slate-900 border border-slate-200 flex items-center justify-center transition-colors shadow-sm cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                {/* -----------------------------------------------------------
+                    LEFT COLUMN: Large Image & Visual Studio Showcase
+                   ----------------------------------------------------------- */}
+                <div className="md:w-5/12 bg-gradient-to-br from-slate-50 via-rose-50/25 to-slate-100 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden border-b md:border-b-0 md:border-r border-slate-200/80">
+                  {/* Subtle Background Radial Glow */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] rounded-full bg-red-500/10 blur-3xl pointer-events-none" />
+
+                  {/* Header Badges */}
+                  <div className="relative z-10 flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-600 text-white shadow-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      {modalProduct.category || selectedCategory}
+                    </span>
+                    <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold text-slate-700 bg-white/80 border border-slate-200 shadow-xs">
+                      {activeSpecs?.modelCode || "ICON PRO"}
+                    </span>
+                  </div>
+
+                  {/* Machine Center Showcase Image */}
+                  <div className="relative z-10 my-auto py-6 flex flex-col items-center justify-center">
+                    <div className="relative w-full max-w-[340px] aspect-[4/3] flex items-center justify-center">
+                      <img
+                        src={getLocalProductImage(modalProduct.mainImage || modalProduct.image)}
+                        alt={modalProduct.mainTitle || modalProduct.name}
+                        className="w-full h-full object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.22)] filter transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                    {/* Floor Shadow */}
+                    <div className="w-[75%] h-4 bg-slate-900/15 rounded-[100%] blur-md mt-1 pointer-events-none" />
+                  </div>
+
+                  {/* Bottom Trust Badges */}
+                  <div className="relative z-10 pt-4 border-t border-slate-200/70 flex items-center justify-between text-[11px] font-mono text-slate-600">
+                    <span className="inline-flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5 text-red-600" />
+                      SS-304 Sanitary Build
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      ISO 9001:2015
+                    </span>
+                  </div>
+                </div>
+
+                {/* -----------------------------------------------------------
+                    RIGHT COLUMN: Full Machine Information & Specifications
+                   ----------------------------------------------------------- */}
+                <div className="md:w-7/12 p-6 sm:p-8 overflow-y-auto max-h-[85vh] flex flex-col justify-between">
+                  <div className="space-y-5">
+                    {/* Machine Title & Tagline */}
+                    <div>
+                      <h3 className="text-xl sm:text-2xl lg:text-[26px] font-extrabold text-slate-900 leading-tight">
+                        {modalProduct.mainTitle || modalProduct.name}
+                      </h3>
+                      {activeSpecs?.tagline && (
+                        <p className="text-xs sm:text-sm font-semibold text-icon mt-1">
+                          {activeSpecs.tagline}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Full Product Description */}
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                      {activeSpecs?.description || modalProduct.mainDesription || modalProduct.description}
+                    </p>
+
+                    {/* Technical Specifications 2x2 Grid */}
+                    <div className="space-y-2">
+                      <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                        <Cpu className="w-3.5 h-3.5 text-red-600" />
+                        <span>Technical Specifications:</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {/* Speed */}
+                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600">
+                            <Zap className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="text-[10px] font-mono uppercase text-slate-500">Output Speed</div>
+                            <div className="text-xs sm:text-sm font-bold text-slate-900">
+                              {activeSpecs?.speed || "Up to 120 Packs/min"}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Vacuum / Sealing */}
+                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600">
+                            <Gauge className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="text-[10px] font-mono uppercase text-slate-500">Sealing / Vacuum</div>
+                            <div className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-1">
+                              {activeSpecs?.vacuum || "Hermetic Seal"}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Power */}
+                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center flex-shrink-0 text-slate-700">
+                            <Cpu className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="text-[10px] font-mono uppercase text-slate-500">Power Rating</div>
+                            <div className="text-xs sm:text-sm font-bold text-slate-900">
+                              {activeSpecs?.power || "3-Phase 415V / 50Hz"}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Construction */}
+                        <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-start gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center flex-shrink-0 text-slate-700">
+                            <ShieldCheck className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="text-[10px] font-mono uppercase text-slate-500">Hygiene Standard</div>
+                            <div className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-1">
+                              {activeSpecs?.build || "SS-304 Sanitary"}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Suitable Applications */}
+                    {activeSpecs?.applications && (
+                      <div className="space-y-1.5">
+                        <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                          <Layers className="w-3.5 h-3.5 text-red-600" />
+                          <span>Suitable Packaging Products:</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {activeSpecs.applications.map((item, idx) => (
+                            <span
+                              key={idx}
+                              className="px-2.5 py-1 rounded-md text-xs font-medium bg-red-50 text-red-700 border border-red-100"
+                            >
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Key Highlights */}
+                    {activeSpecs?.highlights && (
+                      <div className="space-y-1.5">
+                        <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500">
+                          Key Advantages:
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                          {activeSpecs.highlights.map((highlight, idx) => (
+                            <div key={idx} className="flex items-start gap-1.5 text-xs text-slate-700">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                              <span>{highlight}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Modal Action CTA Buttons */}
+                  <div className="pt-6 mt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        closeModal();
+                        if (onNavigate) {
+                          onNavigate('/contact-us');
+                        } else {
+                          window.location.href = '/contact-us';
+                        }
+                      }}
+                      className="w-full sm:flex-1 py-3 px-5 rounded-full bs-mix-red hover:opacity-95 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
+                    >
+                      <PhoneCall className="w-4 h-4" />
+                      <span>Get Instant Quote</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleNavigate(modalProduct)}
+                      className="w-full sm:flex-1 py-3 px-5 rounded-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 hover:border-red-400 transition-all active:scale-95 cursor-pointer"
+                    >
+                      <span>View Full Machine Page</span>
+                      <ArrowRight className="w-4 h-4 text-red-600" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
