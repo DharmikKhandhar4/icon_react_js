@@ -142,44 +142,16 @@ export default function ProductsSection({ onNavigate }) {
   const [categoryTypes] = useState(["Food", "Non-Food", "Pharma"]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [modalProduct, setModalProduct] = useState(null);
-  const [isModalLocked, setIsModalLocked] = useState(false);
-
-  const hoverTimerRef = useRef(null);
-  const closeTimerRef = useRef(null);
 
   const products =
     defaultProductsByCategory[selectedCategory] ||
     defaultProductsByCategory["Food"];
 
   const closeModal = useCallback(() => {
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    setIsModalLocked(false);
     setModalProduct(null);
   }, []);
 
-  const handleCardMouseEnter = (product, index) => {
-    setHoveredIndex(index);
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    hoverTimerRef.current = setTimeout(() => {
-      setModalProduct(product);
-    }, 180);
-  };
-
-  const handleCardMouseLeave = () => {
-    setHoveredIndex(null);
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-    if (!isModalLocked) {
-      closeTimerRef.current = setTimeout(() => {
-        setModalProduct(null);
-      }, 220);
-    }
-  };
-
   const handleCardClick = (product) => {
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    setIsModalLocked(true);
     setModalProduct(product);
   };
 
@@ -191,8 +163,6 @@ export default function ProductsSection({ onNavigate }) {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
     };
   }, [closeModal]);
 
@@ -287,8 +257,8 @@ export default function ProductsSection({ onNavigate }) {
                     key={currentId}
                     className="relative group w-[280px] md:w-auto flex-shrink-0"
                     onClick={() => handleCardClick(product)}
-                    onMouseEnter={() => handleCardMouseEnter(product, index)}
-                    onMouseLeave={handleCardMouseLeave}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
                   >
                     {/* Main Square Box */}
                     <div
@@ -437,7 +407,7 @@ export default function ProductsSection({ onNavigate }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={closeModal}
-            className="fixed inset-0 z-[999] bg-slate-950/65 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-[999] bg-slate-950/65 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 "
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 14 }}
@@ -445,12 +415,6 @@ export default function ProductsSection({ onNavigate }) {
               exit={{ opacity: 0, scale: 0.94, y: 10 }}
               transition={{ type: "spring", stiffness: 360, damping: 28 }}
               onClick={(e) => e.stopPropagation()}
-              onMouseEnter={() => {
-                if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-              }}
-              onMouseLeave={() => {
-                if (!isModalLocked) closeModal();
-              }}
               className="relative w-full max-w-[760px] bg-white rounded-[28px] sm:rounded-[34px] shadow-[0_25px_70px_rgba(0,0,0,0.35)] border border-slate-200/80 overflow-hidden flex flex-col md:flex-row"
             >
               {/* Close Button (Top-Right, matching reference) */}
@@ -464,7 +428,7 @@ export default function ProductsSection({ onNavigate }) {
               </button>
 
               {/* Left Column (Brand Tinted Content Panel, Centered layout matching reference) */}
-              <div className="relative w-full md:w-[48%] bg-[#fcf4f4] p-7 sm:p-9 flex flex-col items-center justify-center text-center">
+              <div className="relative w-full md:w-[48%] bg-[#fcf4f4] p-7 sm:p-9 flex flex-col items-center justify-center text-center border-r border-red-300">
                 {/* Brand / Innovation Line Icon (like the globe in reference) */}
                 <div className="w-12 h-12 rounded-full bg-white shadow-xs border border-red-100 flex items-center justify-center text-red-600 mb-5">
                   <svg
@@ -527,7 +491,7 @@ export default function ProductsSection({ onNavigate }) {
               </div>
 
               {/* Right Column (Product Image with Overlapping Sticker Badge) */}
-              <div className="relative w-full md:w-[52%] bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center min-h-[280px] sm:min-h-[360px] p-6 sm:p-8 overflow-hidden">
+              <div className="relative w-full md:w-[52%] bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center min-h-[280px] sm:min-h-[360px] p-6 sm:p-8">
                 {/* Product Image */}
                 <div className="relative w-full h-full flex items-center justify-center">
                   <motion.img
@@ -535,7 +499,8 @@ export default function ProductsSection({ onNavigate }) {
                       modalProduct.mainImage || modalProduct.image,
                     )}
                     alt={modalProduct.mainTitle || modalProduct.name}
-                    className="relative z-10 max-h-[220px] sm:max-h-[270px] w-auto max-w-[88%] object-contain drop-shadow-[0_18px_35px_rgba(0,0,0,0.18)]"
+                    className="relative z-10 max-h-[220px] 
+                    sm:max-h-[300px] w-auto max-w-[88%] object-cover drop-shadow-[0_18px_35px_rgba(0,0,0,0.18)]"
                     initial={{ scale: 0.94 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.3 }}
