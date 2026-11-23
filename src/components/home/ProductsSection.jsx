@@ -428,7 +428,7 @@ export default function ProductsSection({ onNavigate }) {
         </div>
       </div>
 
-      {/* Centered Product Preview Modal (Image + Content) */}
+      {/* Centered Product Preview Modal (Image + Content matching reference style) */}
       <AnimatePresence>
         {modalProduct && (
           <motion.div
@@ -437,12 +437,12 @@ export default function ProductsSection({ onNavigate }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={closeModal}
-            className="fixed inset-0 z-[999] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-[999] bg-slate-950/65 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 16 }}
+              initial={{ opacity: 0, scale: 0.92, y: 14 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: 12 }}
+              exit={{ opacity: 0, scale: 0.94, y: 10 }}
               transition={{ type: "spring", stiffness: 360, damping: 28 }}
               onClick={(e) => e.stopPropagation()}
               onMouseEnter={() => {
@@ -451,129 +451,116 @@ export default function ProductsSection({ onNavigate }) {
               onMouseLeave={() => {
                 if (!isModalLocked) closeModal();
               }}
-              className="relative w-full max-w-3xl bg-white rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.35)] border border-slate-100 overflow-hidden flex flex-col md:flex-row"
+              className="relative w-full max-w-[760px] bg-white rounded-[28px] sm:rounded-[34px] shadow-[0_25px_70px_rgba(0,0,0,0.35)] border border-slate-200/80 overflow-hidden flex flex-col md:flex-row"
             >
-              {/* Left Column: Product Image Showcase */}
-              <div className="relative w-full md:w-[46%] bg-gradient-to-br from-slate-50 via-red-50/25 to-slate-100 p-6 flex flex-col items-center justify-center min-h-[260px] md:min-h-[380px] overflow-hidden border-b md:border-b-0 md:border-r border-slate-100">
-                {/* Category Badge */}
-                <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-[11px] font-bold uppercase tracking-wider text-red-600 shadow-sm border border-red-100">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-                  {modalProduct.category || selectedCategory}
+              {/* Close Button (Top-Right, matching reference) */}
+              <button
+                type="button"
+                onClick={closeModal}
+                aria-label="Close dialog"
+                className="absolute top-4 right-4 z-30 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-all shadow-md cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Left Column (Brand Tinted Content Panel, Centered layout matching reference) */}
+              <div className="relative w-full md:w-[48%] bg-[#fcf4f4] p-7 sm:p-9 flex flex-col items-center justify-center text-center">
+                {/* Brand / Innovation Line Icon (like the globe in reference) */}
+                <div className="w-12 h-12 rounded-full bg-white shadow-xs border border-red-100 flex items-center justify-center text-red-600 mb-5">
+                  <svg
+                    className="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.75}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                    />
+                  </svg>
                 </div>
 
-                {/* Product Image */}
-                <div className="relative w-full h-full flex items-center justify-center py-6">
-                  <motion.img
-                    src={getLocalProductImage(modalProduct.mainImage || modalProduct.image)}
-                    alt={modalProduct.mainTitle || modalProduct.name}
-                    className="relative z-10 max-h-[220px] md:max-h-[270px] w-auto max-w-[92%] object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.18)]"
-                    initial={{ scale: 0.94 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.3 }}
-                    onError={(e) => {
-                      e.currentTarget.src = "/product-image/img_6878939f4af644.42421642.png";
-                    }}
-                  />
-                  {/* Floor Shadow */}
-                  <div className="absolute bottom-2 w-3/4 h-3 bg-slate-900/15 rounded-full blur-md pointer-events-none" />
-                </div>
-              </div>
+                {/* Description Quote (matching reference quotes & typography) */}
+                <p className="text-[14px] sm:text-[15px] font-medium leading-relaxed text-slate-800 mb-5 max-w-[280px]">
+                  “{modalProduct.mainDesription || modalProduct.description}”
+                </p>
 
-              {/* Right Column: Product Content & Specs */}
-              <div className="relative flex-1 p-6 md:p-8 flex flex-col justify-between">
-                {/* Close Button */}
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  aria-label="Close preview"
-                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600 flex items-center justify-center transition-colors cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                <div>
-                  <span className="text-[11px] font-mono uppercase tracking-wider font-bold text-red-600 block mb-1">
-                    {modalProduct.category || selectedCategory} Series
-                  </span>
-                  <h3 className="text-xl md:text-2xl font-bold text-slate-900 leading-snug pr-8 mb-3">
+                {/* Machine Name & Sub-Role (matching Author & Role in reference) */}
+                <div className="mb-6">
+                  <h4 className="text-[15px] sm:text-[16px] font-bold text-slate-950 leading-snug">
                     {modalProduct.mainTitle || modalProduct.name}
-                  </h3>
-                  <p className="text-slate-600 text-[13px] md:text-sm leading-relaxed mb-5">
-                    {modalProduct.mainDesription || modalProduct.description}
-                  </p>
-
-                  {/* Specification Chips */}
-                  <div className="grid grid-cols-2 gap-2.5 mb-6">
-                    <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100">
-                      <div className="w-7 h-7 rounded-lg bg-red-100/60 text-red-600 flex items-center justify-center flex-shrink-0">
-                        <Zap className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] text-slate-400 uppercase font-semibold">Speed</p>
-                        <p className="text-[12px] font-bold text-slate-800 truncate">High Output</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100">
-                      <div className="w-7 h-7 rounded-lg bg-red-100/60 text-red-600 flex items-center justify-center flex-shrink-0">
-                        <ShieldCheck className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] text-slate-400 uppercase font-semibold">Build</p>
-                        <p className="text-[12px] font-bold text-slate-800 truncate">SS-304 Sanitary</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100">
-                      <div className="w-7 h-7 rounded-lg bg-red-100/60 text-red-600 flex items-center justify-center flex-shrink-0">
-                        <Cpu className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] text-slate-400 uppercase font-semibold">Control</p>
-                        <p className="text-[12px] font-bold text-slate-800 truncate">Servo Precision</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100">
-                      <div className="w-7 h-7 rounded-lg bg-red-100/60 text-red-600 flex items-center justify-center flex-shrink-0">
-                        <PhoneCall className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] text-slate-400 uppercase font-semibold">Support</p>
-                        <p className="text-[12px] font-bold text-slate-800 truncate">24/7 Pan-India</p>
-                      </div>
-                    </div>
-                  </div>
+                  </h4>
+                  <span className="text-[11px] font-semibold text-red-700 uppercase tracking-wider block mt-1">
+                    {modalProduct.category || selectedCategory} Automation Series
+                  </span>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex items-center gap-3 pt-3 border-t border-slate-100">
+                {/* Action Buttons (matching button style) */}
+                <div className="flex items-center gap-2.5">
                   <button
                     type="button"
                     onClick={() => {
                       closeModal();
                       handleNavigate(modalProduct);
                     }}
-                    className="flex-1 flex items-center justify-center gap-2 bs-mix-red text-white font-bold text-sm py-3 px-4 rounded-xl shadow-md hover:opacity-95 transition-all active:scale-[0.98] cursor-pointer"
+                    className="px-6 py-2.5 rounded-xl bs-mix-red text-white text-xs sm:text-sm font-bold shadow-md hover:opacity-95 transition-all active:scale-95 cursor-pointer"
                   >
-                    <span>View Full Specs</span>
-                    <ArrowRight className="w-4 h-4" />
+                    Explore Machine
                   </button>
                   <button
                     type="button"
                     onClick={() => {
                       closeModal();
                       if (onNavigate) {
-                        onNavigate('/contact-us');
+                        onNavigate("/contact-us");
                       } else {
-                        window.location.href = '/contact-us';
+                        window.location.href = "/contact-us";
                       }
                     }}
-                    className="flex items-center justify-center gap-1.5 border border-slate-200 bg-white hover:bg-red-50 text-slate-700 hover:text-red-600 font-bold text-sm py-3 px-5 rounded-xl transition-all active:scale-[0.98] cursor-pointer"
+                    className="px-4 py-2.5 rounded-xl border border-red-200 bg-white hover:bg-red-50 text-slate-700 hover:text-red-600 text-xs sm:text-sm font-semibold transition-all active:scale-95 cursor-pointer shadow-xs"
                   >
-                    <PhoneCall className="w-4 h-4 text-red-600" />
-                    <span>Get Quote</span>
+                    Get Quote
                   </button>
+                </div>
+              </div>
+
+              {/* Right Column (Product Image with Overlapping Sticker Badge) */}
+              <div className="relative w-full md:w-[52%] bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center min-h-[280px] sm:min-h-[360px] p-6 sm:p-8 overflow-hidden">
+                {/* Product Image */}
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <motion.img
+                    src={getLocalProductImage(
+                      modalProduct.mainImage || modalProduct.image,
+                    )}
+                    alt={modalProduct.mainTitle || modalProduct.name}
+                    className="relative z-10 max-h-[220px] sm:max-h-[270px] w-auto max-w-[88%] object-contain drop-shadow-[0_18px_35px_rgba(0,0,0,0.18)]"
+                    initial={{ scale: 0.94 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        "/product-image/img_6878939f4af644.42421642.png";
+                    }}
+                  />
+                  {/* Subtle Ground Shadow */}
+                  <div className="absolute bottom-2 w-3/4 h-3 bg-slate-900/15 rounded-full blur-md pointer-events-none" />
+                </div>
+
+                {/* Overlapping Tilted Sticker Badge (Matching the 100% COTTON badge in reference) */}
+                <div className="absolute bottom-6 left-3 sm:-left-3 z-20 -rotate-12 bg-gradient-to-br from-red-600 to-[#610303] text-white p-2.5 px-3.5 rounded-2xl shadow-xl border-2 border-white flex items-center gap-2 pointer-events-none">
+                  <div className="w-6 h-6 rounded-lg bg-white/15 flex items-center justify-center">
+                    <ShieldCheck className="w-4 h-4 text-amber-300" />
+                  </div>
+                  <div className="leading-tight text-left">
+                    <span className="block text-[8px] font-black uppercase tracking-widest text-red-200">
+                      CERTIFIED
+                    </span>
+                    <span className="block text-[11px] font-extrabold uppercase tracking-wider text-white">
+                      SS-304 GRADE
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>
