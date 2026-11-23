@@ -148,14 +148,14 @@ export default function DepthCard({
               opacity: isHovered ? 0.75 : 0.28,
             }}
             transition={{ duration: 0.25 }}
-            className="absolute inset-2 -z-10 rounded-3xl rounded-[inherit] pointer-events-none transition-opacity duration-300"
+            className="absolute inset-2 -z-10 rounded-[inherit] pointer-events-none transition-opacity duration-300"
           />
         )}
 
         {/* Card Body with 3D Transform Space */}
         <div
           style={{ transformStyle: 'preserve-3d' }}
-          className="relative w-full h-full rounded-3xl rounded-[inherit] overflow-hidden"
+          className="relative w-full h-full rounded-[inherit] overflow-hidden"
         >
           {children}
 
@@ -167,7 +167,7 @@ export default function DepthCard({
                 background: glareBackground,
               }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 pointer-events-none z-40 transition-opacity duration-200 rounded-3xl rounded-[inherit] overflow-hidden"
+              className="absolute inset-0 pointer-events-none z-40 transition-opacity duration-200 rounded-[inherit] overflow-hidden"
             />
           )}
         </div>

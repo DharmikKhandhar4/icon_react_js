@@ -97,7 +97,7 @@ const InsightsSection = () => {
             >
               <div className="h-full flex flex-col justify-between rounded-3xl overflow-hidden">
                 {/* Card Image with 3D Depth Layer */}
-                <DepthLayer depth={25} className="w-full bg-white h-[210px] md11:h-[190px] 2xl:h-[220px] overflow-hidden rounded-t-3xl">
+                <DepthLayer depth={25} className="w-full bg-gray-100 h-[210px] md11:h-[190px] 2xl:h-[220px] overflow-hidden rounded-t-3xl">
                   <img
                     src={article.image}
                     alt={article.title}
