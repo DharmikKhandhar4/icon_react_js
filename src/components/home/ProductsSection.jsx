@@ -151,6 +151,15 @@ export default function ProductsSection({ onNavigate }) {
     setModalProduct(null);
   }, []);
 
+  const handleCardMouseEnter = (product, index) => {
+    setHoveredIndex(index);
+    setModalProduct(product);
+  };
+
+  const handleCardMouseLeave = () => {
+    setHoveredIndex(null);
+  };
+
   const handleCardClick = (product) => {
     setModalProduct(product);
   };
@@ -257,8 +266,8 @@ export default function ProductsSection({ onNavigate }) {
                     key={currentId}
                     className="relative group w-[280px] md:w-auto flex-shrink-0"
                     onClick={() => handleCardClick(product)}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
+                    onMouseEnter={() => handleCardMouseEnter(product, index)}
+                    onMouseLeave={handleCardMouseLeave}
                   >
                     {/* Main Square Box */}
                     <div
